@@ -395,8 +395,8 @@ class PetWindow(QWidget):
             a.setCheckable(True)
             a.setChecked(self.settings[key])
             a.triggered.connect(lambda checked, k=key: self.toggle_option(k, checked))
-        self.add_interval_menu(menu, 'idle_interval', '待机动作间隔', (10, 15, 20, 30, 45, 60))
-        self.add_interval_menu(menu, 'walk_interval', '散步间隔', (DEFAULTS['walk_interval'], 30, 45, 60, 90, 120))
+        self.add_interval_menu(menu, 'idle_interval', '待机动作间隔', (5, 10, 20, 30, 60))
+        self.add_interval_menu(menu, 'walk_interval', '散步间隔', (12, DEFAULTS['walk_interval'], 45, 60, 120))
         menu.addSeparator()
         menu.addAction('找回休比 / 重置位置', self.reset_position)
         if self.tray is not None:
