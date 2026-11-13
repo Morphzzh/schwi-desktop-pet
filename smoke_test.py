@@ -216,6 +216,15 @@ def run_smoke_test(pet, output: Path):
         dialog_errors=[]
         dialog_seen=[]
         dialog_values=[]
+        dialog_watchdog=QTimer(pet)
+        dialog_watchdog.setSingleShot(True)
+        def reject_stuck_dialog():
+            dialog_errors.append('Custom interval dialog did not complete within 8 seconds')
+            for widget in QApplication.topLevelWidgets()+pet.findChildren(QInputDialog):
+                if isinstance(widget,QInputDialog) and widget.isVisible():
+                    widget.reject()
+        dialog_watchdog.timeout.connect(reject_stuck_dialog)
+        dialog_watchdog.start(8000)
         def fill_interval_dialog():
             dialogs=[w for w in QApplication.topLevelWidgets() if isinstance(w,QInputDialog) and w.isVisible()]
             dialog=dialogs[0] if dialogs else None
@@ -225,12 +234,13 @@ def run_smoke_test(pet, output: Path):
                     QTimer.singleShot(250,fill_interval_dialog)
                     return
                 spin=dialog.findChild(QSpinBox)
-                spin.selectAll()
-                QTest.keyClicks(spin,'7')
-                QTest.keyClick(spin,Qt.Key.Key_Tab)
+                # Hosted Cocoa desktops may ignore synthetic clicks on a modal
+                # sheet. Exercise its real widgets and accepted signal without
+                # depending on the runner's foreground focus.
+                spin.setValue(7)
                 dialog_values.append({'title':dialog.windowTitle(),'value':dialog.intValue()})
                 box=dialog.findChild(QDialogButtonBox)
-                QTest.mouseClick(box.button(QDialogButtonBox.StandardButton.Ok),Qt.MouseButton.LeftButton)
+                box.button(QDialogButtonBox.StandardButton.Ok).click()
             elif time.monotonic()>dialog_deadline:
                 dialog_errors.append('Custom interval dialog did not become visible')
                 # End a nested modal event loop so a failure still produces a report.
@@ -238,7 +248,11 @@ def run_smoke_test(pet, output: Path):
             else:
                 QTimer.singleShot(100,fill_interval_dialog)
         QTimer.singleShot(250,fill_interval_dialog)
-        pet.choose_interval('idle_interval','待机动作间隔')
+        try:
+            pet.choose_interval('idle_interval','待机动作间隔')
+        finally:
+            dialog_watchdog.stop()
+            dialog_watchdog.deleteLater()
         assert not dialog_errors,dialog_errors
         assert pet.settings['idle_interval']==7,{'interval':pet.settings['idle_interval'],'dialogs':dialog_values}
         stored=json.loads(pet.settings_path.read_text(encoding='utf-8'))
