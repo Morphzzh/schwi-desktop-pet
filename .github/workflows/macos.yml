@@ -13,6 +13,11 @@ on:
         type: choice
         default: macos-26-intel
         options: [macos-26-intel, macos-15-intel]
+      arm_runner:
+        description: Apple silicon macOS version for compatibility checks
+        type: choice
+        default: macos-26
+        options: [macos-26, macos-15]
 
 permissions:
   contents: read
@@ -24,7 +29,7 @@ jobs:
       fail-fast: false
       matrix:
         include: ${{ fromJSON(inputs.architecture == 'x86_64' && '[{"runner":"macos-26-intel","arch":"x86_64"}]' || inputs.architecture == 'arm64' && '[{"runner":"macos-26","arch":"arm64"}]' || '[{"runner":"macos-26","arch":"arm64"},{"runner":"macos-26-intel","arch":"x86_64"}]') }}
-    runs-on: ${{ matrix.arch == 'x86_64' && (inputs.intel_runner || 'macos-26-intel') || matrix.runner }}
+    runs-on: ${{ matrix.arch == 'x86_64' && (inputs.intel_runner || 'macos-26-intel') || (inputs.arm_runner || 'macos-26') }}
     timeout-minutes: 20
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
