@@ -105,6 +105,8 @@ class PetWindow(QWidget):
         self.last_tick = time.monotonic()
         self.last_interaction = 0.0
         self.tray = None
+        self.before_quit = None
+        self.quitting = False
         self.frame_timer = QTimer(self)
         self.frame_timer.setSingleShot(True)
         self.frame_timer.timeout.connect(self.advance_frame)
@@ -449,7 +451,12 @@ class PetWindow(QWidget):
             f'休比桌宠 {VERSION}\n\n单击：随机表情或动作，不会连续重复。\n双击：跳一下。\n按住左键：拖动休比。\n右键：指定动作、调整大小和偏好。\n{tray_help}\n\n视线跟随和散步默认关闭，可在菜单开启。\n所有互动均在本机运行。')
 
     def quit_app(self):
+        if self.quitting:
+            return
+        self.quitting = True
         self.persist()
+        if self.before_quit:
+            self.before_quit()
         if self.tray:
             self.tray.hide()
         QApplication.instance().quit()
@@ -478,8 +485,15 @@ def main():
     app.setStyle('Fusion')
     lock = QLockFile(str(data_dir / 'instance.lock'))
     lock.setStaleLockTime(0)
+    def trace_lifecycle(event):
+        if args.quit_after:
+            with (data_dir / 'lifecycle.jsonl').open('a', encoding='utf-8') as stream:
+                stream.write(json.dumps({'event': event, 'pid': os.getpid(),
+                                         'locked': lock.isLocked(),
+                                         'file_exists': (data_dir / 'instance.lock').exists()}) + '\n')
     pipe_name = 'schwi-pet-' + hashlib.sha256(str(data_dir.resolve()).encode()).hexdigest()[:18]
     if not args.self_test and not lock.tryLock(200):
+        trace_lifecycle('secondary-instance')
         socket = QLocalSocket()
         socket.connectToServer(pipe_name)
         if socket.waitForConnected(1800):
@@ -487,6 +501,7 @@ def main():
             socket.waitForBytesWritten(1000)
             socket.disconnectFromServer()
         return 0
+    trace_lifecycle('primary-started')
     try:
         sprites = Sprites()
         pet = PetWindow(sprites, data_dir, test_mode=bool(args.self_test))
@@ -515,13 +530,16 @@ def main():
     def cleanup():
         # On macOS, application termination may not return through app.exec().
         # Release IPC and the instance lock before native application teardown.
+        trace_lifecycle('cleanup-start')
         pet.frame_timer.stop()
         pet.motion_timer.stop()
         pet.idle_timer.stop()
         pet.click_timer.stop()
         server.close()
         lock.unlock()
+        trace_lifecycle('cleanup-finished')
 
+    pet.before_quit = cleanup
     app.aboutToQuit.connect(cleanup)
     result = app.exec()
     cleanup()
