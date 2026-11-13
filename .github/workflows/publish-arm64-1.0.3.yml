@@ -6,7 +6,7 @@ on:
     types: [completed]
 
 permissions:
-  actions: read
+  actions: write
   contents: write
 
 concurrency:
@@ -30,6 +30,8 @@ jobs:
       SOURCE_COMMIT: ${{ github.event.workflow_run.head_sha }}
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
       - name: Download artifacts from the approved successful build
         run: |
           gh run download "$SOURCE_RUN" --name SchwiPet-macOS-arm64 --dir packages
@@ -60,4 +62,13 @@ jobs:
           body=re.sub(marker,block,body,flags=re.S) if re.search(marker,body,re.S) else body+'\n\n'+block+'\n'
           Path('release-notes.md').write_text(body,encoding='utf-8')
           subprocess.run(['gh','release','edit','v1.0.3','--notes-file','release-notes.md'],check=True)
+          PY
+      - name: Cancel the redundant Apple silicon build after publication
+        run: |
+          python3 - <<'PY'
+          import os,json,subprocess
+          other='43483126377' if os.environ['SOURCE_RUN']=='43482361351' else '43482361351'
+          result=json.loads(subprocess.check_output(['gh','run','view',other,'--json','status'],text=True))
+          if result['status']!='completed':
+              subprocess.run(['gh','run','cancel',other],check=True)
           PY
