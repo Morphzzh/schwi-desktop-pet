@@ -165,4 +165,6 @@ def main():
 
 
 if __name__ == '__main__':
-    main()
+    # Keep the old entry point safe: never reapply the retired hard material masks.
+    from rebuild_continuity import main as rebuild
+    rebuild()

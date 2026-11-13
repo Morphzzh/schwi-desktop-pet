@@ -1,66 +1,30 @@
 {
   "reference": "palette-reference-v1.png",
-  "reference_origin": "work/schwi/decoded/base.png, actual v1 drawing",
-  "reference_sha256": "05f1fb78400d8b9500b376733bb78cac0837cf6ac20f5bee9cf9b95f963f0ac6",
   "frames": 119,
-  "alpha_unchanged": true,
-  "shape_reference": "canonical.png; approved 1.0.3 geometry retained",
-  "target_material_median_hsv": {
-    "line": [
-      0.9233333468437195,
-      0.800000011920929,
-      0.23529411852359772
+  "reference_sha256": "05f1fb78400d8b9500b376733bb78cac0837cf6ac20f5bee9cf9b95f963f0ac6",
+  "method": "Continuous RGB color-distance transfer from clean registered sources; generated v1-style shoes registered at original ankles",
+  "non_shoe_alpha_unchanged": true,
+  "target_face_rgb": [
+    [
+      245.0,
+      179.0,
+      178.0
     ],
-    "shoe": [
-      0.9253731369972229,
-      0.7599999904632568,
-      0.42352941632270813
+    [
+      253.0,
+      219.0,
+      210.0
     ],
-    "sock": [
-      0.9199134111404419,
-      0.7722772359848022,
-      0.43921568989753723
-    ],
-    "ear": [
-      0.9409449100494385,
-      0.7179487347602844,
-      0.7529411911964417
-    ],
-    "hair": [
-      0.9200000166893005,
-      0.7888889312744141,
-      0.4274509847164154
-    ],
-    "skin": [
-      0.0357142873108387,
-      0.17391303181648254,
-      0.9921568632125854
-    ],
-    "cream": [
-      0.07070707529783249,
-      0.14229248464107513,
-      0.9921568632125854
-    ],
-    "cloth": [
-      0.03549382835626602,
-      0.4268774390220642,
-      0.9882352948188782
-    ],
-    "gold": [
-      0.13313008844852448,
-      0.6507936120033264,
-      0.9921568632125854
-    ],
-    "red": [
-      0.0018115941202268004,
-      0.5627705454826355,
-      0.843137264251709
-    ],
-    "metal": [
-      0.8095238208770752,
-      0.08457710593938828,
-      0.8156862854957581
+    [
+      254.0,
+      224.0,
+      215.0
     ]
-  },
-  "method": "Continuous per-material tone matching; no redrawing, resizing or alpha changes"
+  ],
+  "alpha_unchanged": false,
+  "shoe_style_sources": [
+    "shoe-style/front-template.png",
+    "shoe-style/running-template-0.png",
+    "shoe-style/running-template-1.png"
+  ]
 }

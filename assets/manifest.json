@@ -11,56 +11,56 @@
   "frames": 119,
   "files": {
     "schwi.png": {
-      "sha256": "7bc72b25a6393122a499752e232f63577cffd909bea19f146cb204d0f471ab0f",
+      "sha256": "06aa96d25e35d51c36a03bd117f4e58679d56f56760659933e419959ebfae3a9",
       "size": [
         4608,
         6864
       ]
     },
     "shy.png": {
-      "sha256": "85837e4d95ccb992cec4f430e9edaed9d6ba2b5a60db7d98626dcda9bbb63cc7",
+      "sha256": "8a1d469d7207d172284b2ed6e14d5af06985d2f6a4fe86adf5f329815cfa51e5",
       "size": [
         4608,
         624
       ]
     },
     "happy.png": {
-      "sha256": "df3601c5b74d273bc99d50a6cda98ccb21bbced3fecd2d15b7c5a2da1b1e5294",
+      "sha256": "81651a56e1687c15dad88f4d45bbb9592678706ae316c0220d4a87b5fe4c3b1e",
       "size": [
         4608,
         624
       ]
     },
     "surprised.png": {
-      "sha256": "27aa3b61f62b7e84a4e5408a95fa04b477068e4a3574184ab2d1e4a727c18e0a",
+      "sha256": "4a84dddf618a5b35296983eda5a5d4f3e90612ba32334ac7df73a0264d591c04",
       "size": [
         4608,
         624
       ]
     },
     "excited.png": {
-      "sha256": "02db7689f4e88decd3804130324f85b1aa7d9b07bfd5c99dc441d12826fe1055",
+      "sha256": "e3c9f669e22afb18883fe158641382bae38b53cccdc3e53e34d495a1d43101b2",
       "size": [
         4608,
         624
       ]
     },
     "sleepy.png": {
-      "sha256": "259dd168a523e33b346f6ef2b791d5b97fd4ebd1949b1e86aaf4502e8398a304",
+      "sha256": "cfbb427ff311165c1ebed3be324b9d5cc540950a000069aa511ee6180e419031",
       "size": [
         4608,
         624
       ]
     },
     "schwi-portrait.png": {
-      "sha256": "faa897b90a4fa70824b46ec13dd79d3122b4a3e815f185f2a4b98ffeb7a132ab",
+      "sha256": "8a9fd3ee9339e4bcc66484b155936c1ffcccefe605f4525fff1e2ada44324e83",
       "size": [
         880,
         880
       ]
     },
     "schwi.ico": {
-      "sha256": "090f319b6d43e96f5906cf3665a853f6455eab03d17239992246097a7aa4e8f4",
+      "sha256": "59a6c566181ac1d1caf0b7a22daa24494a5f6e0402185e7a6a0f532258017a9b",
       "size": [
         256,
         256
