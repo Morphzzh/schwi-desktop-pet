@@ -93,6 +93,7 @@ class PetWindow(QWidget):
         self.dragging = False
         self.double_click = False
         self.menu_open = False
+        self.interval_dialog = None
         self.walk_end = 0.0
         self.walk_direction = 1
         self.last_tick = time.monotonic()
@@ -361,8 +362,8 @@ class PetWindow(QWidget):
         menu = self.make_menu()
         menu.exec(event.globalPos())
         menu.deleteLater()
-        self.menu_open = False
-        if not self.settings['paused'] and self.isVisible():
+        self.menu_open = self.interval_dialog is not None
+        if not self.menu_open and not self.settings['paused'] and self.isVisible():
             self.frame_timer.start(self.sprites.durations[self.state][self.frame])
 
     def make_menu(self):
@@ -426,18 +427,30 @@ class PetWindow(QWidget):
         self.refresh_tray_menu()
 
     def choose_interval(self, key, title):
-        was_open = self.menu_open
+        if self.interval_dialog is not None:
+            self.interval_dialog.raise_()
+            self.interval_dialog.activateWindow()
+            return
+        dialog = QInputDialog(self)
+        self.interval_dialog = dialog
+        dialog.setWindowTitle(title)
+        dialog.setLabelText('间隔（秒，2–300）：')
+        dialog.setInputMode(QInputDialog.InputMode.IntInput)
+        dialog.setIntRange(2, 300)
+        dialog.setIntStep(1)
+        dialog.setIntValue(self.settings[key])
         self.menu_open = True
         self.frame_timer.stop()
-        try:
-            seconds, accepted = QInputDialog.getInt(
-                self, title, '间隔（秒，2–300）：', self.settings[key], 2, 300, 1)
-            if accepted:
-                self.set_interval(key, seconds)
-        finally:
-            self.menu_open = was_open
-            if not self.menu_open and not self.settings['paused'] and self.isVisible():
+        dialog.accepted.connect(lambda: self.set_interval(key, dialog.intValue()))
+        def finish_dialog(_result):
+            self.interval_dialog = None
+            self.menu_open = False
+            if not self.settings['paused'] and self.isVisible():
                 self.frame_timer.start(self.sprites.durations[self.state][self.frame])
+            dialog.deleteLater()
+        dialog.finished.connect(finish_dialog)
+        # Keep Qt's main event loop running while the modal window is open.
+        dialog.open()
 
     def change_scale(self, scale):
         center = self.x() + self.width() / 2

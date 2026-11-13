@@ -250,6 +250,7 @@ def run_smoke_test(pet, output: Path):
         QTimer.singleShot(250,fill_interval_dialog)
         try:
             pet.choose_interval('idle_interval','待机动作间隔')
+            wait_until(lambda: pet.interval_dialog is None,10000)
         finally:
             dialog_watchdog.stop()
             dialog_watchdog.deleteLater()
@@ -257,6 +258,14 @@ def run_smoke_test(pet, output: Path):
         assert pet.settings['idle_interval']==7,{'interval':pet.settings['idle_interval'],'dialogs':dialog_values}
         stored=json.loads(pet.settings_path.read_text(encoding='utf-8'))
         assert stored['idle_interval']==7
+        pet.choose_interval('idle_interval','待机动作间隔')
+        cancel_dialog=pet.interval_dialog
+        pet.choose_interval('walk_interval','散步间隔')
+        assert pet.interval_dialog is cancel_dialog
+        cancel_dialog.setIntValue(99)
+        QTimer.singleShot(100,cancel_dialog.reject)
+        wait_until(lambda: pet.interval_dialog is None,1000)
+        assert pet.settings['idle_interval']==7 and not pet.menu_open and pet.frame_timer.isActive()
         checks.append('custom interval dialog accepts and saves seconds; pause stops both schedules')
         pet.toggle_option('random_idle',False)
         assert not pet.idle_timer.isActive() and not pet.walk_timer.isActive()
