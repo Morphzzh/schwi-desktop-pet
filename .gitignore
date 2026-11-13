@@ -1,0 +1,13 @@
+__pycache__/
+*.pyc
+.venv/
+build/
+build-macos/
+dist/
+dist-macos/
+qa*/
+extract-check/
+artwork/
+*.spec
+*.zip
+.DS_Store
