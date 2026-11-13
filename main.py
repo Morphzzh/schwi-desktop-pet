@@ -433,7 +433,9 @@ class PetWindow(QWidget):
             self.interval_dialog.raise_()
             self.interval_dialog.activateWindow()
             return
-        dialog = QInputDialog(self)
+        # Cocoa sheets need an ordinary document window. The pet is a
+        # translucent tool window, so use a separate modal dialog on macOS.
+        dialog = QInputDialog(None if IS_MAC else self)
         self.interval_dialog = dialog
         dialog.setWindowTitle(title)
         dialog.setLabelText('间隔（秒，2–300）：')
@@ -452,7 +454,14 @@ class PetWindow(QWidget):
             dialog.deleteLater()
         dialog.finished.connect(finish_dialog)
         # Keep Qt's main event loop running while the modal window is open.
-        dialog.open()
+        if IS_MAC:
+            dialog.setWindowModality(Qt.WindowModality.ApplicationModal)
+            dialog.setWindowFlag(Qt.WindowType.WindowStaysOnTopHint, True)
+            dialog.show()
+            dialog.raise_()
+            dialog.activateWindow()
+        else:
+            dialog.open()
 
     def change_scale(self, scale):
         center = self.x() + self.width() / 2
@@ -628,6 +637,7 @@ def main():
         QTimer.singleShot(round(args.quit_after * 1000), pet.quit_app)
     if args.self_test:
         from smoke_test import run_smoke_test
+        faulthandler.dump_traceback_later(80, file=fault_log)
         QTimer.singleShot(250, lambda: run_smoke_test(pet, args.self_test))
     def cleanup():
         # On macOS, application termination may not return through app.exec().
@@ -646,6 +656,8 @@ def main():
     app.aboutToQuit.connect(cleanup)
     result = app.exec()
     cleanup()
+    if args.self_test:
+        faulthandler.cancel_dump_traceback_later()
     faulthandler.disable()
     fault_log.close()
     return result
