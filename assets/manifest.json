@@ -8,7 +8,7 @@
     192,
     208
   ],
-  "frames": 119,
+  "frames": 127,
   "files": {
     "schwi.png": {
       "sha256": "30fb0d64b72622c6824f71b579d98ef1b4337b8d385e1901373629a421cc330a",
@@ -47,6 +47,13 @@
     },
     "sleepy.png": {
       "sha256": "0951e1651430993873a813ef8f1622bd9b1588d022d1fb02ad7ee415c7aa125a",
+      "size": [
+        4608,
+        624
+      ]
+    },
+    "rps.png": {
+      "sha256": "df4aa6738d397e4cc07353e2b42201da20f0818045b433ecaae0437122fcc4d5",
       "size": [
         4608,
         624

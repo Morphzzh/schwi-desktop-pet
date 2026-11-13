@@ -47,6 +47,20 @@ def run_smoke_test(pet, output: Path):
         original=pet.current_pixmap().toImage()
         assert original.pixelColor(0,0).alpha()==0
         checks.append('transparent sprite corners')
+        idle=pet.sprites.frames['idle']
+        from idle_render import EYE_REGIONS
+        from PySide6.QtGui import QPainter
+        masked=[]
+        for frame in idle:
+            copy=frame.toImage().copy()
+            painter=QPainter(copy)
+            for x,y,w,h in EYE_REGIONS:
+                painter.fillRect(x,y,w,h,Qt.GlobalColor.black)
+            painter.end()
+            masked.append(copy)
+        assert all(frame==masked[0] for frame in masked)
+        assert idle[3].toImage()!=idle[0].toImage()
+        checks.append('idle blink changes only the eye regions; shoulders, body and hair remain pixel-identical')
         assert original.width()==576 and original.height()==624
         right=pet.sprites.frames['running-right']
         left=pet.sprites.frames['running-left']
@@ -82,7 +96,7 @@ def run_smoke_test(pet, output: Path):
         assert len(pet.click_history)==len(REACTIONS)+1
         assert set(pet.click_history[:len(REACTIONS)])==set(REACTIONS)
         assert all(a!=b for a,b in zip(pet.click_history,pet.click_history[1:]))
-        checks.append('nine real clicks: eight distinct reactions and no adjacent repeats')
+        checks.append(f'{len(REACTIONS)+1} real clicks: {len(REACTIONS)} distinct reactions and no adjacent repeats')
         before=len(pet.click_history)
         start=pet.pos()
         QTest.mousePress(pet,Qt.MouseButton.LeftButton,Qt.KeyboardModifier.NoModifier,point)
@@ -165,6 +179,14 @@ def run_smoke_test(pet, output: Path):
             pet.grab().save(str(output/('window-'+state+'.png')))
             wait_until(lambda: pet.state=='idle',4500)
         checks.append('ear flutter and dozing menu actions animate and return to idle')
+        for label,state in [('猜拳','rps'),('认真思考','running')]:
+            next(a for a in submenu.actions() if a.text()==label).trigger()
+            assert pet.state==state
+            wait_until(lambda: pet.state==state and pet.frame==3)
+            pet.grab().save(str(output/('window-'+state+'.png')))
+            wait_until(lambda: pet.state=='idle',4500)
+        assert pet.sprites.frames['rps'][5].toImage()!=pet.sprites.frames['running'][3].toImage()
+        checks.append('rock-paper-scissors and retained thinking are separate menu actions with full animation recovery')
         pet.persist()
         stored=json.loads(pet.settings_path.read_text(encoding='utf-8'))
         assert stored['scale']==1.5 and stored['x']==pet.x() and stored['y']==pet.y()

@@ -3,7 +3,7 @@
   "master": "master.png",
   "palette_reference": "../release-1.0.3/palette-reference-v1.png",
   "shape_reference": "../release-1.0.3/canonical.png",
-  "frame_count": 119,
+  "frame_count": 127,
   "frames": [
     {
       "state": "idle",
@@ -800,6 +800,58 @@
       "source": "accepted\\look-row-9\\01.png",
       "transform": "horizontal whole-frame reflection",
       "sequence_review": "sequence-review.json"
+    },
+    {
+      "state": "rps",
+      "index": 0,
+      "status": "accepted",
+      "source": "master.png",
+      "review": "Exact whole-frame repeat of visually reviewed new drawing for hold or reverse transition; no old art or parts replacement."
+    },
+    {
+      "state": "rps",
+      "index": 1,
+      "status": "accepted",
+      "review": "qa/rps-01.json"
+    },
+    {
+      "state": "rps",
+      "index": 2,
+      "status": "accepted",
+      "review": "qa/rps-02.json"
+    },
+    {
+      "state": "rps",
+      "index": 3,
+      "status": "accepted",
+      "source": "accepted/rps/01.png",
+      "review": "Exact whole-frame repeat of visually reviewed new drawing for hold or reverse transition; no old art or parts replacement."
+    },
+    {
+      "state": "rps",
+      "index": 4,
+      "status": "accepted",
+      "source": "accepted/rps/02.png",
+      "review": "Exact whole-frame repeat of visually reviewed new drawing for hold or reverse transition; no old art or parts replacement."
+    },
+    {
+      "state": "rps",
+      "index": 5,
+      "status": "accepted",
+      "review": "qa/rps-05.json"
+    },
+    {
+      "state": "rps",
+      "index": 6,
+      "status": "accepted",
+      "review": "qa/rps-06.json"
+    },
+    {
+      "state": "rps",
+      "index": 7,
+      "status": "accepted",
+      "source": "master.png",
+      "review": "Exact whole-frame repeat of visually reviewed new drawing for hold or reverse transition; no old art or parts replacement."
     }
   ],
   "quality_checks": [

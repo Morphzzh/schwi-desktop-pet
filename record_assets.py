@@ -8,7 +8,7 @@ from main import CELL_W, CELL_H, SPRITE_W, SPRITE_H
 from animation_specs import STATES, EXTRAS
 
 root=Path(__file__).resolve().parent
-names=['schwi.png','shy.png','happy.png','surprised.png','excited.png','sleepy.png','schwi-portrait.png','schwi.ico']
+names=['schwi.png',*[name+'.png' for name in EXTRAS],'schwi-portrait.png','schwi.ico']
 files={}
 for name in names:
     path=root/'assets'/name

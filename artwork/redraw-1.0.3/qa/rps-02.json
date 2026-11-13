@@ -1,0 +1,19 @@
+{
+  "state": "rps",
+  "index": 2,
+  "raw": "raw\\rps-02.png",
+  "candidate": "candidates/rps-02.png",
+  "status": "accepted",
+  "alpha_unchanged": true,
+  "size": [
+    1205,
+    1306
+  ],
+  "bounds": [
+    184,
+    33,
+    1017,
+    1269
+  ],
+  "visual_review": "Raised fists have four folded fingers and separate thumbs, both wrists connected; hand height distinct from ready pose; matching body, hood ear seams, colors, intact shoes and hair."
+}

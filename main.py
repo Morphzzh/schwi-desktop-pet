@@ -19,6 +19,7 @@ from PySide6.QtWidgets import QApplication, QInputDialog, QMenu, QMessageBox, QS
 
 from behavior import DEFAULTS, IDLE_REACTIONS, ReactionBag, clamp_position, direction_index, load_settings, save_settings
 from platform_support import APP_VERSION, default_data_dir
+from idle_render import stabilize_idle
 
 VERSION = APP_VERSION
 IS_MAC = sys.platform == 'darwin'
@@ -29,7 +30,7 @@ SPRITE_W, SPRITE_H = CELL_W * SPRITE_SCALE, CELL_H * SPRITE_SCALE
 from animation_specs import STATES, EXTRAS
 LABELS = {
     'shy': '害羞', 'happy': '开心', 'surprised': '惊讶',
-    'excited': '兴奋', 'sleepy': '打瞌睡',
+    'excited': '兴奋', 'sleepy': '打瞌睡', 'rps': '猜拳',
     'waving': '挥挥手', 'jumping': '跳一下', 'waiting': '期待',
     'running': '认真思考', 'review': '探头看看', 'failed': '有点失落',
 }
@@ -49,6 +50,7 @@ class Sprites:
         for name, (row, times) in STATES.items():
             self.frames[name] = [QPixmap.fromImage(atlas.copy(i * SPRITE_W, row * SPRITE_H, SPRITE_W, SPRITE_H)) for i in range(len(times))]
             self.durations[name] = times
+        self.frames['idle'] = stabilize_idle(self.frames['idle'])
         self.looks = [QPixmap.fromImage(atlas.copy((i % 8) * SPRITE_W, (9 + i // 8) * SPRITE_H, SPRITE_W, SPRITE_H)) for i in range(16)]
         for name, times in EXTRAS.items():
             strip = QImage(str(resource_path(name + '.png')))
@@ -538,7 +540,7 @@ class PetWindow(QWidget):
         tray_help = '顶部菜单栏图标：显示、收起或退出休比。' if IS_MAC else '托盘图标：找回或退出休比。'
         QMessageBox.information(self, '休比桌宠',
             f'休比桌宠 {VERSION}\n\n'
-            '单击：随机播放害羞、开心、惊讶、挥手、跳跃、期待、兴奋或打瞌睡；每轮八种，相邻两次不重复。\n'
+            '单击：随机播放害羞、开心、惊讶、挥手、跳跃、期待、兴奋、打瞌睡或猜拳；每轮九种，相邻两次不重复。\n'
             '双击：跳一下。\n'
             '按住左键：拖动休比，转向跟随最近的鼠标移动方向。\n'
             '右键：指定动作、调整大小、暂停或修改偏好。\n'

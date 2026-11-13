@@ -60,3 +60,6 @@ python package_macos.py
 - GitHub macOS 运行器：https://docs.github.com/en/actions/reference/runners/github-hosted-runners
 
 角色及参考作品相关权利归原权利人；本项目为个人使用的同人桌宠。
+
+
+`idle_render.py` 在运行时共用固定的待机身体，只在两个眼部区域合成已有眨眼表情；窗口检查验证眼部之外的所有像素完全一致。`rps.png` 是独立猜拳素材，原思考行保持不变。

@@ -7,8 +7,8 @@ import random
 from pathlib import Path
 from animation_specs import STATES, EXTRAS
 
-REACTIONS = ('shy', 'happy', 'surprised', 'waving', 'jumping', 'waiting', 'excited', 'sleepy')
-IDLE_REACTIONS = ('happy', 'running', 'review', 'waving', 'excited', 'sleepy')
+REACTIONS = ('shy', 'happy', 'surprised', 'waving', 'jumping', 'waiting', 'excited', 'sleepy', 'rps')
+IDLE_REACTIONS = ('happy', 'running', 'review', 'waving', 'excited', 'sleepy', 'rps')
 MAX_IDLE_ACTION_MS = max(sum(EXTRAS[name] if name in EXTRAS else STATES[name][1]) for name in IDLE_REACTIONS)
 DEFAULT_WALK_INTERVAL = 20 + math.ceil(MAX_IDLE_ACTION_MS / 1000)
 

@@ -1,0 +1,19 @@
+{
+  "state": "rps",
+  "index": 1,
+  "raw": "raw\\rps-01.png",
+  "candidate": "candidates/rps-01.png",
+  "status": "accepted",
+  "alpha_unchanged": true,
+  "size": [
+    1205,
+    1306
+  ],
+  "bounds": [
+    185,
+    33,
+    1017,
+    1269
+  ],
+  "visual_review": "Two complete small fists with folded fingers and thumbs, connected cuffs and arms; matching plum highlights, peach face and hoodie, thin legs and closed plum shoes; independent pointed ear flaps and intact hair. Ready pose accepted."
+}

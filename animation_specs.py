@@ -16,6 +16,7 @@ EXTRAS = {
     'surprised': [180, 260, 140, 500, 650, 140, 300, 350],
     'excited': [220, 120, 160, 190, 160, 240, 140, 350],
     'sleepy': [400, 500, 650, 180, 850, 450, 180, 350],
+    'rps': [200, 180, 180, 160, 180, 600, 600, 300],
 }
 
 # Positions refer to original source poses; two newly drawn in-betweens follow.

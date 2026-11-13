@@ -1,6 +1,6 @@
 {
-  "frames": 119,
-  "distinct_accepted_images": 67,
+  "frames": 127,
+  "distinct_accepted_images": 71,
   "all_frame_reviews_accepted": true,
   "whole_frame_mirrors_reviewed": 15,
   "light_contact_sheets": "All 17 sequences visually reviewed",
@@ -11,5 +11,9 @@
     "jumping"
   ],
   "observations": "Complete legs and shoes; shoe collars retained; hands checked in individual enlarged reviews; continuous hair; independently sewn pointed ear flaps; no visible white islands or fringe in reviewed sheets. Sequence strips are not a real-time motion test.",
-  "method": "Whole character scaling and positioning only; no limb splices."
+  "method": "Whole character scaling and positioning only; no limb splices.",
+  "rps": "All four new poses and light/dark sequence reviewed: two fists, scissors/rock, rock/paper; hands, colors, complete legs and hood ears checked.",
+  "thinking_atlas_unchanged": true,
+  "idle": "Runtime eye layers only; body and hair invariant. See sequence-qa/idle-fixed-pixels.json.",
+  "idle_runtime_pixel_check": "sequence-qa/idle-fixed-pixels.json"
 }
