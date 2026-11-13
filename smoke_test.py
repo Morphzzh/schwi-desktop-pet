@@ -9,7 +9,7 @@ from pathlib import Path
 from PySide6.QtCore import QPoint, QPointF, QEvent, QTimer, Qt
 from PySide6.QtGui import QCursor, QMouseEvent
 from PySide6.QtTest import QTest
-from PySide6.QtWidgets import QApplication, QInputDialog, QSystemTrayIcon
+from PySide6.QtWidgets import QApplication, QInputDialog, QSystemTrayIcon, QSpinBox, QDialogButtonBox
 from unittest.mock import patch
 from platform_support import APP_VERSION
 from behavior import REACTIONS, IDLE_REACTIONS
@@ -47,6 +47,15 @@ def run_smoke_test(pet, output: Path):
         original=pet.current_pixmap().toImage()
         assert original.pixelColor(0,0).alpha()==0
         checks.append('transparent sprite corners')
+        assert original.width()==576 and original.height()==624
+        right=pet.sprites.frames['running-right']
+        left=pet.sprites.frames['running-left']
+        for r,l in zip(right,left):
+            assert r.toImage().mirrored(True,False)==l.toImage()
+        times=pet.sprites.durations['running-right']
+        assert times==pet.sprites.durations['running-left'] and len(set(times))==1
+        assert sum(times[:4])==sum(times[4:])
+        checks.append('triple-resolution source pixels and mirrored run cycles with equal-duration half strides')
         pet.grab().save(str(output/'window-idle.png'))
         pet.frame_timer.stop()
         pet.look=None
@@ -166,11 +175,12 @@ def run_smoke_test(pet, output: Path):
         pet.toggle_option('follow_mouse',True)
         interval_menu=pet.make_menu()
         idle_menu=next(a.menu() for a in interval_menu.actions() if a.text().startswith('待机动作间隔'))
-        next(a for a in idle_menu.actions() if a.text()=='2 秒').trigger()
-        assert pet.settings['idle_interval']==2 and pet.idle_timer.isActive()
-        assert pet.idle_timer.interval()==2000
+        next(a for a in idle_menu.actions() if a.text()=='10 秒').trigger()
+        assert pet.settings['idle_interval']==10 and pet.idle_timer.isActive()
+        assert pet.idle_timer.interval()==10000
         assert pet.walk_timer.remainingTime()>8000
         checks.append('interval menu updates action timer without postponing independent walk timer')
+        pet.set_interval('idle_interval',2)
         # Use a controlled cursor position without moving the user's cursor.
         with patch.object(QCursor,'pos',return_value=pet.mapToGlobal(QPoint(pet.width()+100,pet.height()//2))):
             pet.last_interaction=0
@@ -194,29 +204,43 @@ def run_smoke_test(pet, output: Path):
         start_walk=pet.pos()
         wait_until(lambda: pet.pos()!=start_walk,1000)
         checks.append('independent walk timer retries busy state and then moves the pet')
+        walking_state,walk_end=pet.state,pet.walk_end
+        pet.spontaneous()
+        assert pet.state==walking_state and pet.walk_end==walk_end and pet.idle_timer.isActive()
+        pet.idle_timer.stop()
+        checks.append('idle action also waits while a walk is active instead of interrupting it')
         pet.toggle_option('paused',True)
         assert not pet.idle_timer.isActive() and not pet.walk_timer.isActive() and not pet.walk_end
         pet.toggle_option('paused',False)
         dialog_deadline=time.monotonic()+8
         dialog_errors=[]
-        dialog_timer=QTimer(pet)
+        dialog_seen=[]
+        dialog_values=[]
         def fill_interval_dialog():
-            dialogs=[widget for widget in QApplication.topLevelWidgets()
-                     if isinstance(widget,QInputDialog) and widget.isVisible()]
-            if dialogs:
-                dialog_timer.stop()
-                dialogs[0].setIntValue(7)
-                dialogs[0].accept()
+            dialogs=[w for w in QApplication.topLevelWidgets() if isinstance(w,QInputDialog) and w.isVisible()]
+            dialog=dialogs[0] if dialogs else None
+            if dialog is not None:
+                if not dialog_seen:
+                    dialog_seen.append(time.monotonic())
+                    QTimer.singleShot(250,fill_interval_dialog)
+                    return
+                spin=dialog.findChild(QSpinBox)
+                spin.selectAll()
+                QTest.keyClicks(spin,'7')
+                QTest.keyClick(spin,Qt.Key.Key_Tab)
+                dialog_values.append({'title':dialog.windowTitle(),'value':dialog.intValue()})
+                box=dialog.findChild(QDialogButtonBox)
+                QTest.mouseClick(box.button(QDialogButtonBox.StandardButton.Ok),Qt.MouseButton.LeftButton)
             elif time.monotonic()>dialog_deadline:
-                dialog_timer.stop()
                 dialog_errors.append('Custom interval dialog did not become visible')
                 # End a nested modal event loop so a failure still produces a report.
                 QApplication.instance().exit(1)
-        dialog_timer.start(50)
+            else:
+                QTimer.singleShot(100,fill_interval_dialog)
+        QTimer.singleShot(250,fill_interval_dialog)
         pet.choose_interval('idle_interval','待机动作间隔')
-        dialog_timer.stop()
         assert not dialog_errors,dialog_errors
-        assert pet.settings['idle_interval']==7
+        assert pet.settings['idle_interval']==7,{'interval':pet.settings['idle_interval'],'dialogs':dialog_values}
         stored=json.loads(pet.settings_path.read_text(encoding='utf-8'))
         assert stored['idle_interval']==7
         checks.append('custom interval dialog accepts and saves seconds; pause stops both schedules')

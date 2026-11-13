@@ -1,0 +1,12 @@
+{
+  "tool": "built-in imagegen",
+  "prompts": [
+    "Reproduce the specified FOUR poses from the reference, retaining EXACT poses, arm and leg arrangement, face, head, hood ear shape, palette and proportions. HIGH RESOLUTION large character detail, sharp linework on fingers and hair. TWO BY TWO square layout, four large complete figures filling their cells, each full-body figure at least 550px tall. Transparent background, generous gutters, no floor/grid/text. Do not change character design or blur or sharpen halos. Wine-plum hair with deep dark ends, peach hood continuous with hoodie, independent pointed sewn ear flaps, thin legs, calf socks. Only reproduce original frames 1,2,3,4 (the TOP ROW of the reference), arranged in reading order: near arm back, partly back, down by hip, partly forward. Do NOT include bottom row.",
+    "Reproduce the specified FOUR poses from the reference, retaining EXACT poses, arm and leg arrangement, face, head, hood ear shape, palette and proportions. HIGH RESOLUTION large character detail, sharp linework on fingers and hair. TWO BY TWO square layout, four large complete figures filling their cells, each full-body figure at least 550px tall. Transparent background, generous gutters, no floor/grid/text. Do not change character design or blur or sharpen halos. Wine-plum hair with deep dark ends, peach hood continuous with hoodie, independent pointed sewn ear flaps, thin legs, calf socks. Only reproduce original frames 5,6,7,8 (the BOTTOM ROW of the reference), arranged in reading order: near arm fully forward and far arm behind, partly forward, down by hip, partly back. Do NOT include top row."
+  ],
+  "sources": [
+    "hd-running-1.png",
+    "hd-running-2.png"
+  ],
+  "assembly": "assemble_hd_running.py"
+}

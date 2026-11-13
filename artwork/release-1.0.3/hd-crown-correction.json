@@ -1,0 +1,8 @@
+{
+  "tool": "built-in imagegen",
+  "prompt": "Precise LOCAL CORRECTION to SECOND image (four sprite frames). FIRST image is the authoritative original clothing construction. Keep EVERYTHING in SECOND image exactly unchanged except hood crown edge and the uppermost ear attachment stitching. All four frames have WRONG double outlines / extra peach-and-plum strips running over the top dome, little knot-like X stitches or extra tabs protruding above ear root. REMOVE these invented details. Hood crown must be ONE smooth continuous peach dome with ONE thin clean dark-plum external outline, no second parallel arc above it, no extra band, piping, ridge, fold, stitch or flap riding on crown. Each burgundy ear is an independent pointed fabric flap sewn to the SIDE of hood; seam only follows the actual shared short attachment edge between ear root and peach side panel, ends neatly at that junction. Do not extend sewing upward across exposed peach crown. Preserve two red circular hood marks and their perspective. Keep exact silhouettes of pointed ears, face, hair, anatomy, hands, pose order, limbs, palette, resolution and 2x2 layout. Real transparent background with perfectly clean antialiased edges, no red fringe, stray lines, halos or ghost/doubled contours. This is not a redesign and do not add texture/detail anywhere else.",
+  "sources": [
+    "hd-running-1.png",
+    "hd-running-2.png"
+  ]
+}

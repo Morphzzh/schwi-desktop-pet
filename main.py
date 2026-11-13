@@ -23,24 +23,10 @@ from platform_support import APP_VERSION, default_data_dir
 VERSION = APP_VERSION
 IS_MAC = sys.platform == 'darwin'
 CELL_W, CELL_H = 192, 208
-STATES = {
-    'idle': (0, [650, 160, 180, 120, 180, 750]),
-    'running-right': (1, [95] * 8),
-    'running-left': (2, [95] * 8),
-    'waving': (3, [250, 240, 320, 320]),
-    'jumping': (4, [160, 140, 230, 140, 250]),
-    'failed': (5, [180, 220, 280, 330, 600, 280, 220, 220]),
-    'waiting': (6, [220, 260, 450, 650, 280, 220]),
-    'running': (7, [220, 350, 500, 400, 400, 300]),
-    'review': (8, [250, 300, 300, 400, 500, 300]),
-}
-EXTRAS = {
-    'shy': [180, 300, 650, 950, 450, 500],
-    'happy': [200, 300, 700, 500, 300, 350],
-    'surprised': [180, 260, 500, 650, 300, 350],
-    'excited': [220, 160, 190, 160, 240, 350],
-    'sleepy': [400, 500, 650, 850, 450, 350],
-}
+# Logical desktop size is independent of the source pixels (including Retina).
+SPRITE_SCALE = 3
+SPRITE_W, SPRITE_H = CELL_W * SPRITE_SCALE, CELL_H * SPRITE_SCALE
+from animation_specs import STATES, EXTRAS
 LABELS = {
     'shy': '害羞', 'happy': '开心', 'surprised': '惊讶',
     'excited': '兴奋', 'sleepy': '打瞌睡',
@@ -56,19 +42,19 @@ def resource_path(name):
 class Sprites:
     def __init__(self):
         atlas = QImage(str(resource_path('schwi.png')))
-        if atlas.size().width() != 1536 or atlas.size().height() != 2288:
+        if atlas.width() != 8 * SPRITE_W or atlas.height() != 11 * SPRITE_H:
             raise RuntimeError('休比的动作素材缺失或损坏，请重新解压完整软件包。')
         self.frames = {}
         self.durations = {}
         for name, (row, times) in STATES.items():
-            self.frames[name] = [QPixmap.fromImage(atlas.copy(i * CELL_W, row * CELL_H, CELL_W, CELL_H)) for i in range(len(times))]
+            self.frames[name] = [QPixmap.fromImage(atlas.copy(i * SPRITE_W, row * SPRITE_H, SPRITE_W, SPRITE_H)) for i in range(len(times))]
             self.durations[name] = times
-        self.looks = [QPixmap.fromImage(atlas.copy((i % 8) * CELL_W, (9 + i // 8) * CELL_H, CELL_W, CELL_H)) for i in range(16)]
+        self.looks = [QPixmap.fromImage(atlas.copy((i % 8) * SPRITE_W, (9 + i // 8) * SPRITE_H, SPRITE_W, SPRITE_H)) for i in range(16)]
         for name, times in EXTRAS.items():
             strip = QImage(str(resource_path(name + '.png')))
-            if strip.width() != 6 * CELL_W or strip.height() != CELL_H:
+            if strip.width() != 6 * SPRITE_W or strip.height() != SPRITE_H:
                 raise RuntimeError('互动表情素材缺失：' + name)
-            self.frames[name] = [QPixmap.fromImage(strip.copy(i * CELL_W, 0, CELL_W, CELL_H)) for i in range(6)]
+            self.frames[name] = [QPixmap.fromImage(strip.copy(i * SPRITE_W, 0, SPRITE_W, SPRITE_H)) for i in range(6)]
             self.durations[name] = times
         self.icon = QIcon(str(resource_path('schwi-portrait.png')))
         if self.icon.isNull():
@@ -115,6 +101,7 @@ class PetWindow(QWidget):
         self.before_quit = None
         self.quitting = False
         self.frame_timer = QTimer(self)
+        self.frame_timer.setTimerType(Qt.TimerType.PreciseTimer)
         self.frame_timer.setSingleShot(True)
         self.frame_timer.timeout.connect(self.advance_frame)
         self.click_timer = QTimer(self)
@@ -408,8 +395,8 @@ class PetWindow(QWidget):
             a.setCheckable(True)
             a.setChecked(self.settings[key])
             a.triggered.connect(lambda checked, k=key: self.toggle_option(k, checked))
-        self.add_interval_menu(menu, 'idle_interval', '待机动作间隔', (2, 4, 6, 10, 20, 30))
-        self.add_interval_menu(menu, 'walk_interval', '散步间隔', (5, 10, 15, 20, 30, 60))
+        self.add_interval_menu(menu, 'idle_interval', '待机动作间隔', (10, 15, 20, 30, 45, 60))
+        self.add_interval_menu(menu, 'walk_interval', '散步间隔', (DEFAULTS['walk_interval'], 30, 45, 60, 90, 120))
         menu.addSeparator()
         menu.addAction('找回休比 / 重置位置', self.reset_position)
         if self.tray is not None:

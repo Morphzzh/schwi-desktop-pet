@@ -1,51 +1,55 @@
 {
   "version": "1.0.3",
   "cell_size": [
+    576,
+    624
+  ],
+  "logical_cell_size": [
     192,
     208
   ],
   "frames": 103,
   "files": {
     "schwi.png": {
-      "sha256": "a22f1dce6c3d4749bc5045abcf745fe0745918e518bbc402a4ff982ed58513b7",
+      "sha256": "21aa042f28727e4cf2e1f00ec1aa61bf4ebb20dd99a58db1a916be1e002ca685",
       "size": [
-        1536,
-        2288
+        4608,
+        6864
       ]
     },
     "shy.png": {
-      "sha256": "c43552921c5895a272eb90df154f7706eec8878a7bf0cb8cb98b0f4c12e4e4dc",
+      "sha256": "0bf95b2508267a912dcd8ebd5022ebb9b951afcaefb5ee4e139f1ff1ea652400",
       "size": [
-        1152,
-        208
+        3456,
+        624
       ]
     },
     "happy.png": {
-      "sha256": "75ef2b3cf31c1dd5531eff5848c7bd777151164d12d32091e861aabf8ad2be8e",
+      "sha256": "6e4c76d913b325b7bcaa21f4649f56e197042fb6c95bea98f7692b55dcc7e42c",
       "size": [
-        1152,
-        208
+        3456,
+        624
       ]
     },
     "surprised.png": {
-      "sha256": "6015f528305a12af7b824537bd4a3818e22a696261c121e67b9c65b7664e5d95",
+      "sha256": "89fc6761939de248fde16ce4b94941a9ea3daaf4c9df8deebed41da4db48478b",
       "size": [
-        1152,
-        208
+        3456,
+        624
       ]
     },
     "excited.png": {
-      "sha256": "91595efe013e5b9fa8db5416dbb217c349d16e6235dea584fbe07669f95e9f28",
+      "sha256": "71129e6d2920aa627fc14f73bbf1b138f583bc934f1e8da49b4e733a5b8c1b55",
       "size": [
-        1152,
-        208
+        3456,
+        624
       ]
     },
     "sleepy.png": {
-      "sha256": "8fe37019b6deee25008095cf69cfaaa81f25ca14deb8c28cc261205656238d58",
+      "sha256": "947fe81ad7f8f326c52d0407c2ca33d379f9ab92ecedc71c66ac930af26ddb97",
       "size": [
-        1152,
-        208
+        3456,
+        624
       ]
     },
     "schwi-portrait.png": {

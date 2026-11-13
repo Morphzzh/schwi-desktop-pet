@@ -51,7 +51,7 @@ class BehaviorTests(unittest.TestCase):
             p=Path(d)/'settings.json'
             p.write_text(json.dumps({'roam':True,'follow_mouse':True}),encoding='utf-8')
             old=load_settings(p)
-            self.assertEqual((old['idle_interval'],old['walk_interval']),(4,10))
+            self.assertEqual((old['idle_interval'],old['walk_interval']),(10,24))
             self.assertTrue(old['roam'] and old['follow_mouse'])
             p.write_text(json.dumps({'idle_interval':-10,'walk_interval':99999}),encoding='utf-8')
             bounded=load_settings(p)

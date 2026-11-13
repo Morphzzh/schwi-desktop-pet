@@ -5,15 +5,19 @@ import json
 import math
 import random
 from pathlib import Path
+from animation_specs import STATES, EXTRAS
+
+REACTIONS = ('shy', 'happy', 'surprised', 'waving', 'jumping', 'waiting', 'excited', 'sleepy')
+IDLE_REACTIONS = ('happy', 'running', 'review', 'waving', 'excited', 'sleepy')
+MAX_IDLE_ACTION_MS = max(sum(EXTRAS[name] if name in EXTRAS else STATES[name][1]) for name in IDLE_REACTIONS)
+DEFAULT_WALK_INTERVAL = 20 + math.ceil(MAX_IDLE_ACTION_MS / 1000)
 
 DEFAULTS = {
     'scale': 1.25, 'topmost': True, 'random_idle': True,
     'follow_mouse': False, 'roam': False, 'paused': False,
-    'idle_interval': 4, 'walk_interval': 10,
+    'idle_interval': 10, 'walk_interval': DEFAULT_WALK_INTERVAL,
     'x': None, 'y': None,
 }
-REACTIONS = ('shy', 'happy', 'surprised', 'waving', 'jumping', 'waiting', 'excited', 'sleepy')
-IDLE_REACTIONS = ('happy', 'running', 'review', 'waving', 'excited', 'sleepy')
 
 
 class ReactionBag:
