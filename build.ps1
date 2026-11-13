@@ -9,7 +9,9 @@ try {
     # Do not collect unrelated ICU/Qt DLLs from other applications on PATH.
     $env:PATH = @((Split-Path $pythonExecutable), $pythonBase, (Join-Path $env:SystemRoot 'System32'), $env:SystemRoot) -join ';'
     $env:PYTHONPATH = $null
-    & $pythonExecutable -m PyInstaller --clean --noconfirm --windowed --onedir --name SchwiPet --icon assets\schwi.ico --add-data 'assets:assets' --distpath dist --workpath build main.py
+    & $pythonExecutable windows_version.py
+    if ($LASTEXITCODE -ne 0) { throw 'Version resource generation failed.' }
+    & $pythonExecutable -m PyInstaller --clean --noconfirm --windowed --onedir --name SchwiPet --icon assets\schwi.ico --version-file build\version-info.txt --add-data 'assets:assets' --distpath dist --workpath build main.py
     if ($LASTEXITCODE -ne 0) { throw 'PyInstaller build failed.' }
     # CPython 3.10 ships an older VC runtime; Qt needs the matching newer DLLs.
     $qtDirectory = & $pythonExecutable -c 'from pathlib import Path; import PySide6; print(Path(PySide6.__file__).parent)'

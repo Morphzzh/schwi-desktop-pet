@@ -9,9 +9,11 @@ from pathlib import Path
 DEFAULTS = {
     'scale': 1.25, 'topmost': True, 'random_idle': True,
     'follow_mouse': False, 'roam': False, 'paused': False,
+    'idle_interval': 4, 'walk_interval': 10,
     'x': None, 'y': None,
 }
-REACTIONS = ('shy', 'happy', 'surprised', 'waving', 'jumping', 'waiting')
+REACTIONS = ('shy', 'happy', 'surprised', 'waving', 'jumping', 'waiting', 'excited', 'sleepy')
+IDLE_REACTIONS = ('happy', 'running', 'review', 'waving', 'excited', 'sleepy')
 
 
 class ReactionBag:
@@ -55,6 +57,10 @@ def load_settings(path: Path) -> dict:
     for key in ('topmost', 'random_idle', 'follow_mouse', 'roam', 'paused'):
         if isinstance(data.get(key), bool):
             settings[key] = data[key]
+    for key in ('idle_interval', 'walk_interval'):
+        value = data.get(key)
+        if isinstance(value, int) and not isinstance(value, bool):
+            settings[key] = max(2, min(300, value))
     value = data.get('scale')
     if isinstance(value, (int, float)) and not isinstance(value, bool) and math.isfinite(value):
         settings['scale'] = max(.75, min(2.0, float(value)))

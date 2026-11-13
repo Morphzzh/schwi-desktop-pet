@@ -1,14 +1,18 @@
 """Exercise real Qt mouse events and timers in source and packaged application."""
 import json
+import hashlib
 import traceback
 import platform
 import sys
 import time
 from pathlib import Path
-from PySide6.QtCore import QPoint, QPointF, QEvent, Qt
-from PySide6.QtGui import QMouseEvent
+from PySide6.QtCore import QPoint, QPointF, QEvent, QTimer, Qt
+from PySide6.QtGui import QCursor, QMouseEvent
 from PySide6.QtTest import QTest
-from PySide6.QtWidgets import QApplication, QSystemTrayIcon
+from PySide6.QtWidgets import QApplication, QInputDialog, QSystemTrayIcon
+from unittest.mock import patch
+from platform_support import APP_VERSION
+from behavior import REACTIONS, IDLE_REACTIONS
 
 
 def wait_until(predicate, timeout=3500):
@@ -22,8 +26,15 @@ def run_smoke_test(pet, output: Path):
     output.mkdir(parents=True,exist_ok=True)
     checks=[]
     try:
+        asset_dir=Path(__file__).resolve().parent/'assets'
+        manifest=json.loads((asset_dir/'manifest.json').read_text(encoding='utf-8'))
+        assert manifest['version']==APP_VERSION
+        for name,info in manifest['files'].items():
+            assert hashlib.sha256((asset_dir/name).read_bytes()).hexdigest()==info['sha256'],name
+        checks.append('all packaged artwork and portrait icons match the versioned release hashes')
         pet.settings['random_idle']=False
         pet.idle_timer.stop()
+        pet.walk_timer.stop()
         pet.move(pet.keep_on_screen(QPoint(300,180)))
         QTest.qWait(100)
         assert pet.isVisible() and pet.testAttribute(Qt.WidgetAttribute.WA_TranslucentBackground)
@@ -33,20 +44,64 @@ def run_smoke_test(pet, output: Path):
         assert original.pixelColor(0,0).alpha()==0
         checks.append('transparent sprite corners')
         pet.grab().save(str(output/'window-idle.png'))
+        pet.frame_timer.stop()
+        pet.look=None
+        pet.state,pet.frame='idle',0
+        pet.repaint()
+        clean_idle=pet.grab().toImage()
+        for state,index in [('jumping',2),('excited',4),('sleepy',3)]:
+            pet.state,pet.frame=state,index
+            pet.repaint()
+            pet.state,pet.frame='idle',0
+            pet.repaint()
+            assert pet.grab().toImage()==clean_idle
+        checks.append('transparent repaint restores identical idle pixels after raised ears and shifted head poses')
+        pet.start_state('idle')
         point=QPoint(pet.width()//2,pet.height()//2)
-        for index in range(7):
+        for index in range(len(REACTIONS)+1):
             QTest.mouseClick(pet,Qt.MouseButton.LeftButton,Qt.KeyboardModifier.NoModifier,point)
-            wait_until(lambda: len(pet.click_history)==index+1)
-        assert len(pet.click_history)==7
-        assert len(set(pet.click_history[:6]))==6
+            try:
+                wait_until(lambda: len(pet.click_history)==index+1)
+            except AssertionError as exc:
+                raise AssertionError({'click':index,'history':pet.click_history,'state':pet.state,
+                    'dragging':pet.dragging,'press':str(pet.press_global),'last_drag':str(pet.last_drag_global),
+                    'position':str(pet.pos()),'click_timer':pet.click_timer.isActive()}) from exc
+        assert len(pet.click_history)==len(REACTIONS)+1
+        assert set(pet.click_history[:len(REACTIONS)])==set(REACTIONS)
         assert all(a!=b for a,b in zip(pet.click_history,pet.click_history[1:]))
-        checks.append('seven real clicks: six distinct reactions and no adjacent repeats')
+        checks.append('nine real clicks: eight distinct reactions and no adjacent repeats')
         before=len(pet.click_history)
         start=pet.pos()
         QTest.mousePress(pet,Qt.MouseButton.LeftButton,Qt.KeyboardModifier.NoModifier,point)
         global_pos=pet.mapToGlobal(point)+QPoint(-80,-50)
         move=QMouseEvent(QEvent.Type.MouseMove,QPointF(point+QPoint(-80,-50)),QPointF(global_pos),Qt.MouseButton.NoButton,Qt.MouseButton.LeftButton,Qt.KeyboardModifier.NoModifier)
         QApplication.sendEvent(pet,move)
+        assert pet.state=='running-left'
+        # Reverse by only 8 px, while still far to the left of the press point.
+        global_pos+=QPoint(8,0)
+        move=QMouseEvent(QEvent.Type.MouseMove,QPointF(pet.mapFromGlobal(global_pos)),QPointF(global_pos),Qt.MouseButton.NoButton,Qt.MouseButton.LeftButton,Qt.KeyboardModifier.NoModifier)
+        QApplication.sendEvent(pet,move)
+        assert pet.state=='running-right'
+        global_pos+=QPoint(0,8)
+        move=QMouseEvent(QEvent.Type.MouseMove,QPointF(pet.mapFromGlobal(global_pos)),QPointF(global_pos),Qt.MouseButton.NoButton,Qt.MouseButton.LeftButton,Qt.KeyboardModifier.NoModifier)
+        QApplication.sendEvent(pet,move)
+        assert pet.state=='running-right'
+        checks.append('drag reverses immediately before crossing press point; vertical motion preserves facing')
+        frames_seen=set()
+        for step_index in range(12):
+            global_pos+=QPoint(2,0)
+            move=QMouseEvent(QEvent.Type.MouseMove,QPointF(pet.mapFromGlobal(global_pos)),QPointF(global_pos),Qt.MouseButton.NoButton,Qt.MouseButton.LeftButton,Qt.KeyboardModifier.NoModifier)
+            QApplication.sendEvent(pet,move)
+            QTest.qWait(40)
+            frames_seen.add(pet.frame)
+        assert pet.state=='running-right' and len(frames_seen)>=4,frames_seen
+        checks.append('continuous same-direction drag advances the running cycle instead of resetting its first frame')
+        stride_frame=pet.frame
+        global_pos-=QPoint(3,0)
+        move=QMouseEvent(QEvent.Type.MouseMove,QPointF(pet.mapFromGlobal(global_pos)),QPointF(global_pos),Qt.MouseButton.NoButton,Qt.MouseButton.LeftButton,Qt.KeyboardModifier.NoModifier)
+        QApplication.sendEvent(pet,move)
+        assert pet.state=='running-left' and pet.frame==stride_frame
+        checks.append('reversing drag preserves the alternating arm and leg cycle phase')
         QTest.mouseRelease(pet,Qt.MouseButton.LeftButton,Qt.KeyboardModifier.NoModifier,point)
         QTest.qWait(QApplication.doubleClickInterval()+70)
         assert pet.pos()!=start and len(pet.click_history)==before
@@ -84,16 +139,73 @@ def run_smoke_test(pet, output: Path):
         labels=[a.text() for a in menu.actions()]
         assert '和休比互动' in labels and '退出桌宠' in labels
         submenu=next(a.menu() for a in menu.actions() if a.text()=='和休比互动')
-        shy_action=next(a for a in submenu.actions() if a.text().startswith('害羞'))
+        shy_action=next(a for a in submenu.actions() if a.text()=='害羞')
         shy_action.trigger()
         assert pet.state=='shy'
         menu.popup(pet.mapToGlobal(QPoint(pet.width(),40)));QTest.qWait(150)
         menu.grab().save(str(output/'context-menu.png'));menu.hide()
         checks.append('real menu includes and triggers explicit shy action')
+        for label, state in [('兴奋','excited'), ('打瞌睡','sleepy')]:
+            next(a for a in submenu.actions() if a.text()==label).trigger()
+            assert pet.state==state
+            wait_until(lambda: pet.state==state and pet.frame==3)
+            pet.grab().save(str(output/('window-'+state+'.png')))
+            wait_until(lambda: pet.state=='idle',4500)
+        checks.append('ear flutter and dozing menu actions animate and return to idle')
         pet.persist()
         stored=json.loads(pet.settings_path.read_text(encoding='utf-8'))
         assert stored['scale']==1.5 and stored['x']==pet.x() and stored['y']==pet.y()
         checks.append('position and preferences persisted')
+        pet.start_state('idle')
+        pet.toggle_option('random_idle',True)
+        pet.toggle_option('roam',True)
+        pet.toggle_option('follow_mouse',True)
+        interval_menu=pet.make_menu()
+        idle_menu=next(a.menu() for a in interval_menu.actions() if a.text().startswith('待机动作间隔'))
+        next(a for a in idle_menu.actions() if a.text()=='2 秒').trigger()
+        assert pet.settings['idle_interval']==2 and 0<pet.idle_timer.remainingTime()<=2000
+        assert pet.walk_timer.remainingTime()>8000
+        checks.append('interval menu updates action timer without postponing independent walk timer')
+        # Use a controlled cursor position without moving the user's cursor.
+        with patch.object(QCursor,'pos',return_value=pet.mapToGlobal(QPoint(pet.width()+100,pet.height()//2))):
+            pet.last_interaction=0
+            pet.motion_tick()
+            assert pet.look is not None
+            wait_until(lambda: pet.state!='idle',3000)
+            assert pet.state in IDLE_REACTIONS and pet.look is None
+            pet.idle_timer.stop()
+            wait_until(lambda: pet.state=='idle',4000)
+            pet.motion_tick()
+            assert pet.look is not None
+        checks.append('actual idle timer plays an action during gaze following and restores gaze afterward')
+        # Check that a due walk waits for an action instead of interrupting it.
+        pet.play_reaction('jumping')
+        pet.idle_timer.stop()
+        pet.walk_timer.start(1)
+        QTest.qWait(50)
+        assert pet.state=='jumping' and not pet.walk_end
+        wait_until(lambda: bool(pet.walk_end),2500)
+        assert pet.state in ('running-left','running-right')
+        start_walk=pet.pos()
+        wait_until(lambda: pet.pos()!=start_walk,1000)
+        checks.append('independent walk timer retries busy state and then moves the pet')
+        pet.toggle_option('paused',True)
+        assert not pet.idle_timer.isActive() and not pet.walk_timer.isActive() and not pet.walk_end
+        pet.toggle_option('paused',False)
+        def fill_interval_dialog():
+            dialog=QApplication.activeModalWidget()
+            assert isinstance(dialog,QInputDialog)
+            dialog.setIntValue(7)
+            dialog.accept()
+        QTimer.singleShot(100,fill_interval_dialog)
+        pet.choose_interval('idle_interval','待机动作间隔')
+        assert pet.settings['idle_interval']==7
+        stored=json.loads(pet.settings_path.read_text(encoding='utf-8'))
+        assert stored['idle_interval']==7
+        checks.append('custom interval dialog accepts and saves seconds; pause stops both schedules')
+        pet.toggle_option('random_idle',False)
+        assert not pet.idle_timer.isActive() and not pet.walk_timer.isActive()
+        checks.append('disabling automatic actions stops both schedules')
         if QSystemTrayIcon.isSystemTrayAvailable():
             pet.test_mode=False
             pet.make_tray()
@@ -110,7 +222,7 @@ def run_smoke_test(pet, output: Path):
             assert pet.isVisible() and pet.frame_timer.isActive()
             checks.append('system tray hides and restores the window and its animation')
             pet.tray.hide()
-        result={'ok':True,'checks':checks,'click_reactions':pet.click_history,
+        result={'ok':True,'version':APP_VERSION,'checks':checks,'click_reactions':pet.click_history,
                 'platform':sys.platform,'machine':platform.machine(),
                 'qt_platform':QApplication.platformName(),
                 'tray_available':QSystemTrayIcon.isSystemTrayAvailable()}

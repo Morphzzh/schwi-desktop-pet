@@ -43,10 +43,24 @@ def main():
                       UpgradeCode=UPGRADE_CODE, ProductCode=product_code,
                       Scope='perUser', InstallerVersion='500')
     element(package, 'SummaryInformation', Description='休比离线桌宠安装程序', Codepage='936')
-    element(package, 'MajorUpgrade', DowngradeErrorMessage='已安装更新版本的休比桌宠。')
+    # The previous 1.0.1 release was accidentally packaged as 1.1.0.
+    # Permit that specific migration while still blocking other newer versions.
+    if tuple(map(int, APP_VERSION.split('.'))) < (1, 1, 0):
+        element(package, 'MajorUpgrade', AllowDowngrades='yes', Schedule='afterInstallInitialize')
+        upgrade = element(package, 'Upgrade', Id=UPGRADE_CODE)
+        element(upgrade, 'UpgradeVersion', Minimum=APP_VERSION, IncludeMinimum='no',
+                Maximum='1.1.0', IncludeMaximum='no', OnlyDetect='yes', Property='NEWER_BELOW_LEGACY')
+        element(upgrade, 'UpgradeVersion', Minimum='1.1.0', IncludeMinimum='no',
+                OnlyDetect='yes', Property='NEWER_ABOVE_LEGACY')
+        element(package, 'Launch', Condition='NOT NEWER_BELOW_LEGACY AND NOT NEWER_ABOVE_LEGACY',
+                Message='已安装更新版本的休比桌宠。')
+    else:
+        element(package, 'MajorUpgrade', DowngradeErrorMessage='已安装更新版本的休比桌宠。',
+                Schedule='afterInstallInitialize')
     element(package, 'MediaTemplate', EmbedCab='yes', CompressionLevel='high')
-    element(package, 'Icon', Id='SchwiIcon', SourceFile=str(ROOT / 'assets' / 'schwi.ico'))
-    element(package, 'Property', Id='ARPPRODUCTICON', Value='SchwiIcon')
+    icon_id = 'SchwiIcon_' + APP_VERSION.replace('.', '_')
+    element(package, 'Icon', Id=icon_id, SourceFile=str(ROOT / 'assets' / 'schwi.ico'))
+    element(package, 'Property', Id='ARPPRODUCTICON', Value=icon_id)
     previous_path = element(package, 'Property', Id='INSTALLFOLDER')
     element(previous_path, 'RegistrySearch', Id='InstalledDirectory', Root='HKCU',
             Key='Software\\SchwiDesktopPet', Name='InstallPath', Type='raw', Bitness='always64')
@@ -84,7 +98,7 @@ def main():
                     Name='InstallPath', Value='[INSTALLFOLDER]', Type='string')
             for location, shortcut_id in (('DesktopFolder', 'DesktopShortcut'), ('ApplicationProgramsFolder', 'StartMenuShortcut')):
                 element(component, 'Shortcut', Id=shortcut_id, Directory=location, Name='休比桌宠',
-                        Target='[INSTALLFOLDER]SchwiPet.exe', WorkingDirectory='INSTALLFOLDER', Icon='SchwiIcon')
+                        Target='[INSTALLFOLDER]SchwiPet.exe', WorkingDirectory='INSTALLFOLDER', Icon=icon_id)
             element(component, 'RemoveFolder', Id='RemoveStartMenuFolder', Directory='ApplicationProgramsFolder', On='uninstall')
         element(feature, 'ComponentRef', Id=component_id)
     ET.SubElement(package, '{' + UI_NS + '}WixUI', {'Id': 'WixUI_InstallDir', 'InstallDirectory': 'INSTALLFOLDER'})

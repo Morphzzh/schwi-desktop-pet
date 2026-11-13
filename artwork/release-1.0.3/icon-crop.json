@@ -1,0 +1,12 @@
+{
+  "source": "canonical.png",
+  "source_sha256": "9233412ba5d46a298804b3459309b4c5bbea8932b02a5d8149647477d988863b",
+  "crop_box": [
+    160,
+    15,
+    1040,
+    895
+  ],
+  "method": "Existing full-body image cropped; no character redraw.",
+  "green_background_removed": true
+}

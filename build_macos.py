@@ -22,12 +22,8 @@ def main():
 
     staging = ROOT / 'build-macos' / arch
     staging.mkdir(parents=True, exist_ok=True)
-    atlas = Image.open(ROOT / 'assets' / 'schwi.png').convert('RGBA')
-    frame = atlas.crop((0, 0, 192, 208))
-    icon = Image.new('RGBA', (1024, 1024))
-    frame.thumbnail((900, 940), Image.Resampling.LANCZOS)
-    frame = frame.resize((768, 832), Image.Resampling.LANCZOS)
-    icon.alpha_composite(frame, ((1024 - frame.width) // 2, (1024 - frame.height) // 2))
+    portrait = Image.open(ROOT / 'assets' / 'schwi-portrait.png').convert('RGBA')
+    icon = portrait.resize((1024, 1024), Image.Resampling.LANCZOS)
     icon.save(staging / 'SchwiPet.icns')
     collect(staging)
     info = {

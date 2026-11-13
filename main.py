@@ -15,9 +15,9 @@ import time
 from PySide6.QtCore import QLockFile, QPoint, QRect, QTimer, Qt
 from PySide6.QtGui import QActionGroup, QCursor, QIcon, QImage, QPainter, QPixmap
 from PySide6.QtNetwork import QLocalServer, QLocalSocket
-from PySide6.QtWidgets import QApplication, QMenu, QMessageBox, QSystemTrayIcon, QWidget
+from PySide6.QtWidgets import QApplication, QInputDialog, QMenu, QMessageBox, QSystemTrayIcon, QWidget
 
-from behavior import DEFAULTS, ReactionBag, clamp_position, direction_index, load_settings, save_settings
+from behavior import DEFAULTS, IDLE_REACTIONS, ReactionBag, clamp_position, direction_index, load_settings, save_settings
 from platform_support import APP_VERSION, default_data_dir
 
 VERSION = APP_VERSION
@@ -38,9 +38,12 @@ EXTRAS = {
     'shy': [180, 300, 650, 950, 450, 500],
     'happy': [200, 300, 700, 500, 300, 350],
     'surprised': [180, 260, 500, 650, 300, 350],
+    'excited': [220, 160, 190, 160, 240, 350],
+    'sleepy': [400, 500, 650, 850, 450, 350],
 }
 LABELS = {
-    'shy': '害羞 · 闭眼捂脸', 'happy': '开心', 'surprised': '惊讶',
+    'shy': '害羞', 'happy': '开心', 'surprised': '惊讶',
+    'excited': '兴奋', 'sleepy': '打瞌睡',
     'waving': '挥挥手', 'jumping': '跳一下', 'waiting': '期待',
     'running': '认真思考', 'review': '探头看看', 'failed': '有点失落',
 }
@@ -67,7 +70,9 @@ class Sprites:
                 raise RuntimeError('互动表情素材缺失：' + name)
             self.frames[name] = [QPixmap.fromImage(strip.copy(i * CELL_W, 0, CELL_W, CELL_H)) for i in range(6)]
             self.durations[name] = times
-        self.icon = QIcon(self.frames['idle'][0])
+        self.icon = QIcon(str(resource_path('schwi-portrait.png')))
+        if self.icon.isNull():
+            raise RuntimeError('休比的程序图标缺失，请重新解压完整软件包。')
 
 
 class PetWindow(QWidget):
@@ -97,6 +102,8 @@ class PetWindow(QWidget):
         self.click_history = []
         self.press_global = None
         self.press_window = None
+        self.last_drag_global = None
+        self.drag_direction = 1
         self.dragging = False
         self.double_click = False
         self.menu_open = False
@@ -116,6 +123,9 @@ class PetWindow(QWidget):
         self.idle_timer = QTimer(self)
         self.idle_timer.setSingleShot(True)
         self.idle_timer.timeout.connect(self.spontaneous)
+        self.walk_timer = QTimer(self)
+        self.walk_timer.setSingleShot(True)
+        self.walk_timer.timeout.connect(self.spontaneous_walk)
         self.motion_timer = QTimer(self)
         self.motion_timer.setInterval(40)
         self.motion_timer.timeout.connect(self.motion_tick)
@@ -128,6 +138,7 @@ class PetWindow(QWidget):
             screen.availableGeometryChanged.connect(self.screen_changed)
         self.start_state('idle')
         self.schedule_idle()
+        self.schedule_walk()
 
     def apply_window_flags(self):
         # A macOS Tool is an NSPanel, which remains above normal windows even
@@ -180,6 +191,10 @@ class PetWindow(QWidget):
 
     def paintEvent(self, event):
         painter = QPainter(self)
+        # Replace the entire previous transparent frame, including hair edges.
+        painter.setCompositionMode(QPainter.CompositionMode.CompositionMode_Source)
+        painter.fillRect(self.rect(), Qt.GlobalColor.transparent)
+        painter.setCompositionMode(QPainter.CompositionMode.CompositionMode_SourceOver)
         painter.setRenderHint(QPainter.RenderHint.SmoothPixmapTransform)
         painter.drawPixmap(self.rect(), self.current_pixmap())
 
@@ -207,6 +222,15 @@ class PetWindow(QWidget):
         self.update()
         self.frame_timer.start(self.sprites.durations[self.state][self.frame])
 
+    def turn_running(self, name):
+        if self.state in ('running-left', 'running-right'):
+            # Opposite directions share the same stride phase. Keep its timer.
+            self.state = name
+            self.look = None
+            self.update()
+        else:
+            self.start_state(name)
+
     def react(self):
         if self.settings['paused'] or self.dragging or self.menu_open or not self.isVisible():
             return
@@ -220,19 +244,34 @@ class PetWindow(QWidget):
         self.last_interaction = time.monotonic()
         self.start_state(name)
         self.schedule_idle()
+        self.schedule_walk()
 
-    def schedule_idle(self):
+    def schedule_idle(self, *, retry=False):
         self.idle_timer.stop()
         if self.settings['random_idle'] and not self.settings['paused'] and self.isVisible():
-            self.idle_timer.start(random.randint(18000, 35000))
+            self.idle_timer.start(500 if retry else self.settings['idle_interval'] * 1000)
+
+    def schedule_walk(self, *, retry=False):
+        self.walk_timer.stop()
+        if self.settings['random_idle'] and self.settings['roam'] and not self.settings['paused'] and self.isVisible():
+            self.walk_timer.start(500 if retry else self.settings['walk_interval'] * 1000)
+
+    def ready_for_auto_action(self):
+        return (self.settings['random_idle'] and not self.settings['paused'] and self.isVisible()
+                and self.state == 'idle' and not self.dragging and self.press_global is None
+                and not self.menu_open)
 
     def spontaneous(self):
-        if self.settings['random_idle'] and not self.settings['paused'] and self.state == 'idle' and not self.dragging and not self.menu_open:
-            if self.settings['roam'] and random.random() < .45:
-                self.begin_walk()
-            else:
-                self.start_state(random.choice(('happy', 'running', 'review', 'waving')))
-        self.schedule_idle()
+        ready = self.ready_for_auto_action()
+        if ready:
+            self.start_state(random.choice(IDLE_REACTIONS))
+        self.schedule_idle(retry=not ready)
+
+    def spontaneous_walk(self):
+        ready = self.settings['roam'] and self.ready_for_auto_action()
+        if ready:
+            self.begin_walk()
+        self.schedule_walk(retry=not ready)
 
     def begin_walk(self):
         self.look = None
@@ -255,7 +294,7 @@ class PetWindow(QWidget):
                 safe = self.keep_on_screen(target, self.current_screen())
                 if safe.x() != target.x():
                     self.walk_direction *= -1
-                    self.start_state('running-right' if self.walk_direction > 0 else 'running-left')
+                    self.turn_running('running-right' if self.walk_direction > 0 else 'running-left')
                 self.move(safe)
             return
         old = self.look
@@ -273,6 +312,7 @@ class PetWindow(QWidget):
         if event.button() == Qt.MouseButton.LeftButton:
             self.press_global = event.globalPosition().toPoint()
             self.press_window = self.pos()
+            self.last_drag_global = self.press_global
             self.dragging = False
             self.double_click = False
             self.walk_end = 0
@@ -282,15 +322,20 @@ class PetWindow(QWidget):
     def mouseMoveEvent(self, event):
         if self.press_global is None or not (event.buttons() & Qt.MouseButton.LeftButton):
             return
-        delta = event.globalPosition().toPoint() - self.press_global
+        current = event.globalPosition().toPoint()
+        delta = current - self.press_global
+        step = current - self.last_drag_global
+        self.last_drag_global = current
         if delta.manhattanLength() >= QApplication.startDragDistance():
             self.dragging = True
             self.click_timer.stop()
         if self.dragging:
             self.move(self.keep_on_screen(self.press_window + delta))
-            name = 'running-right' if delta.x() >= 0 else 'running-left'
+            if step.x():
+                self.drag_direction = 1 if step.x() > 0 else -1
+            name = 'running-right' if self.drag_direction > 0 else 'running-left'
             if self.state != name and not self.settings['paused']:
-                self.start_state(name)
+                self.turn_running(name)
         event.accept()
 
     def mouseReleaseEvent(self, event):
@@ -298,11 +343,14 @@ class PetWindow(QWidget):
             return
         was_dragged = self.dragging
         self.press_global, self.press_window = None, None
+        self.last_drag_global = None
         self.dragging = False
         self.setCursor(Qt.CursorShape.OpenHandCursor)
         if was_dragged:
             self.persist()
             self.start_state('idle')
+            self.schedule_idle()
+            self.schedule_walk()
         elif not self.double_click and not self.settings['paused']:
             self.click_timer.start(QApplication.doubleClickInterval() + 25)
         self.double_click = False
@@ -314,6 +362,7 @@ class PetWindow(QWidget):
             self.double_click = True
             self.press_global = event.globalPosition().toPoint()
             self.press_window = self.pos()
+            self.last_drag_global = self.press_global
             if not self.settings['paused']:
                 self.play_reaction('jumping')
             event.accept()
@@ -359,6 +408,8 @@ class PetWindow(QWidget):
             a.setCheckable(True)
             a.setChecked(self.settings[key])
             a.triggered.connect(lambda checked, k=key: self.toggle_option(k, checked))
+        self.add_interval_menu(menu, 'idle_interval', '待机动作间隔', (2, 4, 6, 10, 20, 30))
+        self.add_interval_menu(menu, 'walk_interval', '散步间隔', (5, 10, 15, 20, 30, 60))
         menu.addSeparator()
         menu.addAction('找回休比 / 重置位置', self.reset_position)
         if self.tray is not None:
@@ -366,6 +417,40 @@ class PetWindow(QWidget):
         menu.addAction('使用说明', self.show_help)
         menu.addAction('退出桌宠', self.quit_app)
         return menu
+
+    def add_interval_menu(self, menu, key, title, choices):
+        seconds = self.settings[key]
+        submenu = menu.addMenu(f'{title} · {seconds} 秒')
+        group = QActionGroup(submenu)
+        for value in choices:
+            action = submenu.addAction(f'{value} 秒')
+            action.setCheckable(True)
+            action.setChecked(seconds == value)
+            group.addAction(action)
+            action.triggered.connect(lambda checked=False, k=key, v=value: self.set_interval(k, v))
+        submenu.addSeparator()
+        action = submenu.addAction('自定义…')
+        action.triggered.connect(lambda checked=False, k=key, t=title: self.choose_interval(k, t))
+
+    def set_interval(self, key, seconds):
+        self.settings[key] = max(2, min(300, int(seconds)))
+        (self.schedule_idle if key == 'idle_interval' else self.schedule_walk)()
+        self.persist()
+        self.refresh_tray_menu()
+
+    def choose_interval(self, key, title):
+        was_open = self.menu_open
+        self.menu_open = True
+        self.frame_timer.stop()
+        try:
+            seconds, accepted = QInputDialog.getInt(
+                self, title, '间隔（秒，2–300）：', self.settings[key], 2, 300, 1)
+            if accepted:
+                self.set_interval(key, seconds)
+        finally:
+            self.menu_open = was_open
+            if not self.menu_open and not self.settings['paused'] and self.isVisible():
+                self.frame_timer.start(self.sprites.durations[self.state][self.frame])
 
     def change_scale(self, scale):
         center = self.x() + self.width() / 2
@@ -388,7 +473,7 @@ class PetWindow(QWidget):
             self.click_timer.stop()
             self.walk_end = 0
             self.start_state('idle', force=True)
-        if key == 'roam' and not checked and self.walk_end:
+        if key in ('roam', 'random_idle') and not checked and self.walk_end:
             self.walk_end = 0
             self.start_state('idle')
         if key == 'follow_mouse':
@@ -397,6 +482,7 @@ class PetWindow(QWidget):
         if key in ('topmost','paused') and not self.settings['paused']:
             self.frame_timer.start(self.sprites.durations[self.state][self.frame])
         self.schedule_idle()
+        self.schedule_walk()
         self.persist()
         self.refresh_tray_menu()
 
@@ -428,6 +514,7 @@ class PetWindow(QWidget):
         self.frame_timer.stop()
         self.click_timer.stop()
         self.idle_timer.stop()
+        self.walk_timer.stop()
         self.hide()
         self.refresh_tray_menu()
 
@@ -437,6 +524,7 @@ class PetWindow(QWidget):
         if hasattr(self, 'frame_timer'):
             self.start_state('idle', force=True)
             self.schedule_idle()
+            self.schedule_walk()
             self.refresh_tray_menu()
 
     def showEvent(self, event):
@@ -444,11 +532,12 @@ class PetWindow(QWidget):
         if hasattr(self, 'frame_timer') and not self.settings['paused']:
             self.frame_timer.start(self.sprites.durations[self.state][self.frame])
             self.schedule_idle()
+            self.schedule_walk()
 
     def show_help(self):
         tray_help = '顶部菜单栏图标：显示、收起或退出休比。' if IS_MAC else '托盘图标：找回或退出休比。'
         QMessageBox.information(self, '休比桌宠',
-            f'休比桌宠 {VERSION}\n\n单击：随机表情或动作，不会连续重复。\n双击：跳一下。\n按住左键：拖动休比。\n右键：指定动作、调整大小和偏好。\n{tray_help}\n\n视线跟随和散步默认关闭，可在菜单开启。\n所有互动均在本机运行。')
+            f'休比桌宠 {VERSION}\n\n单击：随机表情或动作，不会连续重复。\n双击：跳一下。\n按住左键：拖动休比。\n右键：指定动作、调整大小和偏好。\n{tray_help}\n\n待机动作默认间隔 4 秒，散步默认间隔 10 秒；右键菜单可设置间隔或输入自定义秒数。\n动作进行中会稍后执行，不会互相打断。\n视线跟随和散步默认关闭，可在菜单开启。\n所有互动均在本机运行。')
 
     def quit_app(self):
         if self.quitting:
@@ -534,6 +623,7 @@ def main():
         pet.frame_timer.stop()
         pet.motion_timer.stop()
         pet.idle_timer.stop()
+        pet.walk_timer.stop()
         pet.click_timer.stop()
         server.close()
         lock.unlock()

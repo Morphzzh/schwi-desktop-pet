@@ -7,7 +7,8 @@ import zipfile
 from platform_support import APP_VERSION
 
 root = Path(__file__).resolve().parent
-outputs = root.parent / 'outputs'
+outputs = root.parent / 'outputs' / ('休比桌宠-' + APP_VERSION)
+outputs.mkdir(parents=True, exist_ok=True)
 app = outputs / '休比桌宠'
 shutil.copytree(root / 'dist' / 'SchwiPet', app, dirs_exist_ok=True)
 (app / '使用说明.txt').write_text(
@@ -18,6 +19,7 @@ shutil.copytree(root / 'dist' / 'SchwiPet', app, dirs_exist_ok=True)
     '右键：指定动作、调整大小、暂停或退出。\n'
     '托盘图标：单击显示，右键收起或退出。\n\n'
     '默认平视，关闭视线跟随和散步；可从菜单开启。\n'
+    '待机动作默认间隔 4 秒，散步默认间隔 10 秒；右键菜单可调整或自定义间隔。\n'
     '位置与设置自动保存，不会设置开机启动。\n'
     '完整说明见 README.md。\n', encoding='utf-8-sig')
 
@@ -37,7 +39,11 @@ reports.append(archive(outputs / '休比桌宠-Windows-x64.zip',
 source_files = []
 for p in sorted(root.rglob('*')):
     rel = p.relative_to(root)
-    if p.is_file() and not set(rel.parts).intersection({'.git', 'build', 'dist', 'build-msi', 'build-macos', 'dist-macos', 'qa-macos', 'qa-macos-extracted', 'qa-macos-dmg', 'extract-check', '__pycache__'}) and p.suffix != '.pyc':
+    if rel.parts[0]=='artwork' and (len(rel.parts)<2 or rel.parts[1]!='release-'+APP_VERSION):
+        continue
+    if rel.parts[0]=='artwork' and (p.name in {'generation.json','final-generation.json','ear-shape-correction.json'} or ('source' in rel.parts and p.name in {'running-left.png','look-row-10-b.png'})):
+        continue
+    if p.is_file() and not any(part.startswith('qa') for part in rel.parts) and not set(rel.parts).intersection({'.git', 'build', 'dist', 'build-msi', 'build-macos', 'dist-macos', 'extract-check', '__pycache__'}) and p.suffix != '.pyc':
         source_files.append((p, str(Path('休比桌宠-源码') / rel)))
 reports.append(archive(outputs / '休比桌宠-源码.zip', source_files))
 qa = outputs / '休比桌宠-验证'

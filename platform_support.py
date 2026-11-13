@@ -3,7 +3,7 @@ import os
 from pathlib import Path
 import sys
 
-APP_VERSION = '1.1.0'
+APP_VERSION = '1.0.3'
 
 
 def default_data_dir(platform=None, home=None, environ=None):

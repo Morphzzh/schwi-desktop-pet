@@ -38,8 +38,6 @@ for row, name in enumerate(('shy', 'happy', 'surprised')):
     records[name] = {'frames':6,'source_size':list(source.size),'output_size':list(target.size),'source_alpha_preserved':True}
 sheet.save(root/'artwork/new-reactions.png')
 (root/'artwork/extraction.json').write_text(json.dumps(records,indent=2),encoding='utf-8')
-atlas=Image.open(root/'assets/schwi.png').convert('RGBA')
-icon=atlas.crop((0,0,192,208))
-square=Image.new('RGBA',(208,208));square.alpha_composite(icon,(8,0))
-square.save(root/'assets/schwi.ico',sizes=[(16,16),(32,32),(48,48),(64,64),(128,128),(256,256)])
+icon=Image.open(root/'assets/schwi-portrait.png').convert('RGBA')
+icon.save(root/'assets/schwi.ico',sizes=[(16,16),(24,24),(32,32),(48,48),(64,64),(128,128),(256,256)])
 print(json.dumps(records))
