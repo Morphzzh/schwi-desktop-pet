@@ -98,9 +98,8 @@ def run_interval_checks(pet, output, checks):
         dialog=pet.interval_dialog
         assert dialog is not None
         if sys.platform=='darwin':
-            assert dialog.parentWidget() is None
-            assert dialog.windowType()==Qt.WindowType.Window
-            assert dialog.windowModality()==Qt.WindowModality.NonModal
+            assert dialog.parentWidget() is pet
+            assert dialog.windowModality()==Qt.WindowModality.WindowModal
         checks.append('custom interval dialog opens without blocking the event loop')
         mark('open-returned')
         dialog.finished.connect(lambda _:later(after_accept))

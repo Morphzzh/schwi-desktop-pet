@@ -42,6 +42,8 @@ https://support.apple.com/zh-cn/guide/mac-help/mh40616/mac
 
 工作流仅手动触发，不在每次提交时自动运行。私有仓库使用账号的 Actions 配额；本项目不会更改计费设置或公开仓库。
 
+部分 GitHub 托管的 Intel macOS 26 镜像存在系统图标服务崩溃循环（[runner-images #14751](https://github.com/actions/runner-images/issues/14751)），会阻塞 Qt 窗口首次获得焦点。`prepare_macos_runner.py` 仅在对应的临时 GitHub Mac 运行器中关闭故障服务，让系统使用默认图标返回；它不参与应用打包，不会在用户电脑上执行。角色素材、应用图标和全部窗口检查照常验证。诊断与处理结果保存在测试报告中。
+
 有 Mac 时也可本地构建：
 
 ```sh

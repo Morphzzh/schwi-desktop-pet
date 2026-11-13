@@ -433,17 +433,11 @@ class PetWindow(QWidget):
             self.interval_dialog.raise_()
             self.interval_dialog.activateWindow()
             return
-        # An ordinary Cocoa window avoids QInputDialog's native panel path in
-        # this menu-bar application. Keep the same input and save/cancel signals.
-        if IS_MAC:
-            from interval_window import IntervalWindow
-            dialog = IntervalWindow()
-        else:
-            dialog = QInputDialog(self)
-            dialog.setInputMode(QInputDialog.InputMode.IntInput)
+        dialog = QInputDialog(self)
         self.interval_dialog = dialog
         dialog.setWindowTitle(title)
         dialog.setLabelText('间隔（秒，2–300）：')
+        dialog.setInputMode(QInputDialog.InputMode.IntInput)
         dialog.setIntRange(2, 300)
         dialog.setIntStep(1)
         dialog.setIntValue(self.settings[key])
@@ -457,15 +451,8 @@ class PetWindow(QWidget):
                 self.frame_timer.start(self.sprites.durations[self.state][self.frame])
             dialog.deleteLater()
         dialog.finished.connect(finish_dialog)
-        # Keep Qt's main event loop running while the settings window is open.
-        if IS_MAC:
-            dialog.setWindowModality(Qt.WindowModality.NonModal)
-            dialog.setWindowFlag(Qt.WindowType.WindowStaysOnTopHint, True)
-            dialog.show()
-            dialog.raise_()
-            dialog.activateWindow()
-        else:
-            dialog.open()
+        # Keep Qt's main event loop running while the modal window is open.
+        dialog.open()
 
     def change_scale(self, scale):
         center = self.x() + self.width() / 2
