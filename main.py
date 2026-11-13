@@ -433,13 +433,17 @@ class PetWindow(QWidget):
             self.interval_dialog.raise_()
             self.interval_dialog.activateWindow()
             return
-        # Cocoa sheets need an ordinary document window. The pet is a
-        # translucent tool window, so use a separate settings window on macOS.
-        dialog = QInputDialog(None if IS_MAC else self)
+        # An ordinary Cocoa window avoids QInputDialog's native panel path in
+        # this menu-bar application. Keep the same input and save/cancel signals.
+        if IS_MAC:
+            from interval_window import IntervalWindow
+            dialog = IntervalWindow()
+        else:
+            dialog = QInputDialog(self)
+            dialog.setInputMode(QInputDialog.InputMode.IntInput)
         self.interval_dialog = dialog
         dialog.setWindowTitle(title)
         dialog.setLabelText('间隔（秒，2–300）：')
-        dialog.setInputMode(QInputDialog.InputMode.IntInput)
         dialog.setIntRange(2, 300)
         dialog.setIntStep(1)
         dialog.setIntValue(self.settings[key])
@@ -453,7 +457,7 @@ class PetWindow(QWidget):
                 self.frame_timer.start(self.sprites.durations[self.state][self.frame])
             dialog.deleteLater()
         dialog.finished.connect(finish_dialog)
-        # Keep Qt's main event loop running while the modal window is open.
+        # Keep Qt's main event loop running while the settings window is open.
         if IS_MAC:
             dialog.setWindowModality(Qt.WindowModality.NonModal)
             dialog.setWindowFlag(Qt.WindowType.WindowStaysOnTopHint, True)
