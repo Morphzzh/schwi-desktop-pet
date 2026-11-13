@@ -1,0 +1,593 @@
+{
+  "reference": "canonical.png",
+  "reference_median_hsv": [
+    0.9232804179191589,
+    0.8097826242446899,
+    0.4941176474094391
+  ],
+  "method": "brightness-conditioned hue and saturation offsets; 35 percent monotonic value quantile correction",
+  "fill_cleanup": "edge-aware 5x5; max RGB change 8/255; alpha made solid only inside 5x5 alpha>230; antialiased silhouette preserved",
+  "reference_curves": [
+    [
+      0.9333333373069763,
+      0.9333333373069763
+    ],
+    [
+      0.9343434572219849,
+      0.9268292784690857
+    ],
+    [
+      0.9333333373069763,
+      0.9166666865348816
+    ],
+    [
+      0.9308943152427673,
+      0.8833333253860474
+    ],
+    [
+      0.9270833134651184,
+      0.8507462739944458
+    ],
+    [
+      0.9251700639724731,
+      0.8375000357627869
+    ],
+    [
+      0.9240195751190186,
+      0.8352941274642944
+    ],
+    [
+      0.9230769276618958,
+      0.83146071434021
+    ],
+    [
+      0.922764241695404,
+      0.8265306353569031
+    ],
+    [
+      0.9229166507720947,
+      0.8220338821411133
+    ],
+    [
+      0.9233333468437195,
+      0.8125
+    ],
+    [
+      0.9229559898376465,
+      0.8064516186714172
+    ],
+    [
+      0.9222221970558167,
+      0.8031496405601501
+    ],
+    [
+      0.9217391014099121,
+      0.800000011920929
+    ],
+    [
+      0.9214876294136047,
+      0.7960526347160339
+    ],
+    [
+      0.9209876656532288,
+      0.7928994297981262
+    ],
+    [
+      0.9195402264595032,
+      0.7944444417953491
+    ],
+    [
+      0.9178571701049805,
+      0.7958115339279175
+    ],
+    [
+      0.9401408433914185,
+      0.7213930487632751
+    ],
+    [
+      0.9425287246704102,
+      0.7050000429153442
+    ],
+    [
+      0.9428571462631226,
+      0.6896551847457886
+    ],
+    [
+      0.9114285707473755,
+      0.7982062697410583
+    ],
+    [
+      0.9106144905090332,
+      0.7911111116409302
+    ],
+    [
+      0.9564814567565918,
+      0.7424892783164978
+    ]
+  ],
+  "records": [
+    {
+      "folder": "source",
+      "file": "excited.png",
+      "size": [
+        2172,
+        724
+      ],
+      "local_contamination_pixels": 0,
+      "solid_interior_pixels": 666345,
+      "fill_rgb_adjustment_limit": 8,
+      "purple_hsv_median_before": [
+        0.9285714030265808,
+        0.791304349899292,
+        0.47058823704719543
+      ],
+      "purple_hsv_median_after": [
+        0.9230769276618958,
+        0.8076923489570618,
+        0.47843137383461
+      ]
+    },
+    {
+      "folder": "source",
+      "file": "failed.png",
+      "size": [
+        2172,
+        724
+      ],
+      "local_contamination_pixels": 0,
+      "solid_interior_pixels": 559459,
+      "fill_rgb_adjustment_limit": 8,
+      "purple_hsv_median_before": [
+        0.9304635524749756,
+        0.8245614171028137,
+        0.45098039507865906
+      ],
+      "purple_hsv_median_after": [
+        0.9236111044883728,
+        0.811475396156311,
+        0.46666666865348816
+      ]
+    },
+    {
+      "folder": "source",
+      "file": "happy.png",
+      "size": [
+        2172,
+        724
+      ],
+      "local_contamination_pixels": 0,
+      "solid_interior_pixels": 804561,
+      "fill_rgb_adjustment_limit": 8,
+      "purple_hsv_median_before": [
+        0.9301587343215942,
+        0.7346938848495483,
+        0.40784314274787903
+      ],
+      "purple_hsv_median_after": [
+        0.922806978225708,
+        0.800000011920929,
+        0.43529412150382996
+      ]
+    },
+    {
+      "folder": "source",
+      "file": "idle.png",
+      "size": [
+        2172,
+        724
+      ],
+      "local_contamination_pixels": 0,
+      "solid_interior_pixels": 679121,
+      "fill_rgb_adjustment_limit": 8,
+      "purple_hsv_median_before": [
+        0.9329004287719727,
+        0.7981651425361633,
+        0.45490196347236633
+      ],
+      "purple_hsv_median_after": [
+        0.9239482283592224,
+        0.8073394894599915,
+        0.46666666865348816
+      ]
+    },
+    {
+      "folder": "source",
+      "file": "jumping.png",
+      "size": [
+        2172,
+        724
+      ],
+      "local_contamination_pixels": 0,
+      "solid_interior_pixels": 660215,
+      "fill_rgb_adjustment_limit": 8,
+      "purple_hsv_median_before": [
+        0.9330217838287354,
+        0.7664670944213867,
+        0.48627451062202454
+      ],
+      "purple_hsv_median_after": [
+        0.9235473871231079,
+        0.7985075116157532,
+        0.4901960790157318
+      ]
+    },
+    {
+      "folder": "source",
+      "file": "look-row-10-a.png",
+      "size": [
+        1880,
+        659
+      ],
+      "local_contamination_pixels": 0,
+      "solid_interior_pixels": 596595,
+      "fill_rgb_adjustment_limit": 8,
+      "purple_hsv_median_before": [
+        0.9384384155273438,
+        0.7169811725616455,
+        0.4156862795352936
+      ],
+      "purple_hsv_median_after": [
+        0.9230769276618958,
+        0.796875,
+        0.4431372582912445
+      ]
+    },
+    {
+      "folder": "source",
+      "file": "look-row-9.png",
+      "size": [
+        3656,
+        654
+      ],
+      "local_contamination_pixels": 0,
+      "solid_interior_pixels": 1127668,
+      "fill_rgb_adjustment_limit": 8,
+      "purple_hsv_median_before": [
+        0.940809965133667,
+        0.7192981839179993,
+        0.41960784792900085
+      ],
+      "purple_hsv_median_after": [
+        0.9230769276618958,
+        0.7941176891326904,
+        0.4431372582912445
+      ]
+    },
+    {
+      "folder": "source",
+      "file": "review.png",
+      "size": [
+        2172,
+        724
+      ],
+      "local_contamination_pixels": 0,
+      "solid_interior_pixels": 762624,
+      "fill_rgb_adjustment_limit": 8,
+      "purple_hsv_median_before": [
+        0.9313063025474548,
+        0.8129032254219055,
+        0.43529412150382996
+      ],
+      "purple_hsv_median_after": [
+        0.9242424368858337,
+        0.8153846263885498,
+        0.45098039507865906
+      ]
+    },
+    {
+      "folder": "source",
+      "file": "running-right.png",
+      "size": [
+        4280,
+        695
+      ],
+      "local_contamination_pixels": 0,
+      "solid_interior_pixels": 1176643,
+      "fill_rgb_adjustment_limit": 8,
+      "purple_hsv_median_before": [
+        0.9329501986503601,
+        0.7046980261802673,
+        0.46666666865348816
+      ],
+      "purple_hsv_median_after": [
+        0.9229390621185303,
+        0.7919999957084656,
+        0.4745098054409027
+      ]
+    },
+    {
+      "folder": "source",
+      "file": "running.png",
+      "size": [
+        2172,
+        724
+      ],
+      "local_contamination_pixels": 0,
+      "solid_interior_pixels": 800727,
+      "fill_rgb_adjustment_limit": 8,
+      "purple_hsv_median_before": [
+        0.9411764740943909,
+        0.7718120813369751,
+        0.48627451062202454
+      ],
+      "purple_hsv_median_after": [
+        0.9234972596168518,
+        0.8012820482254028,
+        0.48627451062202454
+      ]
+    },
+    {
+      "folder": "source",
+      "file": "shy.png",
+      "size": [
+        2172,
+        724
+      ],
+      "local_contamination_pixels": 0,
+      "solid_interior_pixels": 793242,
+      "fill_rgb_adjustment_limit": 8,
+      "purple_hsv_median_before": [
+        0.9301075339317322,
+        0.7428571581840515,
+        0.4431372582912445
+      ],
+      "purple_hsv_median_after": [
+        0.9233716726303101,
+        0.7983871102333069,
+        0.4588235318660736
+      ]
+    },
+    {
+      "folder": "source",
+      "file": "sleepy.png",
+      "size": [
+        2172,
+        724
+      ],
+      "local_contamination_pixels": 0,
+      "solid_interior_pixels": 762354,
+      "fill_rgb_adjustment_limit": 8,
+      "purple_hsv_median_before": [
+        0.9236111044883728,
+        0.7788461446762085,
+        0.4313725531101227
+      ],
+      "purple_hsv_median_after": [
+        0.9237288236618042,
+        0.8085106611251831,
+        0.45490196347236633
+      ]
+    },
+    {
+      "folder": "source",
+      "file": "surprised.png",
+      "size": [
+        2172,
+        724
+      ],
+      "local_contamination_pixels": 0,
+      "solid_interior_pixels": 792722,
+      "fill_rgb_adjustment_limit": 8,
+      "purple_hsv_median_before": [
+        0.9356725215911865,
+        0.7647058963775635,
+        0.46666666865348816
+      ],
+      "purple_hsv_median_after": [
+        0.9230769276618958,
+        0.8018018007278442,
+        0.47058823704719543
+      ]
+    },
+    {
+      "folder": "source",
+      "file": "waiting.png",
+      "size": [
+        2172,
+        724
+      ],
+      "local_contamination_pixels": 0,
+      "solid_interior_pixels": 743114,
+      "fill_rgb_adjustment_limit": 8,
+      "purple_hsv_median_before": [
+        0.9259259104728699,
+        0.8134714961051941,
+        0.46666666865348816
+      ],
+      "purple_hsv_median_after": [
+        0.9237288236618042,
+        0.8111111521720886,
+        0.4745098054409027
+      ]
+    },
+    {
+      "folder": "source",
+      "file": "waving.png",
+      "size": [
+        2170,
+        725
+      ],
+      "local_contamination_pixels": 0,
+      "solid_interior_pixels": 741972,
+      "fill_rgb_adjustment_limit": 8,
+      "purple_hsv_median_before": [
+        0.9292929172515869,
+        0.7986111044883728,
+        0.45098039507865906
+      ],
+      "purple_hsv_median_after": [
+        0.9240195751190186,
+        0.808917224407196,
+        0.46666666865348816
+      ]
+    },
+    {
+      "folder": "transitions",
+      "file": "happy.png",
+      "size": [
+        1536,
+        1024
+      ],
+      "local_contamination_pixels": 0,
+      "solid_interior_pixels": 717975,
+      "fill_rgb_adjustment_limit": 8,
+      "purple_hsv_median_before": [
+        0.9277108311653137,
+        0.7383177876472473,
+        0.45098039507865906
+      ],
+      "purple_hsv_median_after": [
+        0.9232804179191589,
+        0.800000011920929,
+        0.46666666865348816
+      ]
+    },
+    {
+      "folder": "transitions",
+      "file": "jumping.png",
+      "size": [
+        1774,
+        887
+      ],
+      "local_contamination_pixels": 63,
+      "solid_interior_pixels": 512091,
+      "fill_rgb_adjustment_limit": 8,
+      "purple_hsv_median_before": [
+        0.9330065250396729,
+        0.7372263073921204,
+        0.47843137383461
+      ],
+      "purple_hsv_median_after": [
+        0.9236947894096375,
+        0.7943262457847595,
+        0.48627451062202454
+      ]
+    },
+    {
+      "folder": "transitions",
+      "file": "shy.png",
+      "size": [
+        1536,
+        1024
+      ],
+      "local_contamination_pixels": 0,
+      "solid_interior_pixels": 752420,
+      "fill_rgb_adjustment_limit": 8,
+      "purple_hsv_median_before": [
+        0.9259259104728699,
+        0.7647058963775635,
+        0.45490196347236633
+      ],
+      "purple_hsv_median_after": [
+        0.9240924119949341,
+        0.804511308670044,
+        0.46666666865348816
+      ]
+    },
+    {
+      "folder": "transitions",
+      "file": "sleepy.png",
+      "size": [
+        1774,
+        887
+      ],
+      "local_contamination_pixels": 0,
+      "solid_interior_pixels": 565932,
+      "fill_rgb_adjustment_limit": 8,
+      "purple_hsv_median_before": [
+        0.9290780425071716,
+        0.737500011920929,
+        0.4313725531101227
+      ],
+      "purple_hsv_median_after": [
+        0.9232804179191589,
+        0.800000011920929,
+        0.45490196347236633
+      ]
+    },
+    {
+      "folder": "transitions",
+      "file": "surprised.png",
+      "size": [
+        1774,
+        887
+      ],
+      "local_contamination_pixels": 1,
+      "solid_interior_pixels": 567809,
+      "fill_rgb_adjustment_limit": 8,
+      "purple_hsv_median_before": [
+        0.9278350472450256,
+        0.7714285850524902,
+        0.4431372582912445
+      ],
+      "purple_hsv_median_after": [
+        0.9232804179191589,
+        0.8072289228439331,
+        0.4627451002597809
+      ]
+    },
+    {
+      "folder": "transitions",
+      "file": "waiting.png",
+      "size": [
+        1774,
+        887
+      ],
+      "local_contamination_pixels": 2,
+      "solid_interior_pixels": 567786,
+      "fill_rgb_adjustment_limit": 8,
+      "purple_hsv_median_before": [
+        0.9276316165924072,
+        0.7808219194412231,
+        0.4588235318660736
+      ],
+      "purple_hsv_median_after": [
+        0.9234234094619751,
+        0.807453453540802,
+        0.46666666865348816
+      ]
+    },
+    {
+      "folder": "transitions",
+      "file": "waving.png",
+      "size": [
+        1774,
+        887
+      ],
+      "local_contamination_pixels": 0,
+      "solid_interior_pixels": 571641,
+      "fill_rgb_adjustment_limit": 8,
+      "purple_hsv_median_before": [
+        0.9285714030265808,
+        0.7761194109916687,
+        0.45490196347236633
+      ],
+      "purple_hsv_median_after": [
+        0.9234234094619751,
+        0.8058252334594727,
+        0.46666666865348816
+      ]
+    },
+    {
+      "folder": "transitions",
+      "file": "excited.png",
+      "size": [
+        1774,
+        887
+      ],
+      "local_contamination_pixels": 427,
+      "solid_interior_pixels": 566599,
+      "fill_rgb_adjustment_limit": 8,
+      "purple_hsv_median_before": [
+        0.9353233575820923,
+        0.7647058963775635,
+        0.45098039507865906
+      ],
+      "purple_hsv_median_after": [
+        0.9230769276618958,
+        0.8028169274330139,
+        0.46666666865348816
+      ]
+    }
+  ]
+}

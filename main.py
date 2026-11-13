@@ -52,9 +52,9 @@ class Sprites:
         self.looks = [QPixmap.fromImage(atlas.copy((i % 8) * SPRITE_W, (9 + i // 8) * SPRITE_H, SPRITE_W, SPRITE_H)) for i in range(16)]
         for name, times in EXTRAS.items():
             strip = QImage(str(resource_path(name + '.png')))
-            if strip.width() != 6 * SPRITE_W or strip.height() != SPRITE_H:
+            if strip.width() != len(times) * SPRITE_W or strip.height() != SPRITE_H:
                 raise RuntimeError('互动表情素材缺失：' + name)
-            self.frames[name] = [QPixmap.fromImage(strip.copy(i * SPRITE_W, 0, SPRITE_W, SPRITE_H)) for i in range(6)]
+            self.frames[name] = [QPixmap.fromImage(strip.copy(i * SPRITE_W, 0, SPRITE_W, SPRITE_H)) for i in range(len(times))]
             self.durations[name] = times
         self.icon = QIcon(str(resource_path('schwi-portrait.png')))
         if self.icon.isNull():

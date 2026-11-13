@@ -8,47 +8,47 @@
     192,
     208
   ],
-  "frames": 103,
+  "frames": 119,
   "files": {
     "schwi.png": {
-      "sha256": "21aa042f28727e4cf2e1f00ec1aa61bf4ebb20dd99a58db1a916be1e002ca685",
+      "sha256": "87818b9ae66a47113c15f44a8e84a9521c9ab581fcd716d5548d751f5615de47",
       "size": [
         4608,
         6864
       ]
     },
     "shy.png": {
-      "sha256": "0bf95b2508267a912dcd8ebd5022ebb9b951afcaefb5ee4e139f1ff1ea652400",
+      "sha256": "53554dee4d15e58bd1c38456b9d76c796d4f425c7c56956c7cc3e0ed6a99fe7e",
       "size": [
-        3456,
+        4608,
         624
       ]
     },
     "happy.png": {
-      "sha256": "6e4c76d913b325b7bcaa21f4649f56e197042fb6c95bea98f7692b55dcc7e42c",
+      "sha256": "fa0baec350e2e92a232b4b48bb5f5bad390b1506c13d54bbe065270335762113",
       "size": [
-        3456,
+        4608,
         624
       ]
     },
     "surprised.png": {
-      "sha256": "89fc6761939de248fde16ce4b94941a9ea3daaf4c9df8deebed41da4db48478b",
+      "sha256": "162412d8a7b3c7b1daf7dee40e833f51288bd924fda8f1e6a672b34a650e5b0b",
       "size": [
-        3456,
+        4608,
         624
       ]
     },
     "excited.png": {
-      "sha256": "71129e6d2920aa627fc14f73bbf1b138f583bc934f1e8da49b4e733a5b8c1b55",
+      "sha256": "f774cf3e2cffbcdf9bf3d5d5f1175d7083abc82b74e6b866ffbdf7ba8357fe65",
       "size": [
-        3456,
+        4608,
         624
       ]
     },
     "sleepy.png": {
-      "sha256": "947fe81ad7f8f326c52d0407c2ca33d379f9ab92ecedc71c66ac930af26ddb97",
+      "sha256": "0cdf7fbd71a99d75a09febdf7e711982bdb543f4a5d5d26f32917f57e7a23a7a",
       "size": [
-        3456,
+        4608,
         624
       ]
     },

@@ -16,6 +16,7 @@ spec = importlib.util.spec_from_file_location('extractor', a.extractor)
 ext = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(ext)
 from main import STATES, EXTRAS, SPRITE_SCALE, SPRITE_W as W, SPRITE_H as H
+from animation_specs import TRANSITION_AFTER
 qa = a.source.parent / 'qa'
 qa.mkdir(exist_ok=True)
 counts = {n: len(t) for n, (_,t) in STATES.items()}
@@ -58,7 +59,8 @@ for row,(name,count) in enumerate(counts.items()):
     # extractor already discards alpha <=16; zero RGB as well before resampling.
     im.putdata([(r,g,b,alpha) if alpha>16 else (0,0,0,0)
                 for r,g,b,alpha in im.get_flattened_data()])
-    groups = ext.component_frame_groups(im,count)
+    source_count=count-2 if name in TRANSITION_AFTER else count
+    groups = ext.component_frame_groups(im,source_count)
     if groups is None:
         raise ValueError(f'{name}: expected {count} separated poses')
     bounds = [ext.component_bounds(g) for g in groups]
@@ -82,6 +84,33 @@ for row,(name,count) in enumerate(counts.items()):
         frames.append(canvas)
         strip.alpha_composite(canvas,(i*W,0))
         preview_frame(canvas,i,row)
+    if name in TRANSITION_AFTER:
+        transition_path=a.source.parent/'transitions'/(name+'.png')
+        extra_im=Image.open(transition_path).convert('RGBA')
+        extra_im.putdata([(r,g,b,a) if a>16 else (0,0,0,0) for r,g,b,a in extra_im.get_flattened_data()])
+        extra_groups=ext.component_frame_groups(extra_im,2)
+        if extra_groups is None:raise ValueError(f'{name}: expected two separate in-betweens')
+        inserts={}
+        for after,group in zip(TRANSITION_AFTER[name],extra_groups):
+            sprite=ext.component_group_image(extra_im,group,padding=0)
+            ratio=max(heights)*scale/sprite.height
+            sprite=sprite.resize((round(sprite.width*ratio),round(sprite.height*ratio)),Image.Resampling.LANCZOS)
+            if sprite.width>W-6:raise ValueError(f'{name}: in-between is too wide')
+            canvas=Image.new('RGBA',(W,H))
+            bottom_y=round((frames[after].getbbox()[3]+frames[after+1].getbbox()[3])/2)
+            canvas.alpha_composite(sprite,((W-sprite.width)//2,bottom_y-sprite.height))
+            canvas.putdata([(r,g,b,a) if a>2 else (0,0,0,0) for r,g,b,a in canvas.get_flattened_data()])
+            inserts[after]=canvas
+        expanded=[]
+        for index,frame in enumerate(frames):
+            expanded.append(frame)
+            if index in inserts:expanded.append(inserts[index])
+        frames=expanded
+        strip=Image.new('RGBA',(W*count,H))
+        draw.rectangle((0,row*232+24,1535,row*232+231),fill='#eef2f1')
+        for index,frame in enumerate(frames):
+            strip.alpha_composite(frame,(index*W,0))
+            preview_frame(frame,index,row)
     registered[name]=frames
     if name in STATES:
         atlas.alpha_composite(strip,(0,STATES[name][0]*H))
