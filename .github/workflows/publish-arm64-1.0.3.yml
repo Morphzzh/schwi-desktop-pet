@@ -1,0 +1,63 @@
+name: Publish verified Apple silicon 1.0.3 package
+
+on:
+  workflow_run:
+    workflows: [Build and test macOS desktop pet]
+    types: [completed]
+
+permissions:
+  actions: read
+  contents: write
+
+concurrency:
+  group: schwi-public-arm64-1.0.3
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    if: >-
+      github.event.workflow_run.conclusion == 'success' &&
+      github.event.workflow_run.event == 'workflow_dispatch' &&
+      github.event.workflow_run.head_repository.full_name == github.repository &&
+      (github.event.workflow_run.id == 43482361351 || github.event.workflow_run.id == 43483126377) &&
+      (github.event.workflow_run.head_sha == '7682f7e962a5d50c92d386cf3ce4c320b39ad406' || github.event.workflow_run.head_sha == '2a9f2c308c15c02ecb84a87820fe95687abb7757')
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      GH_TOKEN: ${{ github.token }}
+      GH_REPO: ${{ github.repository }}
+      SOURCE_RUN: ${{ github.event.workflow_run.id }}
+      SOURCE_COMMIT: ${{ github.event.workflow_run.head_sha }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+      - name: Download artifacts from the approved successful build
+        run: |
+          gh run download "$SOURCE_RUN" --name SchwiPet-macOS-arm64 --dir packages
+          gh run download "$SOURCE_RUN" --name macOS-verification-arm64 --dir evidence
+      - name: Verify package hash and all native test reports
+        run: |
+          python3 verify_macos_artifact.py --packages packages --evidence evidence --arch arm64 --commit "$SOURCE_COMMIT" --run "$SOURCE_RUN"
+      - name: Publish the verified package and update its status
+        run: |
+          python3 - <<'PY'
+          import hashlib,json,re,subprocess
+          from pathlib import Path
+          def gh(*args):return subprocess.check_output(['gh',*args],text=True)
+          prefix='SchwiPet-1.0.3-macOS-arm64'
+          names=[prefix+'.dmg',prefix+'.dmg.sha256',prefix+'-verification.json']
+          release=json.loads(gh('release','view','v1.0.3','--json','assets,body,isDraft'))
+          assert not release['isDraft']
+          present={a['name'] for a in release['assets']}
+          if not set(names)<=present:
+              subprocess.run(['gh','release','upload','v1.0.3',*[str(Path('packages')/n) for n in names],'--clobber'],check=True)
+              release=json.loads(gh('release','view','v1.0.3','--json','assets,body'))
+              asset=next(a for a in release['assets'] if a['name']==names[0])
+              assert asset['digest']=='sha256:'+hashlib.sha256((Path('packages')/names[0]).read_bytes()).hexdigest()
+          status='Apple 芯片版已通过原生 Cocoa、DMG 挂载和 ZIP 解压检查，并已发布。下载 `SchwiPet-1.0.3-macOS-arm64.dmg`。'
+          marker=r'<!-- mac-arm64-status -->.*?<!-- /mac-arm64-status -->'
+          block='<!-- mac-arm64-status -->\n'+status+'\n<!-- /mac-arm64-status -->'
+          body=release['body']
+          body=re.sub(marker,block,body,flags=re.S) if re.search(marker,body,re.S) else body+'\n\n'+block+'\n'
+          Path('release-notes.md').write_text(body,encoding='utf-8')
+          subprocess.run(['gh','release','edit','v1.0.3','--notes-file','release-notes.md'],check=True)
+          PY
