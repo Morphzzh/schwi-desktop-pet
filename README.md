@@ -2,7 +2,11 @@
 
 ## 安装与启动
 
+从 [Releases 下载安装包](https://github.com/Morphzzh/schwi-desktop-pet/releases/latest)。Windows 选择 `Windows-x64.msi`；Mac 按芯片类型选择对应的 DMG。
+
 Windows 64 位系统推荐使用 MSI：双击安装包，按向导完成安装，再从桌面或开始菜单打开“休比桌宠”。可在 Windows“设置 → 应用 → 已安装的应用”中卸载，个人设置会保留。
+
+更新时直接运行新版 MSI，按向导覆盖安装即可，无需手动卸载；个人设置会保留。
 
 也可使用免安装 ZIP：完整解压后双击 `SchwiPet.exe`，请保留旁边的 `_internal` 文件夹。无需安装 Python、登录或联网。Mac 用户请阅读 [macOS 使用说明](README-macOS.md)。
 

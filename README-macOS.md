@@ -2,9 +2,13 @@
 
 ## 安装与启动
 
+从 [Releases 下载安装包](https://github.com/Morphzzh/schwi-desktop-pet/releases/latest)。
+
 Apple 芯片 Mac 选择 `arm64` 包，Intel Mac 选择 `x86_64` 包。需要 macOS 14.4 或更新版本。
 
 打开 DMG，将 `SchwiPet.app` 拖到 `Applications`，再从“应用程序”打开。也可解压 ZIP 后移动应用。无需安装 Python、登录或联网。
+
+更新时先退出休比，再将新版应用拖入“应用程序”并选择替换，个人设置会保留。
 
 应用没有 Apple Developer ID 签名或公证，首次打开可能被系统拦截。如果信任本软件，可按 [Apple 的操作说明](https://support.apple.com/zh-cn/guide/mac-help/mh40616/mac)，在系统设置中为这个应用选择“仍要打开”。
 
