@@ -24,18 +24,28 @@ def main():
     subprocess.run(['/usr/bin/codesign', '--verify', '--deep', '--strict', str(app)], check=True)
     arches = subprocess.check_output(['/usr/bin/lipo', '-archs', str(binary)], text=True).strip()
     assert platform.machine() in arches.split(), arches
+    process = subprocess.Popen([str(binary), '--self-test', str(output / 'gui'),
+                                '--data-dir', str(output / 'gui-settings')], env=env,
+                               stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True)
     try:
-        result = subprocess.run([str(binary), '--self-test', str(output / 'gui'),
-                                 '--data-dir', str(output / 'gui-settings')], env=env, timeout=120,
-                                stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True)
-    except subprocess.TimeoutExpired as exc:
-        log=exc.stdout or ''
-        if isinstance(log,bytes):
-            log=log.decode('utf-8',errors='replace')
-        (output / 'gui-process.log').write_text(log+'\nSelf-test timed out after 120 seconds.\n',encoding='utf-8')
+        try:
+            log,_ = process.communicate(timeout=55)
+        except subprocess.TimeoutExpired:
+            sample=subprocess.run(['/usr/bin/sample',str(process.pid),'3','-file',str(output/'native-stack.txt')],
+                                  stdout=subprocess.PIPE,stderr=subprocess.STDOUT,text=True,timeout=12)
+            (output/'sample-process.log').write_text(sample.stdout,encoding='utf-8')
+            try:
+                subprocess.run(['/usr/sbin/screencapture','-x',str(output/'desktop.png')],
+                               stdout=subprocess.PIPE,stderr=subprocess.STDOUT,timeout=8)
+            except subprocess.TimeoutExpired:pass
+            log,_ = process.communicate(timeout=55)
+    except subprocess.TimeoutExpired:
+        process.kill()
+        log,_=process.communicate()
+        (output/'gui-process.log').write_text(log+'\nSelf-test timed out.\n',encoding='utf-8')
         raise
-    (output / 'gui-process.log').write_text(result.stdout, encoding='utf-8')
-    assert result.returncode == 0, result.stdout
+    (output / 'gui-process.log').write_text(log, encoding='utf-8')
+    assert process.returncode == 0, log
     gui = json.loads((output / 'gui' / 'smoke-test.json').read_text(encoding='utf-8'))
     assert gui['ok'] and gui['qt_platform'] == 'cocoa' and gui['platform'] == 'darwin'
     runner = Path(__file__).parent / 'tests' / 'check_packaged.py'

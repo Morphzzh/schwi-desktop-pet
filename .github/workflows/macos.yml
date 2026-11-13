@@ -2,6 +2,12 @@ name: Build and test macOS desktop pet
 
 on:
   workflow_dispatch:
+    inputs:
+      architecture:
+        description: Architectures to build
+        type: choice
+        default: both
+        options: [both, arm64, x86_64]
 
 permissions:
   contents: read
@@ -12,11 +18,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        include:
-          - runner: macos-26
-            arch: arm64
-          - runner: macos-26-intel
-            arch: x86_64
+        include: ${{ fromJSON(inputs.architecture == 'x86_64' && '[{"runner":"macos-26-intel","arch":"x86_64"}]' || inputs.architecture == 'arm64' && '[{"runner":"macos-26","arch":"arm64"}]' || '[{"runner":"macos-26","arch":"arm64"},{"runner":"macos-26-intel","arch":"x86_64"}]') }}
     runs-on: ${{ matrix.runner }}
     timeout-minutes: 20
     steps:
