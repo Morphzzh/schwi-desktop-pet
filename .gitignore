@@ -3,6 +3,7 @@ __pycache__/
 .venv/
 build/
 build-macos/
+build-msi/
 dist/
 dist-macos/
 qa*/

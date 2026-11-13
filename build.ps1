@@ -19,6 +19,7 @@ try {
     & $pythonExecutable collect_notices.py dist\SchwiPet
     if ($LASTEXITCODE -ne 0) { throw 'Dependency notices could not be collected.' }
     Copy-Item -LiteralPath README.md -Destination dist\SchwiPet\README.md -Force
+    Copy-Item -LiteralPath README-macOS.md -Destination dist\SchwiPet\README-macOS.md -Force
     Write-Output "Built: $PSScriptRoot\dist\SchwiPet\SchwiPet.exe"
 } finally {
     $env:PATH = $previousBuildPath

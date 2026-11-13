@@ -4,13 +4,14 @@ import json
 from pathlib import Path
 import shutil
 import zipfile
+from platform_support import APP_VERSION
 
 root = Path(__file__).resolve().parent
 outputs = root.parent / 'outputs'
 app = outputs / '休比桌宠'
 shutil.copytree(root / 'dist' / 'SchwiPet', app, dirs_exist_ok=True)
 (app / '使用说明.txt').write_text(
-    '休比桌宠 1.0.0\n\n'
+    f'休比桌宠 {APP_VERSION}\n\n'
     '双击 SchwiPet.exe 开始。请保留 _internal 文件夹。\n'
     '无需安装 Python，无需联网或登录。\n\n'
     '单击：随机表情或动作。\n双击：跳一下。\n按住左键：拖动。\n'
@@ -36,7 +37,7 @@ reports.append(archive(outputs / '休比桌宠-Windows-x64.zip',
 source_files = []
 for p in sorted(root.rglob('*')):
     rel = p.relative_to(root)
-    if p.is_file() and not set(rel.parts).intersection({'.git', 'build', 'dist', 'build-macos', 'dist-macos', 'qa-macos', 'qa-macos-extracted', 'extract-check', '__pycache__'}) and p.suffix != '.pyc':
+    if p.is_file() and not set(rel.parts).intersection({'.git', 'build', 'dist', 'build-msi', 'build-macos', 'dist-macos', 'qa-macos', 'qa-macos-extracted', 'qa-macos-dmg', 'extract-check', '__pycache__'}) and p.suffix != '.pyc':
         source_files.append((p, str(Path('休比桌宠-源码') / rel)))
 reports.append(archive(outputs / '休比桌宠-源码.zip', source_files))
 qa = outputs / '休比桌宠-验证'
