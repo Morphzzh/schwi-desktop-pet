@@ -6,7 +6,7 @@
 - Intel Mac：选择 `x86_64` 包。
 - 当前依赖要求 macOS 14.4 或更新版本。程序不支持在 iPhone 或 iPad 上运行。
 
-解压 ZIP，将 `SchwiPet.app` 拖到“应用程序”，然后打开。程序包含 Python 和所需素材，正常使用不需要安装开发工具或联网。
+推荐打开 DMG，将 `SchwiPet.app` 拖到旁边的 `Applications` 文件夹，再从“应用程序”打开。也可解压 ZIP 后自行移动应用。程序包含 Python 和所需素材，正常使用不需要安装开发工具或联网。卸载时退出桌宠，再将应用移到废纸篓即可；个人设置会保留。
 
 单击休比会随机播放害羞、开心、惊讶、挥手、跳跃或期待。双击跳跃，按住拖动，右键（触控板双指点按）打开菜单。
 
@@ -21,7 +21,7 @@ https://support.apple.com/zh-cn/guide/mac-help/mh40616/mac
 
 ## 不持有 Mac 时如何构建
 
-仓库中的 `.github/workflows/macos.yml` 使用 GitHub 托管的 macOS 15 运行器，分别构建 Apple 芯片和 Intel 版本。进入仓库的 Actions，选择 `Build and test macOS desktop pet`，点击 `Run workflow`。完成后下载对应的 `SchwiPet-macOS-*` artifact；里面的 ZIP 才是实际分发包，应保留它的目录结构。
+仓库中的 `.github/workflows/macos.yml` 使用 GitHub 托管的 macOS 运行器，分别构建 Apple 芯片和 Intel 版本。进入仓库的 Actions，选择 `Build and test macOS desktop pet`，点击 `Run workflow`。完成后下载对应的 `SchwiPet-macOS-*` artifact；里面的 ZIP 才是实际分发包，应保留它的目录结构。
 
 工作流仅手动触发，不在每次提交时自动运行。私有仓库使用账号的 Actions 配额；本项目不会更改计费设置或公开仓库。
 

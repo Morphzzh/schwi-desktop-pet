@@ -34,9 +34,9 @@ def run_smoke_test(pet, output: Path):
         checks.append('transparent sprite corners')
         pet.grab().save(str(output/'window-idle.png'))
         point=QPoint(pet.width()//2,pet.height()//2)
-        for _ in range(7):
+        for index in range(7):
             QTest.mouseClick(pet,Qt.MouseButton.LeftButton,Qt.KeyboardModifier.NoModifier,point)
-            QTest.qWait(QApplication.doubleClickInterval()+70)
+            wait_until(lambda: len(pet.click_history)==index+1)
         assert len(pet.click_history)==7
         assert len(set(pet.click_history[:6]))==6
         assert all(a!=b for a,b in zip(pet.click_history,pet.click_history[1:]))

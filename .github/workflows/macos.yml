@@ -38,7 +38,7 @@ jobs:
         run: python build_macos.py
       - name: Test the app using Cocoa
         run: python verify_macos.py
-      - name: Package application preserving macOS metadata
+      - name: Package ZIP and DMG and test mounted DMG
         run: python package_macos.py
       - name: Check launch after extracting the ZIP
         run: |
@@ -51,6 +51,7 @@ jobs:
           name: SchwiPet-macOS-${{ matrix.arch }}
           path: |
             dist-macos/*.zip
+            dist-macos/*.dmg
             dist-macos/*.sha256
             dist-macos/build-info.json
           compression-level: 0
@@ -64,6 +65,7 @@ jobs:
           path: |
             qa-macos/
             qa-macos-extracted/
+            qa-macos-dmg/
             build-macos/**/warn-*.txt
           if-no-files-found: warn
           retention-days: 30

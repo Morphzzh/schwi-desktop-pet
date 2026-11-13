@@ -30,3 +30,24 @@ subprocess.run(['/usr/bin/ditto', '-c', '-k', '--sequesterRsrc', '--keepParent',
 digest = hashlib.sha256(archive.read_bytes()).hexdigest()
 (archive.with_suffix('.sha256')).write_text(f'{digest}  {archive.name}\n', encoding='utf-8')
 print(archive)
+
+dmg_stage = dist / f'dmg-stage-{arch}'
+dmg_stage.mkdir(exist_ok=True)
+subprocess.run(['/usr/bin/ditto', str(app), str(dmg_stage / 'SchwiPet.app')], check=True)
+(dmg_stage / 'Applications').symlink_to('/Applications', target_is_directory=True)
+shutil.copy2(root / 'README-macOS.md', dmg_stage / '使用说明.md')
+dmg = dist / f'SchwiPet-{APP_VERSION}-macOS-{arch}.dmg'
+subprocess.run(['/usr/bin/hdiutil', 'create', '-volname', '休比桌宠', '-srcfolder', str(dmg_stage),
+                '-format', 'UDZO', '-fs', 'HFS+', str(dmg)], check=True)
+subprocess.run(['/usr/bin/hdiutil', 'verify', str(dmg)], check=True)
+digest = hashlib.sha256(dmg.read_bytes()).hexdigest()
+dmg.with_suffix('.dmg.sha256').write_text(f'{digest}  {dmg.name}\n', encoding='utf-8')
+mount = dist / 'dmg-test-mount'
+mount.mkdir(exist_ok=True)
+subprocess.run(['/usr/bin/hdiutil', 'attach', '-readonly', '-nobrowse', '-mountpoint', str(mount), str(dmg)], check=True)
+try:
+    subprocess.run([sys.executable, str(root / 'verify_macos.py'), '--app', str(mount / 'SchwiPet.app'),
+                    '--output', str(root / 'qa-macos-dmg')], check=True)
+finally:
+    subprocess.run(['/usr/bin/hdiutil', 'detach', str(mount)], check=True)
+print(dmg)
