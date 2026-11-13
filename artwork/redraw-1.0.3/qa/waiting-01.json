@@ -1,0 +1,19 @@
+{
+  "state": "waiting",
+  "index": 1,
+  "raw": "raw\\waiting-01.png",
+  "candidate": "candidates/waiting-01.png",
+  "status": "accepted",
+  "alpha_unchanged": true,
+  "size": [
+    1205,
+    1306
+  ],
+  "bounds": [
+    185,
+    33,
+    1015,
+    1270
+  ],
+  "visual_review": "Hopeful pose has two complete fists and wrists, bright eyes without skin bleaching, intact curls and full shoes; master colors continuous."
+}

@@ -1,0 +1,19 @@
+{
+  "state": "excited",
+  "index": 2,
+  "raw": "raw\\excited-02.png",
+  "candidate": "candidates/excited-02.png",
+  "status": "accepted",
+  "alpha_unchanged": true,
+  "size": [
+    1205,
+    1306
+  ],
+  "bounds": [
+    136,
+    33,
+    1068,
+    1269
+  ],
+  "visual_review": "Sewn roots unchanged, independent cloth flap bends visible and pointed ends retained; continuous hair/feet, coherent hands and fixed plum palette."
+}

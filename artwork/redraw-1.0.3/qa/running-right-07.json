@@ -1,0 +1,19 @@
+{
+  "state": "running-right",
+  "index": 7,
+  "raw": "raw/running-right-07.png",
+  "candidate": "candidates/running-right-07.png",
+  "status": "accepted",
+  "alpha_unchanged": true,
+  "size": [
+    1205,
+    1306
+  ],
+  "bounds": [
+    202,
+    239,
+    947,
+    1217
+  ],
+  "visual_review": "Whole figure and limbs pass visual review; this open stride belongs at up/extension phase 7, not compact passing phase 6. Assigned as whole frame, no body splicing."
+}

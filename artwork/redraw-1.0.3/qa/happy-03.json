@@ -1,0 +1,19 @@
+{
+  "state": "happy",
+  "index": 3,
+  "raw": "raw\\happy-03.png",
+  "candidate": "candidates/happy-03.png",
+  "status": "accepted",
+  "alpha_unchanged": true,
+  "size": [
+    1205,
+    1306
+  ],
+  "bounds": [
+    184,
+    33,
+    1020,
+    1270
+  ],
+  "visual_review": "Closed smiling eyes and natural warm face; both fists connected to sleeves; shoes retain full plum vamp and distinct collar; all hair continuous."
+}

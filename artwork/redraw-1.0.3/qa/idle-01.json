@@ -1,0 +1,19 @@
+{
+  "state": "idle",
+  "index": 1,
+  "raw": "raw\\idle-01.png",
+  "candidate": "candidates/idle-01.png",
+  "status": "accepted",
+  "alpha_unchanged": true,
+  "size": [
+    1205,
+    1306
+  ],
+  "bounds": [
+    185,
+    32,
+    1016,
+    1270
+  ],
+  "visual_review": "Reviewed full figure and enlarged hands/legs: continuous ankles and calf socks, complete fingers, attached hood, smooth fills, plum palette, no visible matte or ghosting."
+}

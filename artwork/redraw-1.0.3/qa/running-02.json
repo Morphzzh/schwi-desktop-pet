@@ -1,0 +1,19 @@
+{
+  "state": "running",
+  "index": 2,
+  "raw": "raw\\running-02.png",
+  "candidate": "candidates/running-02.png",
+  "status": "accepted",
+  "alpha_unchanged": true,
+  "size": [
+    1205,
+    1306
+  ],
+  "bounds": [
+    178,
+    32,
+    1002,
+    1269
+  ],
+  "visual_review": "Index along cheek with curled remaining fingers, naturally attached wrist, no hand-face fusion; complete hair/legs and fixed palette."
+}

@@ -1,0 +1,19 @@
+{
+  "state": "idle",
+  "index": 3,
+  "raw": "raw\\idle-03.png",
+  "candidate": "candidates/idle-03.png",
+  "status": "accepted",
+  "alpha_unchanged": true,
+  "size": [
+    1205,
+    1306
+  ],
+  "bounds": [
+    186,
+    33,
+    1016,
+    1269
+  ],
+  "visual_review": "Closed blink verified at full scale and in hand/leg crops; continuous limb silhouettes, five-digit hands, even warm skin and plum fills, no white islands."
+}

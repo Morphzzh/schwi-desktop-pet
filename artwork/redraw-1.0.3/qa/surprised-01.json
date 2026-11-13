@@ -1,0 +1,19 @@
+{
+  "state": "surprised",
+  "index": 1,
+  "raw": "raw\\surprised-01.png",
+  "candidate": "candidates/surprised-01.png",
+  "status": "accepted",
+  "alpha_unchanged": true,
+  "size": [
+    1205,
+    1306
+  ],
+  "bounds": [
+    184,
+    34,
+    1017,
+    1268
+  ],
+  "visual_review": "Mild surprise warm face, softly curled hands correctly attached, complete thin legs and distinct sock/shoe lines; even fixed colors."
+}

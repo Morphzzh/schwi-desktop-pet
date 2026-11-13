@@ -1,0 +1,19 @@
+{
+  "state": "running-right",
+  "index": 2,
+  "raw": "raw\\running-right-02.png",
+  "candidate": "candidates/running-right-02.png",
+  "status": "accepted",
+  "alpha_unchanged": true,
+  "size": [
+    1205,
+    1306
+  ],
+  "bounds": [
+    205,
+    236,
+    940,
+    1224
+  ],
+  "visual_review": "Passing stride verified: arms now cross low at hip rather than remaining forward, front knee raised and rear push-off leg continuous, complete fists, independent ear, no shoe gaps or color islands."
+}

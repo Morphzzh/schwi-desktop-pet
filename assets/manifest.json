@@ -11,56 +11,56 @@
   "frames": 119,
   "files": {
     "schwi.png": {
-      "sha256": "06aa96d25e35d51c36a03bd117f4e58679d56f56760659933e419959ebfae3a9",
+      "sha256": "30fb0d64b72622c6824f71b579d98ef1b4337b8d385e1901373629a421cc330a",
       "size": [
         4608,
         6864
       ]
     },
     "shy.png": {
-      "sha256": "8a1d469d7207d172284b2ed6e14d5af06985d2f6a4fe86adf5f329815cfa51e5",
+      "sha256": "bbdf933b549241ad058dd9e40aa490494c8adb60aab7219491ba384d55bdf025",
       "size": [
         4608,
         624
       ]
     },
     "happy.png": {
-      "sha256": "81651a56e1687c15dad88f4d45bbb9592678706ae316c0220d4a87b5fe4c3b1e",
+      "sha256": "29ab6603419ebca4fcbab175008cba561fd90edddb0a8bac3a3fcdab18214475",
       "size": [
         4608,
         624
       ]
     },
     "surprised.png": {
-      "sha256": "4a84dddf618a5b35296983eda5a5d4f3e90612ba32334ac7df73a0264d591c04",
+      "sha256": "d99991e71170869d7ee5e69af6927a1b60fc1d0aba1ea7401a5b3761895ed4ff",
       "size": [
         4608,
         624
       ]
     },
     "excited.png": {
-      "sha256": "e3c9f669e22afb18883fe158641382bae38b53cccdc3e53e34d495a1d43101b2",
+      "sha256": "4c74a5337af1fe6654b71e8cd5ca1092d7094b6adfe3bae574b37d1c0235a989",
       "size": [
         4608,
         624
       ]
     },
     "sleepy.png": {
-      "sha256": "cfbb427ff311165c1ebed3be324b9d5cc540950a000069aa511ee6180e419031",
+      "sha256": "0951e1651430993873a813ef8f1622bd9b1588d022d1fb02ad7ee415c7aa125a",
       "size": [
         4608,
         624
       ]
     },
     "schwi-portrait.png": {
-      "sha256": "8a9fd3ee9339e4bcc66484b155936c1ffcccefe605f4525fff1e2ada44324e83",
+      "sha256": "12fbedead6e31c94990fb1914749112d854ec2dd36270f2141eab4f845553a3b",
       "size": [
         880,
         880
       ]
     },
     "schwi.ico": {
-      "sha256": "59a6c566181ac1d1caf0b7a22daa24494a5f6e0402185e7a6a0f532258017a9b",
+      "sha256": "de5366af8d370e2cf2552a2bab97b1c1c405a428b1bce34550b38dc9e1587981",
       "size": [
         256,
         256
@@ -68,5 +68,7 @@
     }
   },
   "running_left": "horizontal reflection of right cycle; same phase",
-  "left_upper_gaze": "right gaze indices 4,3,2,1 reflected per frame"
+  "left_upper_gaze": "right gaze indices 4,3,2,1 reflected per frame",
+  "left_lower_gaze": "right gaze indices 7,6,5 reflected per frame",
+  "artwork": "complete redraw from a fixed master; whole-frame scaling and reflection only"
 }

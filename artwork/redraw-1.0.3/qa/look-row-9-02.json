@@ -1,0 +1,19 @@
+{
+  "state": "look-row-9",
+  "index": 2,
+  "raw": "raw\\look-row-9-02.png",
+  "candidate": "candidates/look-row-9-02.png",
+  "status": "accepted",
+  "alpha_unchanged": true,
+  "size": [
+    1205,
+    1306
+  ],
+  "bounds": [
+    200,
+    25,
+    1002,
+    1270
+  ],
+  "visual_review": "Diagonal upper-right gaze readable; intact independent ear flaps and curls, natural neck; warm smooth face, complete hands and plum shoes."
+}

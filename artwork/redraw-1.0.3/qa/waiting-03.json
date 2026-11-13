@@ -1,0 +1,19 @@
+{
+  "state": "waiting",
+  "index": 3,
+  "raw": "raw\\waiting-03.png",
+  "candidate": "candidates/waiting-03.png",
+  "status": "accepted",
+  "alpha_unchanged": true,
+  "size": [
+    1205,
+    1306
+  ],
+  "bounds": [
+    195,
+    33,
+    1015,
+    1269
+  ],
+  "visual_review": "Tilt keeps head/hood/neck attached, separate ears with pointed ends; five-digit cupped hands and complete feet; smooth warm skin and plum palette."
+}

@@ -1,0 +1,19 @@
+{
+  "state": "waving",
+  "index": 2,
+  "raw": "raw\\waving-02.png",
+  "candidate": "candidates/waving-02.png",
+  "status": "accepted",
+  "alpha_unchanged": true,
+  "size": [
+    1205,
+    1306
+  ],
+  "bounds": [
+    184,
+    33,
+    1018,
+    1269
+  ],
+  "visual_review": "Upright palm has four fingers and thumb with correct webbing, coherent sleeve; head/hair silhouette and connected feet retained; even peach skin and plum fills."
+}

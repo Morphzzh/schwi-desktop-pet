@@ -1,0 +1,19 @@
+{
+  "state": "sleepy",
+  "index": 2,
+  "raw": "raw\\sleepy-02.png",
+  "candidate": "candidates/sleepy-02.png",
+  "status": "accepted",
+  "alpha_unchanged": true,
+  "size": [
+    1205,
+    1306
+  ],
+  "bounds": [
+    194,
+    34,
+    1008,
+    1268
+  ],
+  "visual_review": "Closed sleepy eyes and gentle forward nod with intact roots; coherent hands, legs and shoe collars; even warm skin and correct plum materials."
+}

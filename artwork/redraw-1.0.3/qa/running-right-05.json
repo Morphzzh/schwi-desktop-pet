@@ -1,0 +1,19 @@
+{
+  "state": "running-right",
+  "index": 5,
+  "raw": "raw\\running-right-05.png",
+  "candidate": "candidates/running-right-05.png",
+  "status": "accepted",
+  "alpha_unchanged": true,
+  "size": [
+    1205,
+    1306
+  ],
+  "bounds": [
+    207,
+    235,
+    946,
+    1242
+  ],
+  "visual_review": "Opposite landing/compression pose verified: near arm forward, far arm back; lifted rear foot and planted front foot both continuous through calf socks and closed shoes, no white fill defects."
+}

@@ -1,0 +1,19 @@
+{
+  "state": "waving",
+  "index": 3,
+  "raw": "raw\\waving-03.png",
+  "candidate": "candidates/waving-03.png",
+  "status": "accepted",
+  "alpha_unchanged": true,
+  "size": [
+    1205,
+    1306
+  ],
+  "bounds": [
+    184,
+    33,
+    1019,
+    1269
+  ],
+  "visual_review": "Wave endpoint: five fingers clearly visible, other hand coherent, closed eyes on continuous warm face, complete hair and feet. Palette matches reference."
+}

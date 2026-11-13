@@ -1,0 +1,19 @@
+{
+  "state": "review",
+  "index": 1,
+  "raw": "raw\\review-01.png",
+  "candidate": "candidates/review-01.png",
+  "status": "accepted",
+  "alpha_unchanged": true,
+  "size": [
+    1205,
+    1306
+  ],
+  "bounds": [
+    202,
+    32,
+    996,
+    1269
+  ],
+  "visual_review": "Three-quarter right head keeps independent pointed ears with peach crown, natural neck and continuous roots/curls; hands/feet complete and palette stable."
+}

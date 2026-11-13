@@ -1,0 +1,818 @@
+{
+  "request": "Redraw all art from scratch; inspect every image before continuing; redraw defects; lock v1 colors and smooth fills.",
+  "master": "master.png",
+  "palette_reference": "../release-1.0.3/palette-reference-v1.png",
+  "shape_reference": "../release-1.0.3/canonical.png",
+  "frame_count": 119,
+  "frames": [
+    {
+      "state": "idle",
+      "index": 0,
+      "status": "accepted",
+      "source": "master.png"
+    },
+    {
+      "state": "idle",
+      "index": 1,
+      "status": "accepted",
+      "review": "qa/idle-01.json"
+    },
+    {
+      "state": "idle",
+      "index": 2,
+      "status": "accepted",
+      "review": "qa/idle-02.json"
+    },
+    {
+      "state": "idle",
+      "index": 3,
+      "status": "accepted",
+      "review": "qa/idle-03.json"
+    },
+    {
+      "state": "idle",
+      "index": 4,
+      "status": "accepted",
+      "source": "accepted/idle/02.png",
+      "review": "Exact repeat of visually reviewed newly drawn blink/neutral pose for a seamless loop; no old artwork."
+    },
+    {
+      "state": "idle",
+      "index": 5,
+      "status": "accepted",
+      "source": "master.png",
+      "review": "Exact repeat of visually reviewed newly drawn blink/neutral pose for a seamless loop; no old artwork."
+    },
+    {
+      "state": "running-right",
+      "index": 0,
+      "status": "accepted",
+      "review": "qa/running-right-00.json"
+    },
+    {
+      "state": "running-right",
+      "index": 1,
+      "status": "accepted",
+      "review": "qa/running-right-01.json"
+    },
+    {
+      "state": "running-right",
+      "index": 2,
+      "status": "accepted",
+      "review": "qa/running-right-02.json"
+    },
+    {
+      "state": "running-right",
+      "index": 3,
+      "status": "accepted",
+      "review": "qa/running-right-03.json"
+    },
+    {
+      "state": "running-right",
+      "index": 4,
+      "status": "accepted",
+      "review": "qa/running-right-04.json"
+    },
+    {
+      "state": "running-right",
+      "index": 5,
+      "status": "accepted",
+      "review": "qa/running-right-05.json"
+    },
+    {
+      "state": "running-right",
+      "index": 6,
+      "status": "accepted",
+      "review": "qa/running-right-06.json"
+    },
+    {
+      "state": "running-right",
+      "index": 7,
+      "status": "accepted",
+      "review": "qa/running-right-07.json"
+    },
+    {
+      "state": "running-left",
+      "index": 0,
+      "status": "accepted",
+      "source": "accepted\\running-right\\00.png",
+      "transform": "horizontal whole-frame reflection",
+      "sequence_review": "sequence-review.json"
+    },
+    {
+      "state": "running-left",
+      "index": 1,
+      "status": "accepted",
+      "source": "accepted\\running-right\\01.png",
+      "transform": "horizontal whole-frame reflection",
+      "sequence_review": "sequence-review.json"
+    },
+    {
+      "state": "running-left",
+      "index": 2,
+      "status": "accepted",
+      "source": "accepted\\running-right\\02.png",
+      "transform": "horizontal whole-frame reflection",
+      "sequence_review": "sequence-review.json"
+    },
+    {
+      "state": "running-left",
+      "index": 3,
+      "status": "accepted",
+      "source": "accepted\\running-right\\03.png",
+      "transform": "horizontal whole-frame reflection",
+      "sequence_review": "sequence-review.json"
+    },
+    {
+      "state": "running-left",
+      "index": 4,
+      "status": "accepted",
+      "source": "accepted\\running-right\\04.png",
+      "transform": "horizontal whole-frame reflection",
+      "sequence_review": "sequence-review.json"
+    },
+    {
+      "state": "running-left",
+      "index": 5,
+      "status": "accepted",
+      "source": "accepted\\running-right\\05.png",
+      "transform": "horizontal whole-frame reflection",
+      "sequence_review": "sequence-review.json"
+    },
+    {
+      "state": "running-left",
+      "index": 6,
+      "status": "accepted",
+      "source": "accepted\\running-right\\06.png",
+      "transform": "horizontal whole-frame reflection",
+      "sequence_review": "sequence-review.json"
+    },
+    {
+      "state": "running-left",
+      "index": 7,
+      "status": "accepted",
+      "source": "accepted\\running-right\\07.png",
+      "transform": "horizontal whole-frame reflection",
+      "sequence_review": "sequence-review.json"
+    },
+    {
+      "state": "waving",
+      "index": 0,
+      "status": "accepted",
+      "source": "master.png",
+      "review": "Exact whole-frame repeat of visually reviewed new drawing for hold or reverse transition; no old art or parts replacement."
+    },
+    {
+      "state": "waving",
+      "index": 1,
+      "status": "accepted",
+      "review": "qa/waving-01.json"
+    },
+    {
+      "state": "waving",
+      "index": 2,
+      "status": "accepted",
+      "review": "qa/waving-02.json"
+    },
+    {
+      "state": "waving",
+      "index": 3,
+      "status": "accepted",
+      "review": "qa/waving-03.json"
+    },
+    {
+      "state": "waving",
+      "index": 4,
+      "status": "accepted",
+      "source": "accepted/waving/01.png",
+      "review": "Exact whole-frame repeat of visually reviewed new drawing for hold or reverse transition; no old art or parts replacement."
+    },
+    {
+      "state": "waving",
+      "index": 5,
+      "status": "accepted",
+      "source": "master.png",
+      "review": "Exact whole-frame repeat of visually reviewed new drawing for hold or reverse transition; no old art or parts replacement."
+    },
+    {
+      "state": "jumping",
+      "index": 0,
+      "status": "accepted",
+      "source": "master.png",
+      "review": "Exact whole-frame repeat of visually reviewed new drawing for hold or reverse transition; no old art or parts replacement."
+    },
+    {
+      "state": "jumping",
+      "index": 1,
+      "status": "accepted",
+      "review": "qa/jumping-01.json"
+    },
+    {
+      "state": "jumping",
+      "index": 2,
+      "status": "accepted",
+      "review": "qa/jumping-02.json"
+    },
+    {
+      "state": "jumping",
+      "index": 3,
+      "status": "accepted",
+      "review": "qa/jumping-03.json"
+    },
+    {
+      "state": "jumping",
+      "index": 4,
+      "status": "accepted",
+      "source": "accepted/jumping/02.png",
+      "review": "Exact whole-frame repeat of visually reviewed new drawing for hold or reverse transition; no old art or parts replacement."
+    },
+    {
+      "state": "jumping",
+      "index": 5,
+      "status": "accepted",
+      "source": "accepted/jumping/01.png",
+      "review": "Exact whole-frame repeat of visually reviewed new drawing for hold or reverse transition; no old art or parts replacement."
+    },
+    {
+      "state": "jumping",
+      "index": 6,
+      "status": "accepted",
+      "source": "master.png",
+      "review": "Exact whole-frame repeat of visually reviewed new drawing for hold or reverse transition; no old art or parts replacement."
+    },
+    {
+      "state": "failed",
+      "index": 0,
+      "status": "accepted",
+      "source": "master.png",
+      "review": "Exact whole-frame repeat of visually reviewed new drawing for hold or reverse transition; no old art or parts replacement."
+    },
+    {
+      "state": "failed",
+      "index": 1,
+      "status": "accepted",
+      "review": "qa/failed-01.json"
+    },
+    {
+      "state": "failed",
+      "index": 2,
+      "status": "accepted",
+      "review": "qa/failed-02.json"
+    },
+    {
+      "state": "failed",
+      "index": 3,
+      "status": "accepted",
+      "review": "qa/failed-03.json"
+    },
+    {
+      "state": "failed",
+      "index": 4,
+      "status": "accepted",
+      "source": "accepted/failed/03.png",
+      "review": "Exact whole-frame repeat of visually reviewed new drawing for hold or reverse transition; no old art or parts replacement."
+    },
+    {
+      "state": "failed",
+      "index": 5,
+      "status": "accepted",
+      "source": "accepted/failed/02.png",
+      "review": "Exact whole-frame repeat of visually reviewed new drawing for hold or reverse transition; no old art or parts replacement."
+    },
+    {
+      "state": "failed",
+      "index": 6,
+      "status": "accepted",
+      "source": "accepted/failed/01.png",
+      "review": "Exact whole-frame repeat of visually reviewed new drawing for hold or reverse transition; no old art or parts replacement."
+    },
+    {
+      "state": "failed",
+      "index": 7,
+      "status": "accepted",
+      "source": "master.png",
+      "review": "Exact whole-frame repeat of visually reviewed new drawing for hold or reverse transition; no old art or parts replacement."
+    },
+    {
+      "state": "waiting",
+      "index": 0,
+      "status": "accepted",
+      "source": "master.png",
+      "review": "Exact whole-frame repeat of visually reviewed new drawing for hold or reverse transition; no old art or parts replacement."
+    },
+    {
+      "state": "waiting",
+      "index": 1,
+      "status": "accepted",
+      "review": "qa/waiting-01.json"
+    },
+    {
+      "state": "waiting",
+      "index": 2,
+      "status": "accepted",
+      "review": "qa/waiting-02.json"
+    },
+    {
+      "state": "waiting",
+      "index": 3,
+      "status": "accepted",
+      "review": "qa/waiting-03.json"
+    },
+    {
+      "state": "waiting",
+      "index": 4,
+      "status": "accepted",
+      "source": "accepted/waiting/03.png",
+      "review": "Exact whole-frame repeat of visually reviewed new drawing for hold or reverse transition; no old art or parts replacement."
+    },
+    {
+      "state": "waiting",
+      "index": 5,
+      "status": "accepted",
+      "source": "accepted/waiting/02.png",
+      "review": "Exact whole-frame repeat of visually reviewed new drawing for hold or reverse transition; no old art or parts replacement."
+    },
+    {
+      "state": "waiting",
+      "index": 6,
+      "status": "accepted",
+      "source": "accepted/waiting/01.png",
+      "review": "Exact whole-frame repeat of visually reviewed new drawing for hold or reverse transition; no old art or parts replacement."
+    },
+    {
+      "state": "waiting",
+      "index": 7,
+      "status": "accepted",
+      "source": "master.png",
+      "review": "Exact whole-frame repeat of visually reviewed new drawing for hold or reverse transition; no old art or parts replacement."
+    },
+    {
+      "state": "running",
+      "index": 0,
+      "status": "accepted",
+      "source": "master.png",
+      "review": "Exact whole-frame repeat of visually reviewed new drawing for hold or reverse transition; no old art or parts replacement."
+    },
+    {
+      "state": "running",
+      "index": 1,
+      "status": "accepted",
+      "review": "qa/running-01.json"
+    },
+    {
+      "state": "running",
+      "index": 2,
+      "status": "accepted",
+      "review": "qa/running-02.json"
+    },
+    {
+      "state": "running",
+      "index": 3,
+      "status": "accepted",
+      "review": "qa/running-03.json"
+    },
+    {
+      "state": "running",
+      "index": 4,
+      "status": "accepted",
+      "source": "accepted/running/01.png",
+      "review": "Exact whole-frame repeat of visually reviewed new drawing for hold or reverse transition; no old art or parts replacement."
+    },
+    {
+      "state": "running",
+      "index": 5,
+      "status": "accepted",
+      "source": "master.png",
+      "review": "Exact whole-frame repeat of visually reviewed new drawing for hold or reverse transition; no old art or parts replacement."
+    },
+    {
+      "state": "review",
+      "index": 0,
+      "status": "accepted",
+      "source": "master.png",
+      "review": "Exact whole-frame repeat of visually reviewed new drawing for hold or reverse transition; no old art or parts replacement."
+    },
+    {
+      "state": "review",
+      "index": 1,
+      "status": "accepted",
+      "review": "qa/review-01.json"
+    },
+    {
+      "state": "review",
+      "index": 2,
+      "status": "accepted",
+      "review": "qa/review-02.json"
+    },
+    {
+      "state": "review",
+      "index": 3,
+      "status": "accepted",
+      "source": "accepted/review/02.png",
+      "review": "Exact whole-frame repeat of visually reviewed new drawing for hold or reverse transition; no old art or parts replacement."
+    },
+    {
+      "state": "review",
+      "index": 4,
+      "status": "accepted",
+      "source": "accepted/review/01.png",
+      "review": "Exact whole-frame repeat of visually reviewed new drawing for hold or reverse transition; no old art or parts replacement."
+    },
+    {
+      "state": "review",
+      "index": 5,
+      "status": "accepted",
+      "source": "master.png",
+      "review": "Exact whole-frame repeat of visually reviewed new drawing for hold or reverse transition; no old art or parts replacement."
+    },
+    {
+      "state": "shy",
+      "index": 0,
+      "status": "accepted",
+      "source": "master.png",
+      "review": "Exact whole-frame repeat of visually reviewed new drawing for hold or reverse transition; no old art or parts replacement."
+    },
+    {
+      "state": "shy",
+      "index": 1,
+      "status": "accepted",
+      "review": "qa/shy-01.json"
+    },
+    {
+      "state": "shy",
+      "index": 2,
+      "status": "accepted",
+      "review": "qa/shy-02.json"
+    },
+    {
+      "state": "shy",
+      "index": 3,
+      "status": "accepted",
+      "review": "qa/shy-03.json"
+    },
+    {
+      "state": "shy",
+      "index": 4,
+      "status": "accepted",
+      "source": "accepted/shy/03.png",
+      "review": "Exact whole-frame repeat of visually reviewed new drawing for hold or reverse transition; no old art or parts replacement."
+    },
+    {
+      "state": "shy",
+      "index": 5,
+      "status": "accepted",
+      "source": "accepted/shy/02.png",
+      "review": "Exact whole-frame repeat of visually reviewed new drawing for hold or reverse transition; no old art or parts replacement."
+    },
+    {
+      "state": "shy",
+      "index": 6,
+      "status": "accepted",
+      "source": "accepted/shy/01.png",
+      "review": "Exact whole-frame repeat of visually reviewed new drawing for hold or reverse transition; no old art or parts replacement."
+    },
+    {
+      "state": "shy",
+      "index": 7,
+      "status": "accepted",
+      "source": "master.png",
+      "review": "Exact whole-frame repeat of visually reviewed new drawing for hold or reverse transition; no old art or parts replacement."
+    },
+    {
+      "state": "happy",
+      "index": 0,
+      "status": "accepted",
+      "source": "master.png",
+      "review": "Exact whole-frame repeat of visually reviewed new drawing for hold or reverse transition; no old art or parts replacement."
+    },
+    {
+      "state": "happy",
+      "index": 1,
+      "status": "accepted",
+      "review": "qa/happy-01.json"
+    },
+    {
+      "state": "happy",
+      "index": 2,
+      "status": "accepted",
+      "review": "qa/happy-02.json"
+    },
+    {
+      "state": "happy",
+      "index": 3,
+      "status": "accepted",
+      "review": "qa/happy-03.json"
+    },
+    {
+      "state": "happy",
+      "index": 4,
+      "status": "accepted",
+      "source": "accepted/happy/03.png",
+      "review": "Exact whole-frame repeat of visually reviewed new drawing for hold or reverse transition; no old art or parts replacement."
+    },
+    {
+      "state": "happy",
+      "index": 5,
+      "status": "accepted",
+      "source": "accepted/happy/02.png",
+      "review": "Exact whole-frame repeat of visually reviewed new drawing for hold or reverse transition; no old art or parts replacement."
+    },
+    {
+      "state": "happy",
+      "index": 6,
+      "status": "accepted",
+      "source": "accepted/happy/01.png",
+      "review": "Exact whole-frame repeat of visually reviewed new drawing for hold or reverse transition; no old art or parts replacement."
+    },
+    {
+      "state": "happy",
+      "index": 7,
+      "status": "accepted",
+      "source": "master.png",
+      "review": "Exact whole-frame repeat of visually reviewed new drawing for hold or reverse transition; no old art or parts replacement."
+    },
+    {
+      "state": "surprised",
+      "index": 0,
+      "status": "accepted",
+      "source": "master.png",
+      "review": "Exact whole-frame repeat of visually reviewed new drawing for hold or reverse transition; no old art or parts replacement."
+    },
+    {
+      "state": "surprised",
+      "index": 1,
+      "status": "accepted",
+      "review": "qa/surprised-01.json"
+    },
+    {
+      "state": "surprised",
+      "index": 2,
+      "status": "accepted",
+      "review": "qa/surprised-02.json"
+    },
+    {
+      "state": "surprised",
+      "index": 3,
+      "status": "accepted",
+      "review": "qa/surprised-03.json"
+    },
+    {
+      "state": "surprised",
+      "index": 4,
+      "status": "accepted",
+      "source": "accepted/surprised/03.png",
+      "review": "Exact whole-frame repeat of visually reviewed new drawing for hold or reverse transition; no old art or parts replacement."
+    },
+    {
+      "state": "surprised",
+      "index": 5,
+      "status": "accepted",
+      "source": "accepted/surprised/02.png",
+      "review": "Exact whole-frame repeat of visually reviewed new drawing for hold or reverse transition; no old art or parts replacement."
+    },
+    {
+      "state": "surprised",
+      "index": 6,
+      "status": "accepted",
+      "source": "accepted/surprised/01.png",
+      "review": "Exact whole-frame repeat of visually reviewed new drawing for hold or reverse transition; no old art or parts replacement."
+    },
+    {
+      "state": "surprised",
+      "index": 7,
+      "status": "accepted",
+      "source": "master.png",
+      "review": "Exact whole-frame repeat of visually reviewed new drawing for hold or reverse transition; no old art or parts replacement."
+    },
+    {
+      "state": "excited",
+      "index": 0,
+      "status": "accepted",
+      "source": "master.png",
+      "review": "Exact whole-frame repeat of visually reviewed new drawing for hold or reverse transition; no old art or parts replacement."
+    },
+    {
+      "state": "excited",
+      "index": 1,
+      "status": "accepted",
+      "review": "qa/excited-01.json"
+    },
+    {
+      "state": "excited",
+      "index": 2,
+      "status": "accepted",
+      "review": "qa/excited-02.json"
+    },
+    {
+      "state": "excited",
+      "index": 3,
+      "status": "accepted",
+      "review": "qa/excited-03.json"
+    },
+    {
+      "state": "excited",
+      "index": 4,
+      "status": "accepted",
+      "source": "accepted/excited/02.png",
+      "review": "Exact whole-frame repeat of visually reviewed new drawing for hold or reverse transition; no old art or parts replacement."
+    },
+    {
+      "state": "excited",
+      "index": 5,
+      "status": "accepted",
+      "source": "accepted/excited/01.png",
+      "review": "Exact whole-frame repeat of visually reviewed new drawing for hold or reverse transition; no old art or parts replacement."
+    },
+    {
+      "state": "excited",
+      "index": 6,
+      "status": "accepted",
+      "source": "accepted/excited/02.png",
+      "review": "Exact whole-frame repeat of visually reviewed new drawing for hold or reverse transition; no old art or parts replacement."
+    },
+    {
+      "state": "excited",
+      "index": 7,
+      "status": "accepted",
+      "source": "master.png",
+      "review": "Exact whole-frame repeat of visually reviewed new drawing for hold or reverse transition; no old art or parts replacement."
+    },
+    {
+      "state": "sleepy",
+      "index": 0,
+      "status": "accepted",
+      "source": "master.png",
+      "review": "Exact whole-frame repeat of visually reviewed new drawing for hold or reverse transition; no old art or parts replacement."
+    },
+    {
+      "state": "sleepy",
+      "index": 1,
+      "status": "accepted",
+      "review": "qa/sleepy-01.json"
+    },
+    {
+      "state": "sleepy",
+      "index": 2,
+      "status": "accepted",
+      "review": "qa/sleepy-02.json"
+    },
+    {
+      "state": "sleepy",
+      "index": 3,
+      "status": "accepted",
+      "review": "qa/sleepy-03.json"
+    },
+    {
+      "state": "sleepy",
+      "index": 4,
+      "status": "accepted",
+      "source": "accepted/sleepy/03.png",
+      "review": "Exact whole-frame repeat of visually reviewed new drawing for hold or reverse transition; no old art or parts replacement."
+    },
+    {
+      "state": "sleepy",
+      "index": 5,
+      "status": "accepted",
+      "source": "accepted/sleepy/02.png",
+      "review": "Exact whole-frame repeat of visually reviewed new drawing for hold or reverse transition; no old art or parts replacement."
+    },
+    {
+      "state": "sleepy",
+      "index": 6,
+      "status": "accepted",
+      "source": "accepted/sleepy/01.png",
+      "review": "Exact whole-frame repeat of visually reviewed new drawing for hold or reverse transition; no old art or parts replacement."
+    },
+    {
+      "state": "sleepy",
+      "index": 7,
+      "status": "accepted",
+      "source": "master.png",
+      "review": "Exact whole-frame repeat of visually reviewed new drawing for hold or reverse transition; no old art or parts replacement."
+    },
+    {
+      "state": "look-row-9",
+      "index": 0,
+      "status": "accepted",
+      "review": "qa/look-row-9-00.json"
+    },
+    {
+      "state": "look-row-9",
+      "index": 1,
+      "status": "accepted",
+      "review": "qa/look-row-9-01.json"
+    },
+    {
+      "state": "look-row-9",
+      "index": 2,
+      "status": "accepted",
+      "review": "qa/look-row-9-02.json"
+    },
+    {
+      "state": "look-row-9",
+      "index": 3,
+      "status": "accepted",
+      "review": "qa/look-row-9-03.json"
+    },
+    {
+      "state": "look-row-9",
+      "index": 4,
+      "status": "accepted",
+      "source": "accepted/review/01.png",
+      "review": "Exact whole-frame repeat of visually reviewed new drawing for hold or reverse transition; no old art or parts replacement."
+    },
+    {
+      "state": "look-row-9",
+      "index": 5,
+      "status": "accepted",
+      "review": "qa/look-row-9-05.json"
+    },
+    {
+      "state": "look-row-9",
+      "index": 6,
+      "status": "accepted",
+      "review": "qa/look-row-9-06.json"
+    },
+    {
+      "state": "look-row-9",
+      "index": 7,
+      "status": "accepted",
+      "review": "qa/look-row-9-07.json"
+    },
+    {
+      "state": "look-row-10-a",
+      "index": 0,
+      "status": "accepted",
+      "review": "qa/look-row-10-a-00.json"
+    },
+    {
+      "state": "look-row-10-a",
+      "index": 1,
+      "status": "accepted",
+      "source": "accepted\\look-row-9\\07.png",
+      "transform": "horizontal whole-frame reflection",
+      "sequence_review": "sequence-review.json"
+    },
+    {
+      "state": "look-row-10-a",
+      "index": 2,
+      "status": "accepted",
+      "source": "accepted\\look-row-9\\06.png",
+      "transform": "horizontal whole-frame reflection",
+      "sequence_review": "sequence-review.json"
+    },
+    {
+      "state": "look-row-10-a",
+      "index": 3,
+      "status": "accepted",
+      "source": "accepted\\look-row-9\\05.png",
+      "transform": "horizontal whole-frame reflection",
+      "sequence_review": "sequence-review.json"
+    },
+    {
+      "state": "look-row-10-b",
+      "index": 0,
+      "status": "accepted",
+      "source": "accepted\\look-row-9\\04.png",
+      "transform": "horizontal whole-frame reflection",
+      "sequence_review": "sequence-review.json"
+    },
+    {
+      "state": "look-row-10-b",
+      "index": 1,
+      "status": "accepted",
+      "source": "accepted\\look-row-9\\03.png",
+      "transform": "horizontal whole-frame reflection",
+      "sequence_review": "sequence-review.json"
+    },
+    {
+      "state": "look-row-10-b",
+      "index": 2,
+      "status": "accepted",
+      "source": "accepted\\look-row-9\\02.png",
+      "transform": "horizontal whole-frame reflection",
+      "sequence_review": "sequence-review.json"
+    },
+    {
+      "state": "look-row-10-b",
+      "index": 3,
+      "status": "accepted",
+      "source": "accepted\\look-row-9\\01.png",
+      "transform": "horizontal whole-frame reflection",
+      "sequence_review": "sequence-review.json"
+    }
+  ],
+  "quality_checks": [
+    "complete continuous legs socks ankles shoes",
+    "five-digit hands and connected wrists",
+    "attached single hood and hoodie",
+    "separate pointed sewn ear flaps",
+    "continuous hair roots and curls; no ghosting",
+    "v1 plum hair and shoe colors with highlights",
+    "warm stable face, no white islands",
+    "continuous fills without mottling or noisy edges",
+    "full figure unclipped and transparent background",
+    "pose, gaze and motion continuity"
+  ],
+  "master_status": "accepted"
+}

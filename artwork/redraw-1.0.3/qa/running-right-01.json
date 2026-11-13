@@ -1,0 +1,19 @@
+{
+  "state": "running-right",
+  "index": 1,
+  "raw": "raw\\running-right-01.png",
+  "candidate": "candidates/running-right-01.png",
+  "status": "accepted",
+  "alpha_unchanged": true,
+  "size": [
+    1205,
+    1306
+  ],
+  "bounds": [
+    215,
+    198,
+    960,
+    1211
+  ],
+  "visual_review": "Landing pose checked: support knee and trailing knee anatomically continuous, both ankles fully connected, plum closed shoes without skin/white gaps, independent ear base, complete fists, smooth fills."
+}

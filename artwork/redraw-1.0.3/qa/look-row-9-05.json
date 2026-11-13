@@ -1,0 +1,19 @@
+{
+  "state": "look-row-9",
+  "index": 5,
+  "raw": "raw\\look-row-9-05.png",
+  "candidate": "candidates/look-row-9-05.png",
+  "status": "accepted",
+  "alpha_unchanged": true,
+  "size": [
+    1205,
+    1306
+  ],
+  "bounds": [
+    202,
+    27,
+    1002,
+    1270
+  ],
+  "visual_review": "Right/down gaze visibly lowered, hood/ear geometry intact, complete hands/legs/shoes, warm face and continuous plum fills."
+}

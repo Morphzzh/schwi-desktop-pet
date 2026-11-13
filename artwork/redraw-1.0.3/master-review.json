@@ -1,0 +1,9 @@
+{
+  "mode": "built-in image_gen; continuous RGB palette normalization only",
+  "reference": "../release-1.0.3/palette-reference-v1.png",
+  "geometry_changes_after_generation": false,
+  "raw": "raw/master-v3.png",
+  "version1_rejected": "ear desaturation, brown soles",
+  "version2_rejected": "hair/shoes too bright",
+  "version3_review": "accepted after full-figure and enlarged hand/ankle review; continuous color normalization; no geometry editing"
+}

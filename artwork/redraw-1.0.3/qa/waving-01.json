@@ -1,0 +1,19 @@
+{
+  "state": "waving",
+  "index": 1,
+  "raw": "raw\\waving-01.png",
+  "candidate": "candidates/waving-01.png",
+  "status": "accepted",
+  "alpha_unchanged": true,
+  "size": [
+    1205,
+    1306
+  ],
+  "bounds": [
+    184,
+    33,
+    1017,
+    1268
+  ],
+  "visual_review": "Five distinct digits on raised palm; complete wrist/cuff and both legs; smooth warm face and continuous plum materials match fixed master."
+}

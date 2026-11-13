@@ -1,0 +1,19 @@
+{
+  "state": "jumping",
+  "index": 1,
+  "raw": "raw\\jumping-01.png",
+  "candidate": "candidates/jumping-01.png",
+  "status": "accepted",
+  "alpha_unchanged": true,
+  "size": [
+    1205,
+    1306
+  ],
+  "bounds": [
+    177,
+    116,
+    1018,
+    1263
+  ],
+  "visual_review": "Shallow crouch has continuous knees/calves/ankles and separate shoe collar line, coherent fists and hair; warm smooth face and fixed plum tones."
+}

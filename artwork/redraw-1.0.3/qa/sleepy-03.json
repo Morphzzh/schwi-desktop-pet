@@ -1,0 +1,19 @@
+{
+  "state": "sleepy",
+  "index": 3,
+  "raw": "raw\\sleepy-03.png",
+  "candidate": "candidates/sleepy-03.png",
+  "status": "accepted",
+  "alpha_unchanged": true,
+  "size": [
+    1205,
+    1306
+  ],
+  "bounds": [
+    194,
+    37,
+    1008,
+    1271
+  ],
+  "visual_review": "Redrawn nod removes incorrect crown strip, independent side flaps; complete hands/ankles and smooth warm fills; fixed palette."
+}

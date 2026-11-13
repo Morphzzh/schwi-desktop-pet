@@ -1,0 +1,19 @@
+{
+  "state": "running-right",
+  "index": 3,
+  "raw": "raw\\running-right-03.png",
+  "candidate": "candidates/running-right-03.png",
+  "status": "accepted",
+  "alpha_unchanged": true,
+  "size": [
+    1205,
+    1306
+  ],
+  "bounds": [
+    209,
+    237,
+    986,
+    1203
+  ],
+  "visual_review": "Opposite foreground-arm swing is clear; fists and wrists connected, whole legs and low closed shoes intact, independent ear and smooth palette verified."
+}

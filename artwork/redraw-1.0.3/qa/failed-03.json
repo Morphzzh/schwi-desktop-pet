@@ -1,0 +1,19 @@
+{
+  "state": "failed",
+  "index": 3,
+  "raw": "raw\\failed-03.png",
+  "candidate": "candidates/failed-03.png",
+  "status": "accepted",
+  "alpha_unchanged": true,
+  "size": [
+    1205,
+    1306
+  ],
+  "bounds": [
+    181,
+    33,
+    1022,
+    1268
+  ],
+  "visual_review": "Sigh endpoint preserves independent side ears and warm face; full connected wrists, legs and shoes; continuous fills and roots."
+}

@@ -1,0 +1,19 @@
+{
+  "state": "surprised",
+  "index": 3,
+  "raw": "raw\\surprised-03.png",
+  "candidate": "candidates/surprised-03.png",
+  "status": "accepted",
+  "alpha_unchanged": true,
+  "size": [
+    1205,
+    1306
+  ],
+  "bounds": [
+    179,
+    31,
+    1018,
+    1270
+  ],
+  "visual_review": "Hands near mouth have coherent back-of-hand fingers and naturally occluded thumb, wrists complete; warm face and unbroken plum hair/shoes. Full-body silhouette retained."
+}

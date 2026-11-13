@@ -1,0 +1,19 @@
+{
+  "state": "surprised",
+  "index": 2,
+  "raw": "raw\\surprised-02.png",
+  "candidate": "candidates/surprised-02.png",
+  "status": "accepted",
+  "alpha_unchanged": true,
+  "size": [
+    1205,
+    1306
+  ],
+  "bounds": [
+    184,
+    33,
+    1016,
+    1268
+  ],
+  "visual_review": "Both palms five-digit anatomy clearly readable; wrists connected; warm face and plum shoes continuous. Pose and palette checked."
+}

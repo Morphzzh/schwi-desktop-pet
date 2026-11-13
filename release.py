@@ -39,11 +39,18 @@ reports.append(archive(outputs / '休比桌宠-Windows-x64.zip',
 source_files = []
 for p in sorted(root.rglob('*')):
     rel = p.relative_to(root)
-    if rel.parts[0]=='artwork' and (len(rel.parts)<2 or rel.parts[1]!='release-'+APP_VERSION):
-        continue
-    if rel.parts[0]=='artwork' and (p.name in {'generation.json','final-generation.json','ear-shape-correction.json'} or ('source' in rel.parts and p.name in {'running-left.png','look-row-10-b.png'})):
-        continue
-    if p.is_file() and not any(part.startswith('qa') for part in rel.parts) and not set(rel.parts).intersection({'.git', 'build', 'dist', 'build-msi', 'build-macos', 'dist-macos', 'extract-check', '__pycache__'}) and p.suffix != '.pyc':
+    if rel.parts[0]=='artwork':
+        if len(rel.parts)<2:
+            continue
+        if rel.parts[1]=='redraw-'+APP_VERSION:
+            if len(rel.parts)>2 and rel.parts[2] in {'candidates','rejected','frames','assembled','sequence-qa'}:
+                continue
+            if len(rel.parts)>2 and rel.parts[2] in {'raw','qa'} and p.suffix!='.json':
+                continue
+        elif rel.as_posix() not in {'artwork/release-'+APP_VERSION+'/palette-reference-v1.png','artwork/icon-crop.json'}:
+            continue
+    art_review = rel.parts[0]=='artwork' and p.suffix=='.json'
+    if p.is_file() and (art_review or not any(part.startswith('qa') for part in rel.parts)) and not set(rel.parts).intersection({'.git', 'build', 'dist', 'build-msi', 'build-macos', 'dist-macos', 'extract-check', '__pycache__'}) and p.suffix != '.pyc':
         source_files.append((p, str(Path('休比桌宠-源码') / rel)))
 reports.append(archive(outputs / '休比桌宠-源码.zip', source_files))
 qa = outputs / '休比桌宠-验证'

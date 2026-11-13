@@ -1,0 +1,19 @@
+{
+  "state": "running-right",
+  "index": 4,
+  "raw": "raw\\running-right-04.png",
+  "candidate": "candidates/running-right-04.png",
+  "status": "accepted",
+  "alpha_unchanged": true,
+  "size": [
+    1205,
+    1306
+  ],
+  "bounds": [
+    207,
+    236,
+    993,
+    1216
+  ],
+  "visual_review": "Opposite wide stride and foreground sleeve across chest verified; complete thin legs, no ankle gaps, low round plum shoes and independent ear preserved; color fills smooth."
+}

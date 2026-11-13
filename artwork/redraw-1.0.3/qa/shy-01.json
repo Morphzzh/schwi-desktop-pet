@@ -1,0 +1,19 @@
+{
+  "state": "shy",
+  "index": 1,
+  "raw": "raw\\shy-01.png",
+  "candidate": "candidates/shy-01.png",
+  "status": "accepted",
+  "alpha_unchanged": true,
+  "size": [
+    1205,
+    1306
+  ],
+  "bounds": [
+    183,
+    31,
+    1017,
+    1266
+  ],
+  "visual_review": "Both curled hands attached to cuffs with readable fingers/thumb; warm unbroken cheeks, continuous hair/legs/shoes; reference palette retained."
+}

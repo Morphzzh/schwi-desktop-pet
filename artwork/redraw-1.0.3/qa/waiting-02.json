@@ -1,0 +1,19 @@
+{
+  "state": "waiting",
+  "index": 2,
+  "raw": "raw\\waiting-02.png",
+  "candidate": "candidates/waiting-02.png",
+  "status": "accepted",
+  "alpha_unchanged": true,
+  "size": [
+    1205,
+    1306
+  ],
+  "bounds": [
+    187,
+    34,
+    1015,
+    1269
+  ],
+  "visual_review": "Upturned palms each have four curled fingers plus distinct thumb, natural wrists; warm skin and complete feet; consistent plum/peach palette."
+}

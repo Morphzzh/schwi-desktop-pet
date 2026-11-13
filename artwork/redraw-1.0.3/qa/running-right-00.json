@@ -1,0 +1,19 @@
+{
+  "state": "running-right",
+  "index": 0,
+  "raw": "raw\\running-right-00.png",
+  "candidate": "candidates/running-right-00.png",
+  "status": "accepted",
+  "alpha_unchanged": true,
+  "size": [
+    1205,
+    1306
+  ],
+  "bounds": [
+    209,
+    238,
+    977,
+    1213
+  ],
+  "visual_review": "Redrawn side hood now has a distinct short stitched ear base and visible peach dome; both complete legs and closed shoes remain connected. Reviewed hands, smooth skin and plum fills, no white blocks."
+}

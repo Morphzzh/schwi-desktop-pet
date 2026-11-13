@@ -1,0 +1,19 @@
+{
+  "state": "happy",
+  "index": 1,
+  "raw": "raw\\happy-01.png",
+  "candidate": "candidates/happy-01.png",
+  "status": "accepted",
+  "alpha_unchanged": true,
+  "size": [
+    1205,
+    1306
+  ],
+  "bounds": [
+    184,
+    33,
+    1018,
+    1270
+  ],
+  "visual_review": "Revised loose fists show four curved finger segments and side thumb, clear wrists; continuous face/legs and master-matched plum palette."
+}

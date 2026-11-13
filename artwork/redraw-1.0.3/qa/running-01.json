@@ -1,0 +1,19 @@
+{
+  "state": "running",
+  "index": 1,
+  "raw": "raw\\running-01.png",
+  "candidate": "candidates/running-01.png",
+  "status": "accepted",
+  "alpha_unchanged": true,
+  "size": [
+    1205,
+    1306
+  ],
+  "bounds": [
+    185,
+    34,
+    1016,
+    1270
+  ],
+  "visual_review": "Thinking hand has readable curled fingers/thumb and connected wrist, other hand relaxed; intact hood/hair/legs; continuous fixed palette."
+}

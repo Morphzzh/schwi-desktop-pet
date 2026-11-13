@@ -1,6 +1,6 @@
 {
-  "source": "canonical.png",
-  "source_sha256": "37101ddf7e23e96338b56c1be3bd92f8cc33f7c873e76f3d9f42808ce8d7854c",
+  "source": "master.png",
+  "source_sha256": "3dd3c4ed51edf30866ae37685a326c6a76262026732d6f10c3a5c3a6546b9523",
   "crop_box": [
     160,
     15,
@@ -8,5 +8,5 @@
     895
   ],
   "method": "Existing full-body image cropped; no character redraw.",
-  "green_background_removed": true
+  "green_background_removed": false
 }

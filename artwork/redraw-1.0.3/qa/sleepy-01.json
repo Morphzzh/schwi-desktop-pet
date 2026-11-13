@@ -1,0 +1,19 @@
+{
+  "state": "sleepy",
+  "index": 1,
+  "raw": "raw\\sleepy-01.png",
+  "candidate": "candidates/sleepy-01.png",
+  "status": "accepted",
+  "alpha_unchanged": true,
+  "size": [
+    1205,
+    1306
+  ],
+  "bounds": [
+    190,
+    34,
+    1012,
+    1270
+  ],
+  "visual_review": "Drowsy eyelids and relaxed hands coherent, sleeves attached; face warm without blotches; unchanged complete legs and plum footwear."
+}

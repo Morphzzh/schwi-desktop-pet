@@ -23,7 +23,7 @@
 
 本版动作素材为每帧 576×624 像素，显示大小与旧版相同，可在高分屏和放大显示时保留更多细节。跑动前后摆臂各占半个周期，切换方向时继续当前步伐。
 
-1.0.3 测试版已直接按 1.0 原图分别统一头发、耳片、衣服、肤色、眼睛和鞋袜配色，从干净原帧重新校色，减少面部、帽兜等位置的填色斑块，保留高光和腮红；全部动作使用按底稿统一的圆头鞋型和鞋袜分界，并为八种互动各补充两帧过渡动作。
+本版以固定底稿重新绘制整套动作，按 1.0 参考图统一各部分配色，保留明暗、高光和腮红。共 119 个播放帧位，包含过渡、停留、返回和左右镜像帧；逐幅检查手部、头发、耳片以及腿部和鞋袜连接，再检查整组动作。所有人物均为完整绘图，未拼接替换鞋子或肢体。
 
 散步默认 24 秒来自 20 秒加上最长自动待机动作 3.56 秒后向上取整。两个计时器独立运行，动作和散步互相等待，避免到时碰在一起时打断对方。
 
@@ -37,7 +37,7 @@ py -m venv C:\dev\schwi-venv
 & C:\dev\schwi-venv\Scripts\python.exe main.py
 ```
 
-运行时仅需要 PySide6-Essentials；PyInstaller 用于打包，Pillow 用于素材处理，NumPy 仅用于重新运行底稿校色脚本。`assets` 已包含可直接使用的素材。`artwork/release-1.0.3` 保存本版底稿、动作原图和生成描述；`prepare_release_assets.py` 用于整理整套素材，需要通过 `--source` 指定动作原图目录、通过 `--extractor` 指定 Pets 插件的 `extract_strip_frames.py`。正常运行及打包无需该脚本。需要重新校色时先运行 `calibrate_palette.py`，再将 `prepare_release_assets.py` 的 `--source` 指向 `artwork/release-1.0.3/calibrated/source`；随后运行 `rebuild_continuity.py`，以保存的 `palette-reference-v1.png` 连续校色，并从 `shoe-style` 中读取已生成的统一鞋型，按原脚踝位置合成；再运行 `prepare_icon.py` 和 `record_assets.py` 更新图标与素材清单。旧的分区校色脚本不再用于本版素材，原图保持可回查。
+运行时仅需要 PySide6-Essentials；PyInstaller 用于打包，Pillow 和 NumPy 用于素材处理。`assets` 已包含可直接使用的素材。源码包中的 `artwork/redraw-1.0.3` 保存固定底稿、已检查的完整人物图、生成描述和检查记录。`assemble_redraw.py` 将这些完整图等比例缩放、定位并组装成播放素材；正常运行和打包无需执行它。历史校色和鞋型拼接脚本不适用于本次重画素材。
 
 ## 构建和检查
 

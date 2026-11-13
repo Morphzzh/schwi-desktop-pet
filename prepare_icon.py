@@ -12,6 +12,8 @@ parser.add_argument('--box', type=int, nargs=4, required=True)
 parser.add_argument('--green-screen', action='store_true')
 args = parser.parse_args()
 portrait = Image.open(args.source).convert('RGBA').crop(tuple(args.box))
+# Match whole-frame assembly's removal of near-invisible background noise.
+portrait.putalpha(portrait.getchannel('A').point(lambda a: 0 if a <= 16 else a))
 if args.green_screen:
     # Remove only the original green background; retain character RGB values.
     pixels = list(portrait.get_flattened_data())
