@@ -36,7 +36,11 @@ def main():
     build.mkdir(exist_ok=True)
     output = args.output.resolve()
     output.parent.mkdir(parents=True, exist_ok=True)
-    product_code = str(uuid.uuid5(COMPONENT_NAMESPACE, 'product-' + APP_VERSION)).upper()
+    # A rebuilt MSI is a new major-upgrade product, even when its visible
+    # version remains 1.0.3. Reusing a ProductCode with a changed PackageCode
+    # causes Windows Installer error 1638 on a normal double-click install.
+    # The stable UpgradeCode connects these packages and removes the old one.
+    product_code = str(uuid.uuid4()).upper()
     wix = ET.Element('{' + NS + '}Wix')
     package = element(wix, 'Package', Name='休比桌宠', Manufacturer='Schwi Desktop Pet',
                       Version=APP_VERSION, Language='2052', Codepage='936',
@@ -56,7 +60,7 @@ def main():
                 Message='已安装更新版本的休比桌宠。')
     else:
         element(package, 'MajorUpgrade', DowngradeErrorMessage='已安装更新版本的休比桌宠。',
-                Schedule='afterInstallInitialize')
+                AllowSameVersionUpgrades='yes', Schedule='afterInstallInitialize')
     element(package, 'MediaTemplate', EmbedCab='yes', CompressionLevel='high')
     icon_id = 'SchwiIcon_' + APP_VERSION.replace('.', '_')
     element(package, 'Icon', Id=icon_id, SourceFile=str(ROOT / 'assets' / 'schwi.ico'))
