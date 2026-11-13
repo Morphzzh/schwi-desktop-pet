@@ -2,14 +2,12 @@
 import json
 import hashlib
 import traceback
-import platform
-import sys
 import time
 from pathlib import Path
-from PySide6.QtCore import QPoint, QPointF, QEvent, QTimer, Qt
+from PySide6.QtCore import QPoint, QPointF, QEvent, Qt
 from PySide6.QtGui import QCursor, QMouseEvent
 from PySide6.QtTest import QTest
-from PySide6.QtWidgets import QApplication, QInputDialog, QSystemTrayIcon, QSpinBox, QDialogButtonBox
+from PySide6.QtWidgets import QApplication
 from unittest.mock import patch
 from platform_support import APP_VERSION
 from behavior import REACTIONS, IDLE_REACTIONS
@@ -234,89 +232,9 @@ def run_smoke_test(pet, output: Path):
         pet.toggle_option('paused',True)
         assert not pet.idle_timer.isActive() and not pet.walk_timer.isActive() and not pet.walk_end
         pet.toggle_option('paused',False)
-        dialog_deadline=time.monotonic()+8
-        dialog_errors=[]
-        dialog_seen=[]
-        dialog_values=[]
-        dialog_watchdog=QTimer(pet)
-        dialog_watchdog.setSingleShot(True)
-        def reject_stuck_dialog():
-            dialog_errors.append('Custom interval dialog did not complete within 8 seconds')
-            for widget in QApplication.topLevelWidgets()+pet.findChildren(QInputDialog):
-                if isinstance(widget,QInputDialog) and widget.isVisible():
-                    widget.reject()
-        dialog_watchdog.timeout.connect(reject_stuck_dialog)
-        dialog_watchdog.start(8000)
-        def fill_interval_dialog():
-            dialogs=[w for w in QApplication.topLevelWidgets() if isinstance(w,QInputDialog) and w.isVisible()]
-            dialog=dialogs[0] if dialogs else None
-            if dialog is not None:
-                if not dialog_seen:
-                    dialog_seen.append(time.monotonic())
-                    QTimer.singleShot(250,fill_interval_dialog)
-                    return
-                spin=dialog.findChild(QSpinBox)
-                # Hosted Cocoa desktops may ignore synthetic clicks on a modal
-                # sheet. Exercise its real widgets and accepted signal without
-                # depending on the runner's foreground focus.
-                spin.setValue(7)
-                dialog_values.append({'title':dialog.windowTitle(),'value':dialog.intValue()})
-                box=dialog.findChild(QDialogButtonBox)
-                box.button(QDialogButtonBox.StandardButton.Ok).click()
-            elif time.monotonic()>dialog_deadline:
-                dialog_errors.append('Custom interval dialog did not become visible')
-                # End a nested modal event loop so a failure still produces a report.
-                QApplication.instance().exit(1)
-            else:
-                QTimer.singleShot(100,fill_interval_dialog)
-        QTimer.singleShot(250,fill_interval_dialog)
-        try:
-            pet.choose_interval('idle_interval','待机动作间隔')
-            if sys.platform == 'darwin':
-                assert pet.interval_dialog.parentWidget() is None
-                assert pet.interval_dialog.windowModality()==Qt.WindowModality.NonModal
-            checks.append('custom interval dialog opens without blocking the event loop')
-            wait_until(lambda: pet.interval_dialog is None,10000)
-        finally:
-            dialog_watchdog.stop()
-            dialog_watchdog.deleteLater()
-        assert not dialog_errors,dialog_errors
-        assert pet.settings['idle_interval']==7,{'interval':pet.settings['idle_interval'],'dialogs':dialog_values}
-        stored=json.loads(pet.settings_path.read_text(encoding='utf-8'))
-        assert stored['idle_interval']==7
-        pet.choose_interval('idle_interval','待机动作间隔')
-        cancel_dialog=pet.interval_dialog
-        pet.choose_interval('walk_interval','散步间隔')
-        assert pet.interval_dialog is cancel_dialog
-        cancel_dialog.setIntValue(99)
-        QTimer.singleShot(100,cancel_dialog.reject)
-        wait_until(lambda: pet.interval_dialog is None,1000)
-        assert pet.settings['idle_interval']==7 and not pet.menu_open and pet.frame_timer.isActive()
-        checks.append('custom interval dialog accepts and saves seconds; pause stops both schedules')
-        pet.toggle_option('random_idle',False)
-        assert not pet.idle_timer.isActive() and not pet.walk_timer.isActive()
-        checks.append('disabling automatic actions stops both schedules')
-        if QSystemTrayIcon.isSystemTrayAvailable():
-            pet.test_mode=False
-            pet.make_tray()
-            assert pet.tray is not None and pet.tray.isVisible()
-            pet.hide_pet()
-            QTest.qWait(100)
-            assert not pet.isVisible() and not pet.frame_timer.isActive()
-            assert any(a.text()=='显示休比' for a in pet.tray.contextMenu().actions())
-            if sys.platform == 'darwin':
-                next(a for a in pet.tray.contextMenu().actions() if a.text()=='显示休比').trigger()
-            else:
-                pet.tray_activated(QSystemTrayIcon.ActivationReason.Trigger)
-            QTest.qWait(100)
-            assert pet.isVisible() and pet.frame_timer.isActive()
-            checks.append('system tray hides and restores the window and its animation')
-            pet.tray.hide()
-        result={'ok':True,'version':APP_VERSION,'checks':checks,'click_reactions':pet.click_history,
-                'platform':sys.platform,'machine':platform.machine(),
-                'qt_platform':QApplication.platformName(),
-                'tray_available':QSystemTrayIcon.isSystemTrayAvailable()}
-        code=0
+        from interval_smoke import run_interval_checks
+        run_interval_checks(pet, output, checks)
+        return
     except Exception:
         result={'ok':False,'checks':checks,'error':traceback.format_exc()}
         code=1
