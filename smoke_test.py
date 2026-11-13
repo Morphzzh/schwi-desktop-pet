@@ -24,7 +24,11 @@ def wait_until(predicate, timeout=3500):
 
 def run_smoke_test(pet, output: Path):
     output.mkdir(parents=True,exist_ok=True)
-    checks=[]
+    class RecordedChecks(list):
+        def append(self, check):
+            super().append(check)
+            (output/'progress.json').write_text(json.dumps(list(self),indent=2),encoding='utf-8')
+    checks=RecordedChecks()
     try:
         asset_dir=Path(__file__).resolve().parent/'assets'
         manifest=json.loads((asset_dir/'manifest.json').read_text(encoding='utf-8'))
@@ -163,7 +167,8 @@ def run_smoke_test(pet, output: Path):
         interval_menu=pet.make_menu()
         idle_menu=next(a.menu() for a in interval_menu.actions() if a.text().startswith('待机动作间隔'))
         next(a for a in idle_menu.actions() if a.text()=='2 秒').trigger()
-        assert pet.settings['idle_interval']==2 and 0<pet.idle_timer.remainingTime()<=2000
+        assert pet.settings['idle_interval']==2 and pet.idle_timer.isActive()
+        assert pet.idle_timer.interval()==2000
         assert pet.walk_timer.remainingTime()>8000
         checks.append('interval menu updates action timer without postponing independent walk timer')
         # Use a controlled cursor position without moving the user's cursor.
@@ -192,13 +197,25 @@ def run_smoke_test(pet, output: Path):
         pet.toggle_option('paused',True)
         assert not pet.idle_timer.isActive() and not pet.walk_timer.isActive() and not pet.walk_end
         pet.toggle_option('paused',False)
+        dialog_deadline=time.monotonic()+8
+        dialog_errors=[]
+        dialog_timer=QTimer(pet)
         def fill_interval_dialog():
-            dialog=QApplication.activeModalWidget()
-            assert isinstance(dialog,QInputDialog)
-            dialog.setIntValue(7)
-            dialog.accept()
-        QTimer.singleShot(100,fill_interval_dialog)
+            dialogs=[widget for widget in QApplication.topLevelWidgets()
+                     if isinstance(widget,QInputDialog) and widget.isVisible()]
+            if dialogs:
+                dialog_timer.stop()
+                dialogs[0].setIntValue(7)
+                dialogs[0].accept()
+            elif time.monotonic()>dialog_deadline:
+                dialog_timer.stop()
+                dialog_errors.append('Custom interval dialog did not become visible')
+                # End a nested modal event loop so a failure still produces a report.
+                QApplication.instance().exit(1)
+        dialog_timer.start(50)
         pet.choose_interval('idle_interval','待机动作间隔')
+        dialog_timer.stop()
+        assert not dialog_errors,dialog_errors
         assert pet.settings['idle_interval']==7
         stored=json.loads(pet.settings_path.read_text(encoding='utf-8'))
         assert stored['idle_interval']==7
