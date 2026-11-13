@@ -94,6 +94,26 @@ def recolor(im, targets, running=False):
     return Image.fromarray(rgba), report
 
 
+def repair_jump_shoes(im, shoe_palette):
+    """Correct pale skin-colored shoe collars; keep the drawn collar and alpha."""
+    rgba = np.asarray(im).copy()
+    hsv = rgb_to_hsv(rgba[..., :3].astype(np.float32) / 255)
+    hue, saturation, value = np.moveaxis(hsv, -1, 0)
+    occupied = np.where(rgba[..., 3] > 220)
+    bottom = occupied[0].max()
+    height = bottom - occupied[0].min()
+    y, x = np.indices(value.shape)
+    shoe_region = (y > bottom - .10 * height) & (abs(x - im.width / 2) < 70)
+    pale = shoe_region & ((hue < .30) | (hue > .965) | (saturation < .60)) & (value > .35) & (rgba[..., 3] > 0)
+    hsv[..., 0][pale] = shoe_palette[1, 0] % 1
+    hsv[..., 1][pale] = shoe_palette[1, 1]
+    hsv[..., 2][pale] = shoe_palette[1, 2] + (.25 + .75 * value[pale]) * (shoe_palette[2, 2] - shoe_palette[1, 2])
+    rgb = np.rint(np.clip(hsv_to_rgb(hsv), 0, 1) * 255).astype('uint8')
+    rgba[..., :3][pale] = rgb[pale]
+    assert np.array_equal(rgba[..., 3], np.asarray(im)[..., 3])
+    return Image.fromarray(rgba), int(pale.sum())
+
+
 def main():
     OUTPUT.mkdir(exist_ok=True)
     reference = Image.open(ART / 'palette-reference-v1.png').convert('RGBA')
@@ -112,6 +132,9 @@ def main():
         for index in range(count):
             im = Image.open(INPUT / name / f'{index:02d}.png').convert('RGBA')
             result, report = recolor(im, targets, name == 'running-right')
+            if name == 'jumping' and index in (2, 5):
+                result, corrected_pixels = repair_jump_shoes(result, targets['shoe'])
+                report['shoe_collar_corrected_pixels'] = corrected_pixels
             frames[name].append(result)
             records[f'{name}/{index:02d}'] = report
         print(name, count, flush=True)

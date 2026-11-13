@@ -1,0 +1,15 @@
+{
+  "reference": "palette-reference-v1.png",
+  "method": "Local numeric correction of pale shoe-collar fill; alpha and all other rows unchanged",
+  "frames": [
+    {
+      "frame": 2,
+      "pixels": 117
+    },
+    {
+      "frame": 5,
+      "pixels": 93
+    }
+  ],
+  "verification": "Only RGB pixels in jumping frames 2 and 5 differ from the preceding build; complete atlas alpha unchanged"
+}
