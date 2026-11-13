@@ -5,6 +5,7 @@ from pathlib import Path
 import subprocess
 import sys
 import time
+import traceback
 
 def main(executable, output):
     output = Path(output).resolve()
@@ -37,8 +38,9 @@ def main(executable, output):
         assert second.returncode == 0 and first.poll() is None
         assert int(lock.read_text(encoding='utf-8').splitlines()[0]) == first.pid
         checks.append('second launch exits while the original instance remains running')
-        assert first.wait(timeout=15) == 0
-        assert not lock.exists()
+        returncode = first.wait(timeout=15)
+        assert returncode == 0, f'First instance exited with status {returncode}'
+        assert not lock.exists(), 'Instance lock remains after normal exit'
         stored = json.loads((data / 'settings.json').read_text(encoding='utf-8'))
         assert stored['scale'] == 1.5 and stored['random_idle'] is False
         assert isinstance(stored['x'], int) and isinstance(stored['y'], int)
@@ -48,7 +50,8 @@ def main(executable, output):
         checks.append('no application errors were logged')
         result = {'ok': True, 'checks': checks}
     except Exception as exc:
-        result = {'ok': False, 'checks': checks, 'error': repr(exc)}
+        result = {'ok': False, 'checks': checks, 'error': repr(exc), 'traceback': traceback.format_exc(),
+                  'first_returncode': first.poll()}
         if first.poll() is None:
             first.terminate()
             first.wait(timeout=5)

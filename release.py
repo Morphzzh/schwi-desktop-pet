@@ -16,7 +16,6 @@ shutil.copytree(root / 'dist' / 'SchwiPet', app, dirs_exist_ok=True)
     '单击：随机表情或动作。\n双击：跳一下。\n按住左键：拖动。\n'
     '右键：指定动作、调整大小、暂停或退出。\n'
     '托盘图标：单击显示，右键收起或退出。\n\n'
-    '害羞动作：闭眼、双手捂脸、脸红。\n'
     '默认平视，关闭视线跟随和散步；可从菜单开启。\n'
     '位置与设置自动保存，不会设置开机启动。\n'
     '完整说明见 README.md。\n', encoding='utf-8-sig')
@@ -37,7 +36,7 @@ reports.append(archive(outputs / '休比桌宠-Windows-x64.zip',
 source_files = []
 for p in sorted(root.rglob('*')):
     rel = p.relative_to(root)
-    if p.is_file() and not set(rel.parts).intersection({'build', 'dist', '__pycache__'}) and p.suffix != '.pyc':
+    if p.is_file() and not set(rel.parts).intersection({'.git', 'build', 'dist', 'build-macos', 'dist-macos', 'qa-macos', 'qa-macos-extracted', 'extract-check', '__pycache__'}) and p.suffix != '.pyc':
         source_files.append((p, str(Path('休比桌宠-源码') / rel)))
 reports.append(archive(outputs / '休比桌宠-源码.zip', source_files))
 qa = outputs / '休比桌宠-验证'

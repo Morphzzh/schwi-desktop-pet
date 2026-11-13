@@ -3,6 +3,7 @@ from __future__ import annotations
 
 import argparse
 import hashlib
+import faulthandler
 import json
 import logging
 import os
@@ -329,6 +330,8 @@ class PetWindow(QWidget):
     def make_menu(self):
         menu = QMenu(self)
         menu.setStyleSheet('QMenu { background:#fff8f3; color:#48243f; border:1px solid #d5b3c0; padding:5px; font-family:"Microsoft YaHei UI"; font-size:12px; } QMenu::item { padding:6px 22px; border-radius:4px; } QMenu::item:selected { background:#f4d7df; } QMenu::separator { height:1px; background:#ead4dc; margin:4px 6px; }')
+        if IS_MAC:
+            menu.setStyleSheet(menu.styleSheet().replace('Microsoft YaHei UI', 'PingFang SC'))
         title = menu.addAction('休比 · 离线陪伴')
         title.setEnabled(False)
         actions = menu.addMenu('和休比互动')
@@ -443,7 +446,7 @@ class PetWindow(QWidget):
     def show_help(self):
         tray_help = '顶部菜单栏图标：显示、收起或退出休比。' if IS_MAC else '托盘图标：找回或退出休比。'
         QMessageBox.information(self, '休比桌宠',
-            f'休比桌宠 {VERSION}\n\n单击：随机表情或动作，不会连续重复。\n双击：跳一下。\n按住左键：拖动休比。\n右键：指定动作、调整大小和偏好。\n{tray_help}\n\n害羞会闭眼、脸红并用双手捂脸。\n视线跟随和散步默认关闭，可在菜单开启。\n所有互动均在本机运行。')
+            f'休比桌宠 {VERSION}\n\n单击：随机表情或动作，不会连续重复。\n双击：跳一下。\n按住左键：拖动休比。\n右键：指定动作、调整大小和偏好。\n{tray_help}\n\n视线跟随和散步默认关闭，可在菜单开启。\n所有互动均在本机运行。')
 
     def quit_app(self):
         self.persist()
@@ -466,6 +469,8 @@ def main():
     data_dir.mkdir(parents=True, exist_ok=True)
     logging.basicConfig(filename=str(data_dir / 'app.log'), encoding='utf-8', level=logging.WARNING,
                         format='%(asctime)s %(levelname)s %(message)s')
+    fault_log = (data_dir / 'native-crash.log').open('a', encoding='utf-8')
+    faulthandler.enable(file=fault_log)
     app = QApplication(sys.argv[:1])
     app.setApplicationName('SchwiDesktopPet')
     app.setApplicationVersion(VERSION)
@@ -507,9 +512,21 @@ def main():
     if args.self_test:
         from smoke_test import run_smoke_test
         QTimer.singleShot(250, lambda: run_smoke_test(pet, args.self_test))
+    def cleanup():
+        # On macOS, application termination may not return through app.exec().
+        # Release IPC and the instance lock before native application teardown.
+        pet.frame_timer.stop()
+        pet.motion_timer.stop()
+        pet.idle_timer.stop()
+        pet.click_timer.stop()
+        server.close()
+        lock.unlock()
+
+    app.aboutToQuit.connect(cleanup)
     result = app.exec()
-    server.close()
-    lock.unlock()
+    cleanup()
+    faulthandler.disable()
+    fault_log.close()
     return result
 
 
