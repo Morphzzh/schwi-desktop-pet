@@ -274,7 +274,7 @@ def run_smoke_test(pet, output: Path):
             pet.choose_interval('idle_interval','待机动作间隔')
             if sys.platform == 'darwin':
                 assert pet.interval_dialog.parentWidget() is None
-                assert pet.interval_dialog.windowModality()==Qt.WindowModality.ApplicationModal
+                assert pet.interval_dialog.windowModality()==Qt.WindowModality.NonModal
             checks.append('custom interval dialog opens without blocking the event loop')
             wait_until(lambda: pet.interval_dialog is None,10000)
         finally:

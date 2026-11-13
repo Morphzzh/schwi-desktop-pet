@@ -434,7 +434,7 @@ class PetWindow(QWidget):
             self.interval_dialog.activateWindow()
             return
         # Cocoa sheets need an ordinary document window. The pet is a
-        # translucent tool window, so use a separate modal dialog on macOS.
+        # translucent tool window, so use a separate settings window on macOS.
         dialog = QInputDialog(None if IS_MAC else self)
         self.interval_dialog = dialog
         dialog.setWindowTitle(title)
@@ -455,7 +455,7 @@ class PetWindow(QWidget):
         dialog.finished.connect(finish_dialog)
         # Keep Qt's main event loop running while the modal window is open.
         if IS_MAC:
-            dialog.setWindowModality(Qt.WindowModality.ApplicationModal)
+            dialog.setWindowModality(Qt.WindowModality.NonModal)
             dialog.setWindowFlag(Qt.WindowType.WindowStaysOnTopHint, True)
             dialog.show()
             dialog.raise_()
